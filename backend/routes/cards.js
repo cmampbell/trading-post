@@ -8,27 +8,26 @@
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-// const Card = require("../models/card");
+const Card = require("../models/card");
 
 const router = new express.Router();
 
 /** GET /  =>
- *   { cards: [ { id, name, image_uris, usd_price, usd_foil_price, usd_etched_price, mana_cost, cmc, type_line,
- *              oracle_text, power, toughness, color_identity, set, set_name, collector_number, rarity,
- *              variation, artist, full_art, textless }, ...] }
+ *   { cards: [ { oracle_id, name }, ...] }
  * 
  *   Authorization required: none
  */
 
 router.get("/", async function (req, res, next) {
     try {
-        return res.json({ 'status_code': 'ok' });
+        const cards = await Card.findAllCardNames()
+        return res.json({ cards });
     } catch (err) {
         return next(err);
     }
 });
 
-/** GET /[handle]  =>  { card }
+/** GET /[id]  =>  { card }
  *
  *  Card is { id, name, image_uris, usd_price, usd_foil_price, usd_etched_price, mana_cost, cmc, type_line,
  *              oracle_text, power, toughness, color_identity, set, set_name, collector_number, rarity,
@@ -37,13 +36,13 @@ router.get("/", async function (req, res, next) {
  * Authorization required: none
  */
 
-// router.get("/:id", async function (req, res, next) {
-//   try {
-//     const card = await Card.get(req.params.handle);
-//     return res.json({ card });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+router.get("/:id", async function (req, res, next) {
+  try {
+    const cards = await Card.findCardsById(req.params.id);
+    return res.json({ cards });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 module.exports = router;

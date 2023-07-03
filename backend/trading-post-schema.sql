@@ -1,5 +1,6 @@
 CREATE TABLE "cards" (
   "id" uuid PRIMARY KEY,
+  "oracle_id" uuid NOT NULL,
   "name" TEXT NOT NULL,
   "image_uri" TEXT,
   "usd_price" TEXT,

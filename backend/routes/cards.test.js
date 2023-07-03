@@ -24,9 +24,26 @@ describe("GET /cards", function () {
             cards:
                 [
                     {
-                        id: '',
                         name: 'testCard',
-                        image_uris: 'test_uri',
+                        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+                    }
+                ]
+        });
+    });
+})
+
+describe("GET /cards/:id", function () {
+    test("ok status code", async function () {
+        const resp = await request(app).get("/cards/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11");
+        expect(resp.statusCode).toEqual(200)
+        expect(resp.body).toEqual({
+            cards:
+                [
+                    {
+                        id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+                        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+                        name: 'testCard',
+                        image_uri: 'test_uri',
                         usd_price: '1.54',
                         usd_foil_price: '3.45',
                         usd_etched_price: '2.57',
@@ -45,8 +62,13 @@ describe("GET /cards", function () {
                         artist: 'Matt',
                         full_art: false,
                         textless: false
-                    }
+                      }
                 ]
         });
     });
+
+    test("404 if not found", async function () {
+        const resp = await request(app).get("/cards/bbbbbbbb-9c0b-4ef8-bb6d-6bb9bd380a11");
+        expect(resp.statusCode).toEqual(404)
+    })
 })

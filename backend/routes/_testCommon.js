@@ -9,8 +9,9 @@ async function commonBeforeAll() {
 
   const testCard = {
     id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+    oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     name: 'testCard',
-    image_uris: 'test_uri',
+    image_uri: 'test_uri',
     usd_price: '1.54',
     usd_foil_price: '3.45',
     usd_etched_price: '2.57',
@@ -34,6 +35,7 @@ async function commonBeforeAll() {
   const query = `
   INSERT INTO cards (
     id,
+    oracle_id,
     name,
     image_uri,
     usd_price,
@@ -56,31 +58,32 @@ async function commonBeforeAll() {
     textless
   )
   VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22
   )`;
 
   const values = [
     testCard.id, //$1
-    testCard.name, //$2
-    testCard.image_uris, //$3
-    testCard.usd_price, // $4
-    testCard.usd_foil_price, //$5
-    testCard.usd_etched_price, //$6
-    testCard.mana_cost, //$7
-    testCard.cmc, //$8
-    testCard.type_line, //$9
-    testCard.oracle_text, //$10
-    testCard.power, // $11
-    testCard.toughness, // $12
-    testCard.color_identity, // $13
-    testCard.set, // $14
-    testCard.set_name, // $15
-    testCard.collector_number, // $16
-    testCard.rarity, // $17
-    testCard.variation, // $18
-    testCard.artist, // $19
-    testCard.full_art, // $20
-    testCard.textless // $21
+    testCard.oracle_id, // $2
+    testCard.name, //$3
+    testCard.image_uri, //$4
+    testCard.usd_price, // $5
+    testCard.usd_foil_price, //$6
+    testCard.usd_etched_price, //$7
+    testCard.mana_cost, //$8
+    testCard.cmc, //$9
+    testCard.type_line, //$10
+    testCard.oracle_text, //$11
+    testCard.power, // $12
+    testCard.toughness, // $13
+    testCard.color_identity, // $14
+    testCard.set_code, // $15
+    testCard.set_name, // $16
+    testCard.collector_number, // $17
+    testCard.rarity, // $18
+    testCard.variation, // $19
+    testCard.artist, // $20
+    testCard.full_art, // $21
+    testCard.textless // $22
   ];
 
   db.query(query, values)
