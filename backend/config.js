@@ -12,14 +12,14 @@ const PORT = +process.env.PORT || 3001;
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
-    ? `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/trading-post-test` 
+    ? `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/trading-post-test`
     : process.env.DATABASE_URL || `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/trading-post`;
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 13;
 
-console.log("Jobly Config:".green);
+console.log("Trading Post Config:".green);
 console.log("DATABASE_USERNAME: ".red, process.env.DB_USERNAME)
 console.log("DATABASE_Password: ".red, process.env.DB_PASSWORD)
 console.log("DATABASE_HOST: ".red, process.env.DB_HOST)

@@ -4,7 +4,6 @@ const fs = require('fs')
 // Function to insert a JSON card into the "cards" table
 async function insertCard(card) {
   try {
-
     const query = `
       INSERT INTO cards (
         id,
@@ -65,11 +64,13 @@ async function insertCard(card) {
   }
 }
 
-fs.readFile('./default-cards-20230701090701.json', {}, (error, data)=> {
+fs.readFile('./default-cards-20230701090701.json', {}, (error, data) => {
   const cards = JSON.parse(data)
-  for(let card of cards){
+  for (let card of cards) {
     // don't want to add digital only cards
-    if(card.digital === false) insertCard(card);
+    if (card.digital === false) insertCard(card);
   }
   db.end()
 });
+
+module.exports = insertCard;
