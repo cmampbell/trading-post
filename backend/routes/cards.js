@@ -1,8 +1,6 @@
 "use strict";
 
 /** Routes for cards. */
-// We need the server to respond with JSON of all unique card names
-// Filtering of cards will happen on the front-end
 
 // const jsonschema = require("jsonschema");
 const express = require("express");
