@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid } from "@mui/material"
+import { Grid, Button, Paper } from "@mui/material"
 
 import CardList from './CardList'
 
@@ -21,8 +21,11 @@ const TradePage = () => {
             <Grid item xs={12}>
                 <h1>Trade Details</h1>
             </Grid>
-            <CardList activeList={activeList} makeActive={makeActive} side='left'/>
-            <CardList activeList={activeList} makeActive={makeActive} side='right'/>
+            <CardList activeList={activeList} makeActive={makeActive} side='left' key='left'/>
+            <CardList activeList={activeList} makeActive={makeActive} side='right' key='right'/>
+            <Grid item xs={12}>
+                <Button variant="outlined" color="success">Commit Trade</Button>
+            </Grid>
         </Grid>
     )
 
