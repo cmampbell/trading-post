@@ -25,6 +25,11 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+// could have 
+// router.get("/oracle/:id")
+// when we are looking for a set of cards that share an oracle id
+// which allows for "/:id" to search by specific card
+
 /** GET /[id]  =>  { card }
  *
  *  Card is { id, name, image_uris, usd_price, usd_foil_price, usd_etched_price, mana_cost, cmc, type_line,
