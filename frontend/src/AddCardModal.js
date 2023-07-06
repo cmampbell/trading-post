@@ -19,7 +19,6 @@ const AddCardModal = ({ open, onClose }) => {
         let timerID;
         if(searchInput){
             timerID = setTimeout(async ()=> {
-                console.log(searchInput);
                 setIsLoading(()=> true)
                 const cards = await Api.getCardsByName(searchInput)
                 setCardOptions(()=> [...cards])
