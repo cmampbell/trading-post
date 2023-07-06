@@ -30,6 +30,11 @@ class TradingPostApi {
         let res = await this.request(`cards`, {name})
         return res.cards
     }
+
+    static async getCardsByOracleId(oracleId) {
+        let res = await this.request(`cards/${oracleId}`);
+        return res.cards;
+    }
 }
 
 export default TradingPostApi;
