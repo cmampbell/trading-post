@@ -22,9 +22,8 @@ const AddCardModal = ({ open, onClose }) => {
                 console.log(searchInput);
                 setIsLoading(()=> true)
                 const cards = await Api.getCardsByName(searchInput)
-                // make API call
-                // set cardOptions equal to the response
-                // setIsloading to false
+                setCardOptions(()=> [...cards])
+                setIsLoading(()=> false)
             }, 500);
         }
         return () => clearTimeout(timerID)
@@ -52,8 +51,8 @@ const AddCardModal = ({ open, onClose }) => {
                     <p id='modal-description'>Search by card name</p>
                     <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} />
                     {isLoading && <p> Loading...</p>}
-                    {cardOptions.length > 0 }  
-                    {/* && cardOptions.map((card)=> <Card/>) */}
+                    {cardOptions.length > 0 && cardOptions.map((card, idx)=> <p key={idx}>{card.name}</p>) }  
+                    
                 </Paper>
             </Container>
         </Modal >
