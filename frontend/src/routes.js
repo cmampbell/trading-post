@@ -1,5 +1,6 @@
 import App from "./App";
 import TradePage from "./TradePage";
+// import AddCardModal from "./AddCardModal";
 
 const routes = [
     {
@@ -7,7 +8,13 @@ const routes = [
         children: [
             {
                 path: '/',
-                element: <TradePage />
+                element: <TradePage />,
+                // children: [
+                //     {
+                //         path:'/addcard',
+                //         element: <AddCardModal />
+                //     }
+                // ]
             },
         ]
     }

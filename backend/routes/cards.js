@@ -18,7 +18,7 @@ const router = new express.Router();
 
 router.get("/", async function (req, res, next) {
     try {
-        const cards = await Card.findAllCardNames()
+        const cards = await Card.findCardsByName(req.query.name)
         return res.json({ cards });
     } catch (err) {
         return next(err);

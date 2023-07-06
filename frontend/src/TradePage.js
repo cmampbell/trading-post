@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { Grid, Button, Paper } from "@mui/material"
+import { Grid, Button } from "@mui/material"
 
 import CardList from './CardList'
 
 const TradePage = () => {
-    // Render two card list components
-    // we can handle grid and formatting here
-
-    // Render two CardList components
-    // handle which list is active here
 
     const [activeList, setActiveList] = useState('left')
 
@@ -28,12 +23,6 @@ const TradePage = () => {
             </Grid>
         </Grid>
     )
-
-    // Trade page title
-    // 2 Card List Components
-    // 1 left - current user will always be on right
-    // left will always start active
-    // 1 right - other user will be on the left
 }
 
 export default TradePage;

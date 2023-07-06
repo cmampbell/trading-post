@@ -10,8 +10,13 @@ class Card {
      * Returns [ { oracle_id, name }, ...] 
      * */
 
-    static async findAllCardNames() {
-        const cardsRes = await db.query(`SELECT name, oracle_id FROM cards GROUP BY name, oracle_id ORDER BY name, oracle_id`);
+    static async findCardsByName(name) {
+        const cardsRes = await db.query(
+            `SELECT name, oracle_id 
+             FROM cards 
+             WHERE name ILIKE $1
+             GROUP BY name, oracle_id 
+             ORDER BY name, oracle_id`, [`%${name}%`]);
         return cardsRes.rows;
     }
 

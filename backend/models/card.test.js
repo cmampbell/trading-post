@@ -14,9 +14,9 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-describe("findAllCardNames", function () {
+describe("findCardsByName", function () {
     test("works", async function () {
-      let cards = await Card.findAllCardNames();
+      let cards = await Card.findCardsByName('testCard');
       expect(cards).toEqual([
         {
           name: 'testCard',

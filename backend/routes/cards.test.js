@@ -18,7 +18,7 @@ const {
 
 describe("GET /cards", function () {
     test("ok status code", async function () {
-        const resp = await request(app).get("/cards");
+        const resp = await request(app).get("/cards?name=test");
         expect(resp.statusCode).toEqual(200)
         expect(resp.body).toEqual({
             cards:
