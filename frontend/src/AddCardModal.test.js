@@ -24,7 +24,7 @@ describe('AddCardModal tests', () => {
         expect(asFragment()).toMatchSnapshot();
     })
 
-    it('should list returned cards after user types', async () => {
+    it('should list returned cards after user types, clear cards after search term is cleared', async () => {
         axios.mockResolvedValue({data:{cards: [testCard]}});
         const { queryByText, queryByLabelText } = renderWithRouter(<AddCardModal open={true} onClose={()=> false}/>);
 
@@ -39,8 +39,16 @@ describe('AddCardModal tests', () => {
         expect(textInput).toHaveValue('isl')
 
         await waitFor(() => {
-            expect(screen.getByText("Island")).toBeInTheDocument()
+            expect(queryByText("Island")).toBeInTheDocument()
         })
+
+        await act(async ()=> {
+            await userEvent.clear(textInput)
+        })
+
+        await waitFor(() => {
+            expect(queryByText("Island")).not.toBeInTheDocument()
+        })        
     })
 
     it('should return no cards if no cards found', async () => {

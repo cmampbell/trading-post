@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Container, Paper } from "@mui/material";
+import { Modal, Container, Paper, List } from "@mui/material";
 import Searchbar from './Searchbar'
+import CardSearchResult from './CardSearchResult';
 import Api from './Api';
 
 const AddCardModal = ({ open, onClose }) => {
-    // useContext to get API call from tradePage?
-    // pass in function to Searchbar
-    // Searchbar would need to pass up the input it has
-
-    // use returned results to populate the options
-
     const [searchInput, setSearchInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [cardOptions, setCardOptions ] = useState([]) 
 
+    // no call is made if string is empty
+    // when a user types into the text input
+        // after delay, make call to API for cards
+    // user clears textInput
     useEffect(()=> {
         // stops from running on an empty string
         let timerID;
@@ -21,11 +20,17 @@ const AddCardModal = ({ open, onClose }) => {
             timerID = setTimeout(async ()=> {
                 setIsLoading(()=> true)
                 const cards = await Api.getCardsByName(searchInput)
+                console.log(cards)
                 setCardOptions(()=> [...cards])
                 setIsLoading(()=> false)
             }, 500);
         }
-        return () => clearTimeout(timerID)
+        return () => {
+            // clear ID if useEffect called again
+            clearTimeout(timerID)
+            // Set cards to empty array
+            setCardOptions(()=> [])
+        }
     }, [searchInput])
 
     return (
@@ -50,7 +55,7 @@ const AddCardModal = ({ open, onClose }) => {
                     <p id='modal-description'>Search by card name</p>
                     <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} />
                     {isLoading && <p> Loading...</p>}
-                    {cardOptions.length > 0 ? cardOptions.map((card, idx)=> <p key={idx}>{card.name}</p>)
+                    {cardOptions.length > 0 ? <List> {cardOptions.map((card )=> <CardSearchResult key={card.oracle_id} card={card}/>) }</List>
                                             : <p>No cards found.</p> }  
                     
                 </Paper>

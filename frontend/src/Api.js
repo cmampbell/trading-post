@@ -28,7 +28,6 @@ class TradingPostApi {
 
     static async getCardsByName(name) {
         let res = await this.request(`cards`, {name})
-        console.log(res.cards)
         return res.cards
     }
 }
