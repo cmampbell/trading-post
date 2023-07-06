@@ -10,6 +10,7 @@ async function insertCard(card) {
         id,
         oracle_id,
         name,
+        art_uri,
         image_uri,
         usd_price,
         usd_foil_price,
@@ -31,32 +32,33 @@ async function insertCard(card) {
         textless
       )
       VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23
       )`;
 
     const values = [
       card.id, //$1
       card.oracle_id, // $2
       card.name, //$3
-      card.image_uris.large, //$4
-      card.prices.usd, // $5
-      card.prices.usd_foil, //$6
-      card.prices.usd_etched, //$7
-      card.mana_cost, //$8
-      card.cmc, //$9
-      card.type_line, //$10
-      card.oracle_text, //$11
-      card.power, // $12
-      card.toughness, // $13
-      card.color_identity.join(','), // $14
-      card.set, // $15
-      card.set_name, // $16
-      card.collector_number, // $17
-      card.rarity, // $18
-      card.variation, // $19
-      card.artist, // $20
-      card.full_art, // $21
-      card.textless // $22
+      card.image_uris.art_crop, //$4
+      card.image_uris.large, //$5
+      card.prices.usd, // $6
+      card.prices.usd_foil, //$7
+      card.prices.usd_etched, //$8
+      card.mana_cost, //$9
+      card.cmc, //$10
+      card.type_line, //$11
+      card.oracle_text, //$12
+      card.power, // $13
+      card.toughness, // $14
+      card.color_identity.join(','), // $15
+      card.set, // $16
+      card.set_name, // $17
+      card.collector_number, // $18
+      card.rarity, // $19
+      card.variation, // $20
+      card.artist, // $21
+      card.full_art, // $22
+      card.textless // $23
     ];
 
     await db.query(query, values);
@@ -81,7 +83,7 @@ fs.readFile('./default-cards-20230701090701.json', {}, (error, data) => {
     // exclude digital only cards
     if (card.digital === false) insertCard(card);
   }
-  db.end()
+  // db.end()
 });
 
 module.exports = insertCard;

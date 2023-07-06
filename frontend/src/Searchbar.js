@@ -32,7 +32,7 @@ const Searchbar = ({ searchInput, setSearchInput, cards, setSelectedCard, select
             handleHomeEndKeys
             options={cards.map((card) => ({id: card.oracle_id, label: card.name}))}
             renderInput={(params) => <TextField {...params} label="Card Name" />}
-            sx={{width: '40vw'}}
+            sx={{width: '60vw'}}
         />
         </>
     )

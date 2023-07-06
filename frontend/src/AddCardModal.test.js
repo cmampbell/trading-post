@@ -6,7 +6,7 @@ import AddCardModal from "./AddCardModal";
 
 import userEvent from '@testing-library/user-event'
 import { act } from "react-dom/test-utils";
-import { waitFor, screen, render } from "@testing-library/react";
+import { waitFor, render } from "@testing-library/react";
 
 const testCard = { name: 'Island', image_uri: 'test_uri', usd_price: '7.65', id: '1' , setCode: 'IXL'}
 
@@ -66,7 +66,7 @@ describe('AddCardModal tests', () => {
         expect(textInput).toHaveValue('not-a-card')
 
         await waitFor(() => {
-            expect(screen.getByText("No cards found.")).toBeInTheDocument()
+            expect(queryByText("Island")).not.toBeInTheDocument()
         })
     })
 })

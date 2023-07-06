@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Container, Paper } from "@mui/material";
 import Searchbar from './Searchbar'
+import CardDetailsBox from './CardDetailsBox';
 import Api from './Api';
 
 const AddCardModal = ({ open, onClose }) => {
@@ -24,7 +25,8 @@ const AddCardModal = ({ open, onClose }) => {
         let timerID;
         if(searchInput && !selectedCard){
             timerID = setTimeout(async ()=> {
-                setIsLoading(()=> true)
+                // loading could be done in searchbar
+                setIsLoading(true)
                 const cards = await Api.getCardsByName(searchInput)
                 setCardOptions(()=> [...cards])
                 setIsLoading(()=> false)
@@ -75,7 +77,7 @@ const AddCardModal = ({ open, onClose }) => {
                     <p id='modal-description'>Search by card name</p>
                     <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} cards={cardOptions} setSelectedCard={setSelectedCard} selectedCard={selectedCard} isLoading={isLoading}/>
                     {isLoading && <p> Loading...</p>}
-                    {selectedOptions.length > 0 && <h1>{selectedOptions[0].name}</h1>}  
+                    {selectedOptions.length > 0 && <CardDetailsBox cards={selectedOptions}/>}  
                 </Paper>
             </Container>
         </Modal >

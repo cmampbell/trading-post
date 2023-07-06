@@ -9,7 +9,7 @@ import { waitFor, screen } from "@testing-library/react";
 
 describe('Searchbar tests', () => {
     it('should render without crashing', () => {
-        renderWithRouter(<Searchbar />);
+        renderWithRouter(<Searchbar searchInput={''} setSearchInput={()=> null} cards={[]} setSelectedCard={()=> null} selectedCard={''}/>);
     })
 
     // it('should match snapshot', () => {
@@ -19,7 +19,7 @@ describe('Searchbar tests', () => {
     // })
 
     it('should show text input', async () => {
-        const { queryByLabelText } = renderWithRouter(<Searchbar />);
+        const { queryByLabelText } = renderWithRouter(<Searchbar searchInput={''} setSearchInput={()=> null} cards={[]} setSelectedCard={()=> null} selectedCard={''} />);
 
         expect(queryByLabelText('Card Name')).toBeInTheDocument();
 
