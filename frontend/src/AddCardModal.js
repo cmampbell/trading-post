@@ -50,7 +50,8 @@ const AddCardModal = ({ open, onClose }) => {
                     <p id='modal-description'>Search by card name</p>
                     <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} />
                     {isLoading && <p> Loading...</p>}
-                    {cardOptions.length > 0 && cardOptions.map((card, idx)=> <p key={idx}>{card.name}</p>) }  
+                    {cardOptions.length > 0 ? cardOptions.map((card, idx)=> <p key={idx}>{card.name}</p>)
+                                            : <p>No cards found.</p> }  
                     
                 </Paper>
             </Container>
