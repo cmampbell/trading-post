@@ -19,7 +19,7 @@ describe('AddCardModal tests', () => {
     })
 
     it('should match snapshot', () => {
-        const { asFragment } = render(<AddCardModal open={true} onClose={()=> false}/>);
+        const { asFragment } = render(<AddCardModal open={true} onClose={()=> null}/>);
 
         expect(asFragment()).toMatchSnapshot();
     })

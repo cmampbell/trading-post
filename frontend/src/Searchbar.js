@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Autocomplete } from "@mui/material";
 
 const Searchbar = ({ searchInput, setSearchInput, cards, setSelectedCard, selectedCard, isLoading }) => {
@@ -10,14 +10,12 @@ const Searchbar = ({ searchInput, setSearchInput, cards, setSelectedCard, select
         setSelectedCard(()=> newValue)
     }
 
-    // return (
-    //     <TextField 
-    //         id="standard-controlled"
-    //         label="Card Name"
-    //         variant="standard"
-    //         value={searchInput}
-    //         onChange={handleChange}/>
-    // )
+    useEffect(()=> {
+        return () => {
+            setSearchInput('')
+        setSelectedCard(()=> '')
+        }
+    }, [])
 
     return (
         <>
@@ -30,9 +28,15 @@ const Searchbar = ({ searchInput, setSearchInput, cards, setSelectedCard, select
             freeSolo
             selectOnFocus
             handleHomeEndKeys
+            clearOnBlur
+            clearOnEscape
+            autoSelect
+            loading={isLoading}
+            loadingText='Loading...'
+            noOptionsText='No options found.'
             options={cards.map((card) => ({id: card.oracle_id, label: card.name}))}
             renderInput={(params) => <TextField {...params} label="Card Name" />}
-            sx={{width: '60vw'}}
+            sx={{width: '90%'}}
         />
         </>
     )

@@ -1,53 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Container, Paper } from "@mui/material";
+import { Modal, Container, Paper, Button } from "@mui/material";
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';
 import Api from './Api';
 
-const AddCardModal = ({ open, onClose }) => {
+const AddCardModal = ({ open, onClose, setListCards }) => {
     const [searchInput, setSearchInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [cardOptions, setCardOptions ] = useState([])
+    const [cardOptions, setCardOptions] = useState([])
     // when the user selects a card
     // we query API to get selected card
     // and render the card details below the searchbar
-        // card details include 
+    // card details include 
     const [selectedCard, setSelectedCard] = useState('')
     const [selectedOptions, setSelectedOptions] = useState([])
 
     // no call is made if string is empty
     // when a user types into the text input
-        // after delay, make call to API for cards
+    // after delay, make call to API for cards
     // user clears textInput
-    useEffect(()=> {
+    useEffect(() => {
         // could move this into search bar
         // stops from running on an empty string
         let timerID;
-        if(searchInput && !selectedCard){
-            timerID = setTimeout(async ()=> {
+        if (searchInput && !selectedCard) {
+            timerID = setTimeout(async () => {
                 // loading could be done in searchbar
                 setIsLoading(true)
                 const cards = await Api.getCardsByName(searchInput)
-                setCardOptions(()=> [...cards])
-                setIsLoading(()=> false)
+                setCardOptions(() => [...cards])
+                setIsLoading(() => false)
             }, 500);
         }
         return () => {
             // clear ID if useEffect called again
             clearTimeout(timerID)
             // Set cards to empty array
-            setCardOptions(()=> [])
+            setCardOptions(() => [])
         }
     }, [searchInput])
 
-    useEffect(()=> {
-        if(selectedCard){
+    useEffect(() => {
+        if (selectedCard) {
             retrieveSelectedOptions()
                 .then((options) => {
-                    setSelectedOptions(()=> [...options])
-            })
+                    setSelectedOptions(() => [...options])
+                })
         }
-        return ()=> setSelectedOptions(()=> [])
+        return () => {
+            setSelectedOptions([]);
+            console.log(selectedOptions)
+            setSelectedCard('');
+        }
     }, [selectedCard])
 
     const retrieveSelectedOptions = async () => {
@@ -55,6 +59,7 @@ const AddCardModal = ({ open, onClose }) => {
         return cards;
     }
 
+    console.log(selectedOptions)
     return (
         <Modal
             open={open}
@@ -70,14 +75,27 @@ const AddCardModal = ({ open, onClose }) => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         marginTop: '3vh',
-                        height: '75vh'
+                        height: '95vh'
                     }}
                 >
+
                     <h1 id='modal-title'> Add Cards </h1>
+                    <Button onClick={onClose}>Close</Button>
                     <p id='modal-description'>Search by card name</p>
-                    <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} cards={cardOptions} setSelectedCard={setSelectedCard} selectedCard={selectedCard} isLoading={isLoading}/>
+                    <Searchbar
+                        searchInput={searchInput}
+                        setSearchInput={setSearchInput}
+                        cards={cardOptions}
+                        setSelectedCard={setSelectedCard}
+                        selectedCard={selectedCard}
+                    />
                     {isLoading && <p> Loading...</p>}
-                    {selectedOptions.length > 0 && <CardDetailsBox cards={selectedOptions}/>}  
+                    {selectedOptions.length > 0
+                        && <CardDetailsBox
+                            cards={selectedOptions}
+                            setListCards={setListCards}
+                            handleClose={onClose}
+                        />}
                 </Paper>
             </Container>
         </Modal >

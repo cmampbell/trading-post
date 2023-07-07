@@ -27,7 +27,11 @@ class Card {
      *              variation, artist, full_art, textless }, ...] 
      */
     static async findCardsById(id) {
-        const cardsRes = await db.query(`SELECT * FROM cards WHERE oracle_id=$1`, [id])
+        const cardsRes = await db.query(
+            `SELECT *
+            FROM cards
+            WHERE oracle_id=$1
+            ORDER BY set_name, collector_number`, [id])
 
         if (cardsRes.rows.length < 1) throw new NotFoundError(`No cards with oracle id: ${id}`);
 
