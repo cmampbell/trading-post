@@ -20,9 +20,14 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
         if (searchInput && !selectedCard) {
             setIsLoading(true)
             timerID = setTimeout(async () => {
-                const cards = await Api.getCardsByName(searchInput)
-                setCardOptions(() => [...cards])
-                setIsLoading(() => false)
+                try{
+                    const cards = await Api.getCardsByName(searchInput)
+                    setCardOptions(() => [...cards])
+                    setIsLoading(() => false)
+                } catch (err) {
+                    console.log(err)
+                }
+
             }, 500);
         }
         return () => {
@@ -40,6 +45,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     const handleValueChange = (evt, newValue) => {
         // value changes when user makes a selection
+        console.log(newValue)
         setSelectedCard(() => newValue)
     }
 

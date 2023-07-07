@@ -19,35 +19,35 @@ import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography } fr
 *
 */
 const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
-    const INITIAL_STATE = { card: cards[0], condition: 'Lightly Played', foil: 'No', quantity: 1 }
+    const INITIAL_STATE = { card: cards[0], condition: 'Lightly Played', foil: 'No', quantity: 1 };
     cards[0].usd_price ? INITIAL_STATE.foil = 'No'
                         : cards[0].usd_foil_price ? INITIAL_STATE.foil = 'Yes'
-                        : INITIAL_STATE.foil = 'Etched'
+                        : INITIAL_STATE.foil = 'Etched';
     // input control
-    const [cardDetails, setCardDetails] = useState(INITIAL_STATE)
+    const [cardDetails, setCardDetails] = useState(INITIAL_STATE);
 
     // update state based on input changes
     const handleChange = (evt) => {
-        const { name, value } = (evt.target)
+        const { name, value } = (evt.target);
         if (name === 'set') {
-            const [setName, collector_number] = evt.target.value.split('-');
-            const newCard = cards.find((card) => card.set_name === setName && card.collector_number === collector_number)
+            const [setName, collectorNumber] = evt.target.value.split('-');
+            const newCard = cards.find((card) => card.set_name === setName && card.collector_number === collectorNumber);
             setCardDetails((oldCard) => {
                 // check if new card has non-foil, foil, or etched prices
                 newCard.usd_price ? oldCard.foil = 'No'
                 : newCard.usd_foil_price ? oldCard.foil = 'Yes'
-                : oldCard.foil = 'Etched'
-                return ({ ...oldCard, card: { ...newCard } })})
+                : oldCard.foil = 'Etched';
+                return ({ ...oldCard, card: { ...newCard } })});
         } else {
-            setCardDetails(() => ({ ...cardDetails, [name]: value }))
+            setCardDetails(() => ({ ...cardDetails, [name]: value }));
         }
     }
 
     // add card object to list on click
     const handleClick = () => {
         const {card, condition, foil, quantity} = cardDetails;
-        setListCards((currentCardList)=> [...currentCardList, {condition, foil, quantity, ...card}])
-        setCardDetails(()=> {{}})
+        setListCards((currentCardList)=> [...currentCardList, {condition, foil, quantity, ...card}]);
+        setCardDetails(()=> {{}});
         handleClose();
     }
 
@@ -68,10 +68,14 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
             }}>
                 <img
                     src={cardDetails.card.art_uri}
-                    alt={`${cardDetails.card.name} image`}
+                    alt={`${cardDetails.card.name} art by ${cardDetails.card.artist}`}
                     style={{ width: 'auto', height: '100%' }}
                 />
+
             </Box>
+            <p style={{fontSize:'9px', marginBottom: '-1%'}}>
+                Illustrated by {cardDetails.card.artist}. &#8482; & &copy; Wizards Of The Coast, Inc.
+                </p>
 
             <h3>{cardDetails.card.name}</h3>
 

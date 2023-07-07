@@ -29,9 +29,9 @@ const AddCardModal = ({ open, setListCards, setSearchOpen }) => {
     const [printings, setPrintings] = useState([])
 
     useEffect(() => {
-        if (selectedCard) {
+        if (selectedCard.id) {
             // get matching card printings from database
-            retrievePrintings()
+            Api.getCardsByOracleId(selectedCard.id)
                 .then((options) => {
                     // set selected options to returned cards
                     setPrintings(() => [...options])
@@ -43,14 +43,8 @@ const AddCardModal = ({ open, setListCards, setSearchOpen }) => {
         }
     }, [selectedCard])
 
-    const retrievePrintings = async () => {
-        const cards = await Api.getCardsByOracleId(selectedCard.id)
-        return cards;
-    }
-
     const handleClose = () => {
         setPrintings([]);
-        setSelectedCard('');
         setSearchOpen(false)
     }
 

@@ -9,12 +9,18 @@ exports[`CardList tests should match snapshot 1`] = `
       class="MuiBox-root css-1cbu74j"
     >
       <img
-        alt="Island image"
+        alt="Ulamog, the Infinite Gyre art by Thomas M. Baxa"
+        src="https://cards.scryfall.io/art_crop/front/c/b/cbc085e9-bbb2-463a-b35c-bee13008a2c6.jpg?1682718882"
         style="width: auto; height: 100%;"
       />
     </div>
+    <p
+      style="font-size: 9px; margin-bottom: -1%;"
+    >
+      Illustrated by Thomas M. Baxa. ™ & © Wizards Of The Coast, Inc.
+    </p>
     <h3>
-      Island
+      Ulamog, the Infinite Gyre
     </h3>
     <div
       class="MuiBox-root css-becfju"
@@ -41,7 +47,7 @@ exports[`CardList tests should match snapshot 1`] = `
             role="button"
             tabindex="0"
           >
-             - #
+            Double Masters 2022 - #337
           </div>
           <input
             aria-hidden="true"
@@ -49,7 +55,7 @@ exports[`CardList tests should match snapshot 1`] = `
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             name="set"
             tabindex="-1"
-            value="undefined-undefined"
+            value="Double Masters 2022-337"
           />
           <svg
             aria-hidden="true"
@@ -194,7 +200,7 @@ exports[`CardList tests should match snapshot 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body1 css-86ygas-MuiTypography-root"
     >
-      $7.65
+      $25.48
     </p>
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
