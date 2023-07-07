@@ -1,24 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Autocomplete } from "@mui/material";
+import Api from './Api'
 
-const Searchbar = ({ searchInput, setSearchInput, cards, setSelectedCard, selectedCard, isLoading }) => {
+/* Returns MUI autocomplete component https://mui.com/material-ui/react-autocomplete/
+*
+* User begins typing, after half a second after last input change, API call is made
+*   matching card names autofill a dropdown menu, user can pick
+*   selected card state from AddCardModal is set based on user selection
+*       Searchbar cleared
+*       selected card is populated into CardDetailsBox on AddCardModal
+*/
+const Searchbar = ({ setSelectedCard, selectedCard }) => {
+    const [searchInput, setSearchInput] = useState('');
+    const [cardOptions, setCardOptions] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        let timerID;
+        if (searchInput && !selectedCard) {
+            setIsLoading(true)
+            timerID = setTimeout(async () => {
+                const cards = await Api.getCardsByName(searchInput)
+                setCardOptions(() => [...cards])
+                setIsLoading(() => false)
+            }, 500);
+        }
+        return () => {
+            // clear ID if search input changes bc user is typing
+            clearTimeout(timerID)
+            // Set cards to empty array to clear old results
+            setCardOptions(() => [])
+        }
+    }, [searchInput])
+
     const handleInputChange = (evt, newValue) => {
-        setSearchInput(()=> newValue)
+        // controlled autocomplete
+        setSearchInput(() => newValue)
     }
 
     const handleValueChange = (evt, newValue) => {
-        setSelectedCard(()=> newValue)
+        // value changes when user makes a selection
+        setSelectedCard(() => newValue)
     }
 
-    useEffect(()=> {
-        return () => {
-            setSearchInput('')
-        setSelectedCard(()=> '')
-        }
-    }, [])
-
     return (
-        <>
         <Autocomplete
             inputValue={searchInput}
             onInputChange={handleInputChange}
@@ -34,11 +59,10 @@ const Searchbar = ({ searchInput, setSearchInput, cards, setSelectedCard, select
             loading={isLoading}
             loadingText='Loading...'
             noOptionsText='No options found.'
-            options={cards.map((card) => ({id: card.oracle_id, label: card.name}))}
+            options={cardOptions.map((card) => ({ id: card.oracle_id, label: card.name }))}
             renderInput={(params) => <TextField {...params} label="Card Name" />}
-            sx={{width: '90%'}}
+            sx={{ width: '90%' }}
         />
-        </>
     )
 }
 

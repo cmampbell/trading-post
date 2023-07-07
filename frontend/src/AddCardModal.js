@@ -1,69 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Container, Paper, Button } from "@mui/material";
+import { Modal, Container, Paper, Button, IconButton, Box } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';
 import Api from './Api';
 
-const AddCardModal = ({ open, onClose, setListCards }) => {
-    const [searchInput, setSearchInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [cardOptions, setCardOptions] = useState([])
-    // when the user selects a card
-    // we query API to get selected card
-    // and render the card details below the searchbar
-    // card details include 
-    const [selectedCard, setSelectedCard] = useState('')
-    const [selectedOptions, setSelectedOptions] = useState([])
+/* Returns MUI modal component https://mui.com/material-ui/react-modal/
+*
+*  Contains Searchbar component and CardDetailsBox component
+*  
+*  This tracks the selected card returned from Searchbar
+*
+*  Once the user makes a selection with Searchbar,
+*  this makes a call to API to get all printings of card
+*
+*  Once we have the printings, we display the CardDetailsBox using
+*  the card objects returned from the API to autofill the inputs
+*
+*  On close, we clear everything from state, allowing the user to
+*  start a new search. Tradeoff is that user will lose all data
+*  if they click out of the modal accidentally
+*
+*/
 
-    // no call is made if string is empty
-    // when a user types into the text input
-    // after delay, make call to API for cards
-    // user clears textInput
-    useEffect(() => {
-        // could move this into search bar
-        // stops from running on an empty string
-        let timerID;
-        if (searchInput && !selectedCard) {
-            timerID = setTimeout(async () => {
-                // loading could be done in searchbar
-                setIsLoading(true)
-                const cards = await Api.getCardsByName(searchInput)
-                setCardOptions(() => [...cards])
-                setIsLoading(() => false)
-            }, 500);
-        }
-        return () => {
-            // clear ID if useEffect called again
-            clearTimeout(timerID)
-            // Set cards to empty array
-            setCardOptions(() => [])
-        }
-    }, [searchInput])
+const AddCardModal = ({ open, setListCards, setSearchOpen }) => {
+
+    const [selectedCard, setSelectedCard] = useState('')
+    const [printings, setPrintings] = useState([])
 
     useEffect(() => {
         if (selectedCard) {
-            retrieveSelectedOptions()
+            // get matching card printings from database
+            retrievePrintings()
                 .then((options) => {
-                    setSelectedOptions(() => [...options])
+                    // set selected options to returned cards
+                    setPrintings(() => [...options])
                 })
         }
         return () => {
-            setSelectedOptions([]);
-            console.log(selectedOptions)
-            setSelectedCard('');
+            setSelectedCard('')
+            setPrintings([])
         }
     }, [selectedCard])
 
-    const retrieveSelectedOptions = async () => {
+    const retrievePrintings = async () => {
         const cards = await Api.getCardsByOracleId(selectedCard.id)
         return cards;
     }
 
-    console.log(selectedOptions)
+    const handleClose = () => {
+        setPrintings([]);
+        setSelectedCard('');
+        setSearchOpen(false)
+    }
+
     return (
         <Modal
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
         >
@@ -74,27 +68,40 @@ const AddCardModal = ({ open, onClose, setListCards }) => {
                         justifyContent: 'flex-start',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        marginTop: '3vh',
-                        height: '95vh'
+                        marginTop: '8vh',
+                        height: '85vh'
                     }}
                 >
-
-                    <h1 id='modal-title'> Add Cards </h1>
-                    <Button onClick={onClose}>Close</Button>
-                    <p id='modal-description'>Search by card name</p>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                            width: '100%',
+                            position: 'relative'
+                        }}>
+                        <h2 id='modal-title'>Search By Card Name</h2>
+                        <IconButton
+                            aria-label="delete"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                top: '25%',
+                                right: '3.5%'
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
                     <Searchbar
-                        searchInput={searchInput}
-                        setSearchInput={setSearchInput}
-                        cards={cardOptions}
                         setSelectedCard={setSelectedCard}
                         selectedCard={selectedCard}
                     />
-                    {isLoading && <p> Loading...</p>}
-                    {selectedOptions.length > 0
+                    {printings.length > 0
                         && <CardDetailsBox
-                            cards={selectedOptions}
+                            cards={printings}
                             setListCards={setListCards}
-                            handleClose={onClose}
+                            handleClose={handleClose}
                         />}
                 </Paper>
             </Container>

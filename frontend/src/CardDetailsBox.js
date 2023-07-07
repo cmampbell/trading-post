@@ -1,11 +1,29 @@
 import React, { useState } from "react";
-import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography } from "@mui/material";
 
-// TODO: Add quantity form field
+/* 
+*  Returns MUI box component with several input boxes and a button.
+*  
+*  Only rendered after user has selected a card from the search bar
+*
+*  User can fill out inputs to enter any details about the card that
+*  will affect the price, i.e. set printing, foil status, condition
+*
+*  Displays the name and artwork from the selected card, so user can see visual
+*  confirmation that card art from db matches their physical card. The first card
+*  from cards prop will be displayed initially.
+*  
+*  The Add Cards button will add the current card to the CardList
+*  that opened the AddCardModal, clear any state in this component,
+*  and close the Modal.
+*
+*/
 const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
-    // rendered after user selects a card
     const INITIAL_STATE = { card: cards[0], condition: 'Lightly Played', foil: 'No', quantity: 1 }
-    // form control
+    cards[0].usd_price ? INITIAL_STATE.foil = 'No'
+                        : cards[0].usd_foil_price ? INITIAL_STATE.foil = 'Yes'
+                        : INITIAL_STATE.foil = 'Etched'
+    // input control
     const [cardDetails, setCardDetails] = useState(INITIAL_STATE)
 
     // update state based on input changes
@@ -14,18 +32,22 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
         if (name === 'set') {
             const [setName, collector_number] = evt.target.value.split('-');
             const newCard = cards.find((card) => card.set_name === setName && card.collector_number === collector_number)
-            setCardDetails(() => ({ ...cardDetails, card: { ...newCard } }))
+            setCardDetails((oldCard) => {
+                // check if new card has non-foil, foil, or etched prices
+                newCard.usd_price ? oldCard.foil = 'No'
+                : newCard.usd_foil_price ? oldCard.foil = 'Yes'
+                : oldCard.foil = 'Etched'
+                return ({ ...oldCard, card: { ...newCard } })})
         } else {
             setCardDetails(() => ({ ...cardDetails, [name]: value }))
         }
     }
 
     // add card object to list on click
-    const handleClick = (evt) => {
-        evt.preventDefault();
-        const {card, condition, foil} = cardDetails;
-        setListCards((currentCardList)=> [...currentCardList, {condition, foil, ...card}])
-        setCardDetails(()=> {})
+    const handleClick = () => {
+        const {card, condition, foil, quantity} = cardDetails;
+        setListCards((currentCardList)=> [...currentCardList, {condition, foil, quantity, ...card}])
+        setCardDetails(()=> {{}})
         handleClose();
     }
 

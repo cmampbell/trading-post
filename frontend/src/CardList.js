@@ -11,12 +11,6 @@ const CardList = ({ activeList, makeActive, side }) => {
         setSearchOpen(true)
     }
 
-    const handleSearchClose = () => {
-        setSearchOpen(false)
-    }
-
-    // const [cards, setCards] = useState([])
-
     return (
         <>
         <Grid item xs={activeList === side ? 8 : 4}>
@@ -27,7 +21,7 @@ const CardList = ({ activeList, makeActive, side }) => {
                 {listCards.map((card) => <Card card={card} key={card.id} />)}
                 <p>Total Price: ${listCards.reduce((sum, card)=> sum + (+card.usd_price), 0)}</p>
                 {activeList === side && <Button onClick={handleSearchOpen} variant="outlined">Add Card</Button>}
-                <AddCardModal open={searchOpen} onClose={handleSearchClose} setListCards={setListCards}/>
+                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} setListCards={setListCards}/>
             </Paper>
         </Grid>
         </>
