@@ -25,7 +25,7 @@ import Api from './Api';
 
 const AddCardModal = ({ open, setListCards, setSearchOpen }) => {
 
-    const [selectedCard, setSelectedCard] = useState('')
+    const [selectedCard, setSelectedCard] = useState()
     const [printings, setPrintings] = useState([])
 
     useEffect(() => {
