@@ -45,8 +45,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     const handleValueChange = (evt, newValue) => {
         // value changes when user makes a selection
-        console.log(newValue)
-        setSelectedCard(() => newValue)
+        if(newValue) setSelectedCard(() => newValue)
     }
 
     return (

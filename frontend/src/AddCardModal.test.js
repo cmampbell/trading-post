@@ -5,7 +5,7 @@ import AddCardModal from "./AddCardModal";
 
 import userEvent from '@testing-library/user-event'
 import { act } from "react-dom/test-utils";
-import { waitFor, render, screen } from "@testing-library/react";
+import { waitFor, render } from "@testing-library/react";
 
 // mock axios for useEffect API call
 jest.mock('axios');

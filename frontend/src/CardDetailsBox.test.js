@@ -3,7 +3,6 @@ import renderWithRouter from "./renderWithRouter";
 import CardDetailsBox from "./CardDetailsBox";
 import userEvent from '@testing-library/user-event'
 import { act } from "react-dom/test-utils";
-import { waitFor, screen, queryByLabelText } from "@testing-library/react";
 
 const testCards = [
     {

@@ -5,32 +5,24 @@ import userEvent from '@testing-library/user-event'
 import { act } from "react-dom/test-utils";
 import { waitFor, screen } from "@testing-library/react";
 
-// const user = userEvent.setup()
-
 describe('CardList tests', () => {
     it('should render without crashing', () => {
-        renderWithRouter(<CardList />);
-    })
+        renderWithRouter(<CardList activeList={'left'} makeActive={() => null} side={'left'} />);
+    });
 
-    // it('should match snapshot', () => {
-    //     const { asFragment } = renderWithRouter(<CardList />);
+    it('clicking this list will make it active', async () => {
+        let activeList = 'right';
+        const makeActive = () => activeList = 'left';
+        const { queryByText, rerender } = renderWithRouter(<CardList activeList={activeList} makeActive={makeActive} side={'left'} />);
 
-    //     expect(asFragment()).toMatchSnapshot();
-    // })
+        expect(queryByText('Add Card')).not.toBeInTheDocument();
 
-    it('should navigate to card search page when add card button is clicked', async () => {
-        const { queryByText } = renderWithRouter(<CardList />);
-
+        await act(async () => {
+            userEvent.click(queryByText('Card List'));
+        })
+        rerender(<CardList activeList={activeList} makeActive={makeActive} side={'left'} />)
         expect(queryByText('Add Card')).toBeInTheDocument();
-        // expect(queryByText('Total Price:')).toBeInTheDocument();
+    });
+});
 
-        // await act(async () => {
-        //     await user.click(queryByText("Add card"));
-        // })
-
-        // waitFor(() => {
-        //     expect(screen.getByPlaceholderText("Search")).toBeInTheDocument()
-        // })
-    })
-})
-
+// test that a click makes it the active side

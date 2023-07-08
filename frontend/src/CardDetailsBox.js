@@ -46,7 +46,10 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
     // add card object to list on click
     const handleClick = () => {
         const {card, condition, foil, quantity} = cardDetails;
-        setListCards((currentCardList)=> [...currentCardList, {condition, foil, quantity, ...card}]);
+        const price = foil === 'Etched' ? card.usd_etched_price
+                    : foil === 'Yes' ? card.usd_foil_price
+                    : card.usd_price;
+        setListCards((currentCardList)=> [...currentCardList, {condition, foil, quantity, price, ...card}]);
         setCardDetails(()=> {{}});
         handleClose();
     }
@@ -62,6 +65,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
             m: 2
         }}>
             {/* container for image */}
+            {/* TODO: if card is foil add rainbow border to image */}
             <Box sx={{
                 height: '30%',
                 overflow: 'hidden',

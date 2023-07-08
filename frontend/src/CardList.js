@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Grid, Paper, Button } from "@mui/material";
-import Card from './Card';
+import { Grid, Paper, Button, Stack } from "@mui/material";
+import CardItem from './CardItem';
 import AddCardModal from './AddCardModal'
 
 const CardList = ({ activeList, makeActive, side }) => {
@@ -11,20 +11,29 @@ const CardList = ({ activeList, makeActive, side }) => {
         setSearchOpen(true)
     }
 
+    const sumTotalPrice = () => {
+        const priceSum = listCards.reduce((sum, card)=> sum + (+card.price), 0)
+        return priceSum.toFixed(2)
+    }
+
+    const deleteCard = (cardName) => {
+        setListCards((oldCards)=> oldCards.filter((card)=> card.name !== cardName))
+    }
+
     return (
-        <>
-        <Grid item xs={activeList === side ? 8 : 4}>
+        <Grid item xs={activeList === side ? 7 : 5}>
             {/* TODO: change paper drop shadow from black to blue */}
-            <Paper elevation={4} onClick={() => { makeActive(side) }}>
+            <Paper elevation={activeList === side ? 4 : 1} onClick={() => makeActive(side) }>
                 {/* TODO: change title from Card list to username if user logged in */}
-                <h1>Card list</h1>
-                {listCards.map((card) => <Card card={card} key={card.id} />)}
-                <p>Total Price: ${listCards.reduce((sum, card)=> sum + (+card.usd_price), 0)}</p>
+                <h1>Card List</h1>
+                <Stack spacing={.5}>
+                {listCards.map((card, idx) => <CardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard}/>)}
+                </Stack>
+                <p>Total Price: ${sumTotalPrice()}</p>
                 {activeList === side && <Button onClick={handleSearchOpen} variant="outlined">Add Card</Button>}
                 <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} setListCards={setListCards}/>
             </Paper>
         </Grid>
-        </>
     )
 }
 
