@@ -12,7 +12,7 @@ const CardList = ({ activeList, makeActive, side }) => {
     }
 
     const sumTotalPrice = () => {
-        const priceSum = listCards.reduce((sum, card)=> sum + (+card.price), 0)
+        const priceSum = listCards.reduce((sum, card)=> sum + (+card.price * card.quantity), 0)
         return priceSum.toFixed(2)
     }
 

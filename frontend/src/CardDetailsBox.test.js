@@ -16,7 +16,8 @@ const testCards = [
         set_name: "Double Masters 2022",
         usd_etched_price: null,
         usd_foil_price: "32.03",
-        usd_price: "25.48"
+        usd_price: "25.48",
+        quantity: 1
     },
     {
         art_uri: "https://cards.scryfall.io/art_crop/front/c/b/cbc085e9-bbb2-463a-b35c-bee13008a2c6.jpg?1682718882",
@@ -30,10 +31,11 @@ const testCards = [
         usd_etched_price: '7000',
         usd_foil_price: "600",
         usd_price: null,
+        quantity: 1
     }
 ]
 
-describe('CardList tests', () => {
+describe('CardDetailsBox tests', () => {
     it('should render without crashing', () => {
         renderWithRouter(<CardDetailsBox cards={testCards} />);
     })
@@ -76,7 +78,7 @@ describe('CardList tests', () => {
         })
 
         expect(queryByAltText(`${testCards[1].name} art by ${testCards[1].artist}`)).toBeInTheDocument();
-        expect(queryByText(`$${testCards[1].usd_foil_price}`)).toBeInTheDocument();
+        expect(queryByText(`$${testCards[1].usd_foil_price}.00`)).toBeInTheDocument();
 
         await act(async () => {
             userEvent.click(foilInput);
@@ -87,6 +89,6 @@ describe('CardList tests', () => {
             userEvent.click(queryByText('Etched'));
         })
 
-        expect(queryByText(`$${testCards[1].usd_etched_price}`)).toBeInTheDocument();
+        expect(queryByText(`$${testCards[1].usd_etched_price}.00`)).toBeInTheDocument();
     })
 })

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, TextField } from "@mui/material";
 
 /* 
 *  Returns MUI box component with several input boxes and a button.
@@ -21,8 +21,8 @@ import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography } fr
 const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
     const INITIAL_STATE = { card: cards[0], condition: 'Lightly Played', foil: 'No', quantity: 1 };
     cards[0].usd_price ? INITIAL_STATE.foil = 'No'
-                        : cards[0].usd_foil_price ? INITIAL_STATE.foil = 'Yes'
-                        : INITIAL_STATE.foil = 'Etched';
+        : cards[0].usd_foil_price ? INITIAL_STATE.foil = 'Yes'
+            : INITIAL_STATE.foil = 'Etched';
     // input control
     const [cardDetails, setCardDetails] = useState(INITIAL_STATE);
 
@@ -35,9 +35,10 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
             setCardDetails((oldCard) => {
                 // check if new card has non-foil, foil, or etched prices
                 newCard.usd_price ? oldCard.foil = 'No'
-                : newCard.usd_foil_price ? oldCard.foil = 'Yes'
-                : oldCard.foil = 'Etched';
-                return ({ ...oldCard, card: { ...newCard } })});
+                    : newCard.usd_foil_price ? oldCard.foil = 'Yes'
+                        : oldCard.foil = 'Etched';
+                return ({ ...oldCard, card: { ...newCard } })
+            });
         } else {
             setCardDetails(() => ({ ...cardDetails, [name]: value }));
         }
@@ -45,13 +46,28 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
 
     // add card object to list on click
     const handleClick = () => {
-        const {card, condition, foil, quantity} = cardDetails;
+        const { card, condition, foil, quantity } = cardDetails;
         const price = foil === 'Etched' ? card.usd_etched_price
-                    : foil === 'Yes' ? card.usd_foil_price
-                    : card.usd_price;
-        setListCards((currentCardList)=> [...currentCardList, {condition, foil, quantity, price, ...card}]);
-        setCardDetails(()=> {{}});
+            : foil === 'Yes' ? card.usd_foil_price
+                : card.usd_price;
+        setListCards((currentCardList) => [...currentCardList, { condition, foil, quantity, price, ...card }]);
+        setCardDetails(() => { { } });
         handleClose();
+    }
+
+    const changeQty = (num) => {
+        if(cardDetails.quantity + num < 0) return
+        let newQty = cardDetails.quantity;
+
+        newQty += num;
+
+        setCardDetails((oldCard)=> {
+            return ({...oldCard, quantity: newQty})
+        })
+    }
+
+    const calcTotalPrice = price => {
+        return (price * cardDetails.quantity).toFixed(2);
     }
 
     return (
@@ -77,9 +93,9 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                 />
 
             </Box>
-            <p style={{fontSize:'9px', marginBottom: '-1%'}}>
+            <p style={{ fontSize: '9px', marginBottom: '-1%' }}>
                 Illustrated by {cardDetails.card.artist}. &#8482; & &copy; Wizards Of The Coast, Inc.
-                </p>
+            </p>
 
             <h3>{cardDetails.card.name}</h3>
 
@@ -128,8 +144,9 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                         onChange={handleChange}
                         name="condition"
                     >
-                        {/* using condition list from tcgplayer.com */}
-                        <MenuItem value="Near Mint" key="mint">Near Mint</MenuItem>
+                {/* using condition list from tcgplayer.com
+                {/* TODO: Add condition price modifier */}
+                <MenuItem value="Near Mint" key="mint">Near Mint</MenuItem>
                         <MenuItem value="Lightly Played" key="lightly-played">Lightly Played</MenuItem>
                         <MenuItem value="Moderately Played" key="moderately-played">Moderately Played</MenuItem>
                         <MenuItem value="Heavily Played" key="heavily-played">Heavily Played</MenuItem>
@@ -156,20 +173,40 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                     </Select>
                 </FormControl>
                 {/* TO-DO: add quantity */}
-                {/* <FormControl
-                    sx={{ m: 1, width: '90%' }}
+                {/* Could be a read only text input with two buttons to increment and decrement qty */}
+                <FormControl
+                    sx={{ m: 1, width: '20%' }}
                     size="small"
                 >
-                    <InputLabel id="quantity-select-label">Foil</InputLabel>
-                    <TextField inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
-                </FormControl> */}
+                    <TextField
+                        id="quantity-field"
+                        label="Quantity"
+                        value={cardDetails.quantity}
+                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', readOnly: true }}
+                    />
+
+                </FormControl>
+                <Box xs={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    height: '100%'
+                }}>
+                    <Button onClick={()=> changeQty(1)}>+</Button>
+                    <Button onClick={()=> changeQty(-1)}>-</Button>
+                </Box>
+
+                <Typography sx={{ m: 1 }}>
+                    {/* depending on the foil selection, render relevant price */}
+                    ${cardDetails.foil === "Yes" ? calcTotalPrice(cardDetails.card.usd_foil_price)
+                        : cardDetails.foil === "Etched" ? calcTotalPrice(cardDetails.card.usd_etched_price)
+                            : calcTotalPrice(cardDetails.card.usd_price)}
+                </Typography>
             </Box>
-            <Typography sx={{ m: 1 }}>
-                {/* depending on the foil selection, render relevant price */}
-                ${cardDetails.foil === "Yes" ? cardDetails.card.usd_foil_price
-                    : cardDetails.foil === "Etched" ? cardDetails.card.usd_etched_price
-                        : cardDetails.card.usd_price}
-            </Typography>
+
             <Button onClick={handleClick}> Add Card! </Button>
         </Box>
     )
