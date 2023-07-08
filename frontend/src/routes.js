@@ -1,5 +1,6 @@
 import App from "./App";
 import TradePage from "./TradePage";
+import CameraScan from "./CameraScan"
 // import AddCardModal from "./AddCardModal";
 
 const routes = [
@@ -9,13 +10,11 @@ const routes = [
             {
                 path: '/',
                 element: <TradePage />,
-                // children: [
-                //     {
-                //         path:'/addcard',
-                //         element: <AddCardModal />
-                //     }
-                // ]
             },
+            {
+                path:'/camera',
+                element: <CameraScan/>
+            }
         ]
     }
 ];

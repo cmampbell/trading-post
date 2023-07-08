@@ -1,0 +1,69 @@
+import React, { useRef, useState, useCallback, useEffect } from 'react';
+import Webcam from "react-webcam";
+import Tesseract from 'tesseract.js';
+
+const WebcamComponent = () => {
+    const webcamRef = useRef(null);
+    const [imgSrc, setImgSrc] = useState(null);
+    const [text, setText] = useState('');
+
+    const capture = useCallback(() => {
+        const photo = webcamRef.current.getScreenshot();
+        setImgSrc(photo);
+    }, [webcamRef, setImgSrc]);
+
+    useEffect(()=>{
+        if(imgSrc){
+            Tesseract.recognize(
+                imgSrc, 'eng', {
+                    logger: message => console.log(message)
+                }
+            ).catch (err => {
+                console.error(err);
+            }).then(result => {
+                let confidence = result.confidence;
+                let words = result.data.words;
+                console.log(result);
+                // loop through words until we find a segment where confidence is above 90
+                    // start constructing string with first word where confidence is above 90
+                    // stop constructing string when element confidence is below 90
+                let cardNameGuess = '';
+                let foundStart = false;
+                let foundEnd = false
+                // words.reduce((accumulator, word) => {if(word.confidence > 89)  cardNameGuess += word.text +  ' '}, '');
+                for(let i =0; !foundEnd; i++){
+                    let currentWord = words[i]
+
+                    if(currentWord.confidence > 89){
+                        cardNameGuess += currentWord.text + ' ';
+                        if(!foundStart) foundStart = true;
+                    } else if(foundStart && currentWord.confidence < 89){
+                        foundEnd = true;
+                    }
+                }
+                setText(() => cardNameGuess);
+            })
+        }
+    }, [imgSrc])
+
+    return (
+        <>
+        <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat='image/png'
+        />
+        <button onClick={capture}>Capture photo</button>
+        <h2>Extracted Text</h2>
+        <p>{text}</p>
+        {imgSrc && 
+                <img
+                src={imgSrc}
+              />}
+        </>
+    )
+}
+
+
+
+export default WebcamComponent;
