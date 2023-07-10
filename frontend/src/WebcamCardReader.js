@@ -2,6 +2,8 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
 import { Image } from 'image-js';
+import { Box } from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
 
 /* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
 *  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
@@ -27,7 +29,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
     const [imgSrc, setImgSrc] = useState(null);
 
     const capture = useCallback(async () => {
-        const photo = webcamRef.current.getScreenshot({height: 1280, width: 720});
+        const photo = webcamRef.current.getScreenshot({ height: 1280, width: 720 });
         const processedPhoto = await preProcessImage(photo)
         setImgSrc(processedPhoto);
     }, [webcamRef, setImgSrc]);
@@ -69,25 +71,64 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
 
         const image = await Image.load(imageSource);
 
-        let grey = image.grey();
-        let blur = grey.gaussianFilter({radius: 1});
-        let mask = blur.mask({ threshold: 0.51 });
+        // might want to resize to give tesseract more to read
+        const cropped = image.crop({x: 80, y: 146, width: 460, height: 60})
+        const resized = cropped.resize({width: 920, height: 120})
 
-       return mask.toDataURL();
+        let grey = resized.grey();
+        let blur = grey.gaussianFilter({ radius: 1 });
+        let mask = blur.mask({ threshold: 0.49 });
+
+        console.log(mask.width)
+        console.log(mask.height)
+
+        // return cropped.toDataURL();
+        return mask.toDataURL();
     }
 
     return (
         <>
-            <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat='image/png'
-                videoConstraints={{
-                    height: 640,
-                    width: 360,
-                }}
-            />
-            <button onClick={capture}>Capture photo</button>
+            <Box sx={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '640px',
+                width: '360px'
+            }}>
+                <Box sx={{
+                    border: 'solid',
+                    borderColor: 'red',
+                    position: 'absolute',
+                    height: '440px',
+                    width: '304px',
+                    top: '50px',
+                    left: '30px',
+                    zIndex: 2
+                }}>
+                </Box>
+                {/* <Box sx={{
+                    border: 'solid',
+                    borderColor: 'red',
+                    position: 'absolute',
+                    height: '30px',
+                    width: '230px',
+                    top: '73px',
+                    left: '40px',
+                    zIndex: 2
+                }}></Box> */}
+                <Webcam
+                    audio={false}
+                    ref={webcamRef}
+                    screenshotFormat='image/png'
+                    videoConstraints={{
+                        height: 1920,
+                        width: 1080,
+                    }}
+                    style={{ position: 'relative' }}
+                />
+                <button onClick={capture}>Capture photo</button>
+                {/* <img src={imgSrc} /> */}
+            </Box>
         </>
     )
 }

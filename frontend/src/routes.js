@@ -11,6 +11,7 @@ const routes = [
                 element: <TradePage />,
             },
             {
+                // this is for manual camera testing purposes
                 path: '/camera',
                 element: <WebcamCardReader
                                 getCardWithCamera={(name)=> console.log(name)}
