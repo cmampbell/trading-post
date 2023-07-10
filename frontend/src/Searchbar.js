@@ -11,9 +11,18 @@ import WebcamCardReader from "./WebcamCardReader";
 *   selected card state from AddCardModal is set based on user selection
 *       Searchbar cleared
 *       selected card is populated into CardDetailsBox on AddCardModal
+*
+* User can also choose to scan card with their camera. The user captures a photo of
+* the card, and the Webcam component calls getCardWithCamera, with the tesseract
+* result of what it thinks the card name is. We then set the selectedCard for the
+* AddCardModal equal to the first entry of the API results.
+*
+*   The first entry will be the correct card if tesseract was able to extract it,
+*   or the first returned card from the name like search.
+*
 */
 const Searchbar = ({ setSelectedCard, selectedCard }) => {
-    const [searchInput, setSearchInput] = useState();
+    const [searchInput, setSearchInput] = useState('');
     const [cardOptions, setCardOptions] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [cameraOpen, setCameraOpen] = useState(false)
@@ -48,6 +57,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     const handleValueChange = (evt, newValue) => {
         // value changes when user makes a selection
+        console.log(selectedCard)
         if (newValue) setSelectedCard(() => newValue)
     }
 
@@ -60,19 +70,15 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
     }
 
     const getCardWithCamera = async (cardNameGuess) => {
+        if (cardNameGuess) setSearchInput(()=> cardNameGuess);
         try {
             const card = await Api.getCardsByName(cardNameGuess);
-            console.log(card)
-            setSelectedCard(()=> card[0].oracle_id)
+            setSelectedCard(()=> ({name: card[0].name, id: card[0].oracle_id}))
         } catch (err){
             console.error(err)
         }
     }
 
-    // add button to do camera scan here
-    // we can pass the name into searchInput and then the code remains the same
-    // after we get a string, we can then close the camera screen and show the result
-    // pull the first card returned from the API call
     return (
         <>
             <Autocomplete
@@ -118,7 +124,6 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                         getCardWithCamera={getCardWithCamera}
                     />
                 </Box>
-
             </Modal>
         </>
     )
