@@ -8,7 +8,8 @@ import { Image } from 'image-js';
 *  We are using image-js for image pre-processing. Docs: https://image-js.github.io/image-js/#image
 *
 *  The user can take a photo of their card by finding it with the camera and clicking the
-*  capture photo button. Once the photo has been saved in state, our useEffect callback runs.
+*  capture photo button. Once the photo has been saved in state as imgSrc,
+*  our useEffect callback runs.
 *
 *  We use Tesseract.recognize to scan the card for any english words it can find. For now,
 *  we assume that the user has the card facing upright and the title of the card will be the
@@ -24,21 +25,17 @@ import { Image } from 'image-js';
 const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
-    const [testImage, setTestImage] = useState(null);
 
     const capture = useCallback(async () => {
-        const photo = webcamRef.current.getScreenshot();
+        const photo = webcamRef.current.getScreenshot({height: 1280, width: 720});
         const processedPhoto = await preProcessImage(photo)
-        console.log(processedPhoto)
         setImgSrc(processedPhoto);
     }, [webcamRef, setImgSrc]);
 
     useEffect(() => {
         if (imgSrc) {
             Tesseract.recognize(
-                imgSrc, 'eng', {
-                // logger: message => console.log(message)
-            }
+                imgSrc, 'eng'
             ).catch(err => {
                 console.error(err);
             }).then(result => {
@@ -73,7 +70,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
         const image = await Image.load(imageSource);
 
         let grey = image.grey();
-        let blur = grey.gaussianFilter({radius: 2});
+        let blur = grey.gaussianFilter({radius: 1});
         let mask = blur.mask({ threshold: 0.51 });
 
        return mask.toDataURL();
@@ -85,14 +82,12 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat='image/png'
-            videoConstraints={{
-                height: 1280,
-                width: 720
-            }}
+                videoConstraints={{
+                    height: 640,
+                    width: 360,
+                }}
             />
             <button onClick={capture}>Capture photo</button>
-            <p>Image</p>
-            <img src={imgSrc} />
         </>
     )
 }
