@@ -1,9 +1,11 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
+import { Image } from 'image-js';
 
 /* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
 *  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
+*  We are using image-js for image pre-processing. Docs: https://image-js.github.io/image-js/#image
 *
 *  The user can take a photo of their card by finding it with the camera and clicking the
 *  capture photo button. Once the photo has been saved in state, our useEffect callback runs.
@@ -19,20 +21,23 @@ import Tesseract from 'tesseract.js';
 *
 */
 
-const WebcamCardReader = ( { getCardWithCamera, closeCameraModal, setSearchInput }) => {
+const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
+    const [testImage, setTestImage] = useState(null);
 
-    const capture = useCallback(() => {
+    const capture = useCallback(async () => {
         const photo = webcamRef.current.getScreenshot();
-        setImgSrc(photo);
+        const processedPhoto = await preProcessImage(photo)
+        console.log(processedPhoto)
+        setImgSrc(processedPhoto);
     }, [webcamRef, setImgSrc]);
 
     useEffect(() => {
         if (imgSrc) {
             Tesseract.recognize(
                 imgSrc, 'eng', {
-                logger: message => console.log(message)
+                // logger: message => console.log(message)
             }
             ).catch(err => {
                 console.error(err);
@@ -45,23 +50,34 @@ const WebcamCardReader = ( { getCardWithCamera, closeCameraModal, setSearchInput
 
                 let foundStart = false;
                 let foundEnd = false
-                const constructor =[]
+                const constructor = []
                 for (let i = 0; !foundEnd && i < words.length; i++) {
                     let currentWord = words[i]
-                    if (currentWord.confidence > 89) {
+                    if (currentWord.confidence >= 89) {
                         constructor.push(currentWord.text);
                         if (!foundStart) foundStart = true;
-                    } else if (foundStart && currentWord.confidence < 80) {
+                    } else if (foundStart && currentWord.confidence < 89) {
                         foundEnd = true;
                     }
                 }
                 const cardNameGuess = constructor.join(' ');
-                if (cardNameGuess) setSearchInput(()=> cardNameGuess) 
+                if (cardNameGuess) setSearchInput(() => cardNameGuess)
                 getCardWithCamera(cardNameGuess)
                 closeCameraModal()
             })
         }
     }, [imgSrc])
+
+    const preProcessImage = async (imageSource) => {
+
+        const image = await Image.load(imageSource);
+
+        let grey = image.grey();
+        let blur = grey.gaussianFilter({radius: 2});
+        let mask = blur.mask({ threshold: 0.51 });
+
+       return mask.toDataURL();
+    }
 
     return (
         <>
@@ -69,12 +85,14 @@ const WebcamCardReader = ( { getCardWithCamera, closeCameraModal, setSearchInput
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat='image/png'
-                videoConstraints={{
-                    height: 1280,
-                    width: 720
-                }}
+            videoConstraints={{
+                height: 1280,
+                width: 720
+            }}
             />
             <button onClick={capture}>Capture photo</button>
+            <p>Image</p>
+            <img src={imgSrc} />
         </>
     )
 }
