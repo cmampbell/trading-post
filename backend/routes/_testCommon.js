@@ -1,11 +1,13 @@
 "use strict";
 
 const db = require("../db.js");
+const User = require("../models/user.js")
 
 async function commonBeforeAll() {
   process.env.NODE_ENV = 'test'
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM cards");
+  await db.query("DELETE FROM users");
 
   const testCard = {
     id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
@@ -87,6 +89,12 @@ async function commonBeforeAll() {
   ];
 
   db.query(query, values)
+
+  User.register({
+    username: "user1",
+    password: "password",
+    email: "test@gmail.com"
+  })
 }
 
 async function commonBeforeEach() {

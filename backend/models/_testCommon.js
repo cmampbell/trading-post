@@ -1,10 +1,14 @@
 const db = require("../db.js");
+const bcrypt = require("bcrypt");
+const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
 // This function will seed the test database
 // before all test suites are run
 async function commonBeforeAll() {
   // clear out cards
+  process.env.NODE_ENV = 'test'
   await db.query("DELETE FROM cards");
+  await db.query("DELETE FROM users");
 
   const testCard = {
     id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
@@ -85,7 +89,13 @@ async function commonBeforeAll() {
     testCard.textless // $22
   ];
 
-  db.query(query, values)
+  await db.query(query, values)
+  await db.query(
+    `INSERT INTO users (username, password, email)
+         VALUES ($1, $2, $3)
+         RETURNING username, email, id`,
+    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com"],
+  );
 }
 
 async function commonBeforeEach() {
