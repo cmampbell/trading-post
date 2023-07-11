@@ -64,7 +64,7 @@ const AddCardModal = ({ open, setListCards, setSearchOpen }) => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         marginTop: '8vh',
-                        height: '85vh'
+                        height: '89vh'
                     }}
                 >
                     <Box

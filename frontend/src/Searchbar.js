@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Autocomplete, Button, Modal, Box } from "@mui/material";
+import { TextField, Autocomplete, Button, Modal, Box, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Api from './Api'
 import WebcamCardReader from "./WebcamCardReader";
@@ -70,11 +71,11 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
     }
 
     const getCardWithCamera = async (cardNameGuess) => {
-        if (cardNameGuess) setSearchInput(()=> cardNameGuess);
+        if (cardNameGuess) setSearchInput(() => cardNameGuess);
         try {
             const card = await Api.getCardsByName(cardNameGuess);
-            setSelectedCard(()=> ({name: card[0].name, id: card[0].oracle_id}))
-        } catch (err){
+            setSelectedCard(() => ({ name: card[0].name, id: card[0].oracle_id }))
+        } catch (err) {
             console.error(err)
         }
     }
@@ -100,8 +101,13 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                 renderInput={(params) => <TextField {...params} label="Card Name" />}
                 sx={{ width: '90%' }}
             />
-            <Button onClick={openCameraModal}>
-                <PhotoCameraIcon />
+            <Button onClick={openCameraModal}
+                sx={{
+                    position: 'absolute',
+                    top: '17%',
+                    right: '8%',
+                }}>
+                <PhotoCameraIcon sx={{ fontSize: '35px', }} />
             </Button>
             <Modal
                 open={cameraOpen}
@@ -116,13 +122,15 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         marginTop: '8vh',
-                        height: '85vh' 
+                        height: '85vh',
+                        position: 'relative'
                     }}>
                     <WebcamCardReader
                         setSearchInput={setSearchInput}
                         closeCameraModal={closeCameraModal}
                         getCardWithCamera={getCardWithCamera}
                     />
+                    <Button></Button>
                 </Box>
             </Modal>
         </>

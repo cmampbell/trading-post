@@ -2,8 +2,9 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
 import { Image } from 'image-js';
-import { Box } from '@mui/material';
-import zIndex from '@mui/material/styles/zIndex';
+import { Box, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import CircleIcon from '@mui/icons-material/Circle';
 
 /* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
 *  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
@@ -27,6 +28,14 @@ import zIndex from '@mui/material/styles/zIndex';
 const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
+    // add peice of state that tracks if webcam is loading or not
+    const [ isLoading, setIsLoading ] = useState(true);
+
+    useEffect(()=> {
+        if(webcamRef.current){
+            setIsLoading(()=> false);
+        }
+    }, [webcamRef])
 
     const capture = useCallback(async () => {
         const photo = webcamRef.current.getScreenshot({ height: 1280, width: 720 });
@@ -72,8 +81,8 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
         const image = await Image.load(imageSource);
 
         // might want to resize to give tesseract more to read
-        const cropped = image.crop({x: 80, y: 146, width: 460, height: 60})
-        const resized = cropped.resize({width: 920, height: 120})
+        const cropped = image.crop({ x: 80, y: 146, width: 460, height: 60 })
+        const resized = cropped.resize({ width: 920, height: 120 })
 
         let grey = resized.grey();
         let blur = grey.gaussianFilter({ radius: 1 });
@@ -88,7 +97,8 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
 
     return (
         <>
-            <Box sx={{
+        {isLoading && <p> Loading camera...</p>}
+           <Box sx={{
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
@@ -96,8 +106,8 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 width: '360px'
             }}>
                 <Box sx={{
-                    border: 'solid',
-                    borderColor: 'red',
+                    border: 'dashed',
+                    borderColor: 'gray',
                     position: 'absolute',
                     height: '440px',
                     width: '304px',
@@ -116,6 +126,10 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                     left: '40px',
                     zIndex: 2
                 }}></Box> */}
+                <h4
+                    style={{position: 'absolute', left: '25%',}}> Place card inside outline
+                </h4> 
+
                 <Webcam
                     audio={false}
                     ref={webcamRef}
@@ -124,10 +138,41 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                         height: 1920,
                         width: 1080,
                     }}
-                    style={{ position: 'relative' }}
+                    style={{ border: 'solid' }}
                 />
-                <button onClick={capture}>Capture photo</button>
-                {/* <img src={imgSrc} /> */}
+                <IconButton 
+                    onClick={capture}
+                    sx={{
+                        position: 'absolute',
+                        zIndex: 5,
+                        left: '40%',
+                        bottom: '5%',
+                    }}    
+                >
+                    <CircleIcon
+                        fontSize='large'
+                        sx={{
+                            fontSize: '75px',
+                            color: 'blue'
+                        }}
+                        />
+                </IconButton>
+                <IconButton
+                    aria-label="closeCamera"
+                    onClick={closeCameraModal}
+                    sx={{
+                        position: 'absolute',
+                        color: 'red',
+                        zIndex: 5,
+                        right: '5%',
+                        bottom: '5%',
+                        // top: 
+                        }}
+                >
+                    <CloseIcon 
+                        sx={{fontSize: '40px'}}/>
+                </IconButton>
+                <img src={imgSrc} />
             </Box>
         </>
     )

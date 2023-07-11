@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, TextField } from "@mui/material";
+import { Box, FormControl, InputLabel, Select, MenuItem, Button, Typography, TextField, Stack, IconButton } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 /* 
 *  Returns MUI box component with several input boxes and a button.
@@ -56,13 +58,13 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
     }
 
     const changeQty = (num) => {
-        if(cardDetails.quantity + num < 0) return
+        if (cardDetails.quantity + num < 0) return
         let newQty = cardDetails.quantity;
 
         newQty += num;
 
-        setCardDetails((oldCard)=> {
-            return ({...oldCard, quantity: newQty})
+        setCardDetails((oldCard) => {
+            return ({ ...oldCard, quantity: newQty })
         })
     }
 
@@ -110,7 +112,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                 height: 'auto'
             }}>
                 <FormControl
-                    sx={{ m: 1, width: '90%' }}
+                    sx={{ m: 1, width: '100%' }}
                     size="small"
                 >
                     <InputLabel id="set-select-label">Set</InputLabel>
@@ -132,7 +134,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                     </Select>
                 </FormControl>
                 <FormControl
-                    sx={{ m: 1, width: '90%' }}
+                    sx={{ m: 1, width: '100%' }}
                     size="small"
                 >
                     <InputLabel id="condition-select-label">Condition</InputLabel>
@@ -146,7 +148,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                     >
                 {/* using condition list from tcgplayer.com
                 {/* TODO: Add condition price modifier */}
-                <MenuItem value="Near Mint" key="mint">Near Mint</MenuItem>
+                        <MenuItem value="Near Mint" key="mint">Near Mint</MenuItem>
                         <MenuItem value="Lightly Played" key="lightly-played">Lightly Played</MenuItem>
                         <MenuItem value="Moderately Played" key="moderately-played">Moderately Played</MenuItem>
                         <MenuItem value="Heavily Played" key="heavily-played">Heavily Played</MenuItem>
@@ -154,7 +156,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                     </Select>
                 </FormControl>
                 <FormControl
-                    sx={{ m: 1, width: '90%' }}
+                    sx={{ m: 1, width: '100%' }}
                     size="small"
                 >
                     <InputLabel id="foil-select-label">Foil</InputLabel>
@@ -172,10 +174,8 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                         {cardDetails.card.usd_etched_price && <MenuItem value="Etched" key="etched">Etched</MenuItem>}
                     </Select>
                 </FormControl>
-                {/* TO-DO: add quantity */}
-                {/* Could be a read only text input with two buttons to increment and decrement qty */}
                 <FormControl
-                    sx={{ m: 1, width: '20%' }}
+                    sx={{ m: 1, width: '30%' }}
                     size="small"
                 >
                     <TextField
@@ -186,18 +186,28 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
                     />
 
                 </FormControl>
-                <Box xs={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexWrap: 'nowrap',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    height: '100%'
-                }}>
-                    <Button onClick={()=> changeQty(1)}>+</Button>
-                    <Button onClick={()=> changeQty(-1)}>-</Button>
-                </Box>
+                <Stack
+                    spacing={-2}
+                    sx={{
+                        // display: 'flex',
+                        // flexDirection: 'column',
+                        // flexWrap: 'nowrap',
+                        // alignItems: 'center',
+                        // justifyContent: 'flex-start',
+                        // alignItems: 'flex-start',
+                        // height: '100%'
+                    }}>
+                    <IconButton
+                        onClick={() => changeQty(1)}
+                    >
+                        <AddIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => changeQty(-1)}
+                    >
+                        <RemoveIcon />
+                    </IconButton>
+                </Stack>
 
                 <Typography sx={{ m: 1 }}>
                     {/* depending on the foil selection, render relevant price */}
