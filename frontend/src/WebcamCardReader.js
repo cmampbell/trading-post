@@ -88,9 +88,6 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
         let blur = grey.gaussianFilter({ radius: 1 });
         let mask = blur.mask({ threshold: 0.49 });
 
-        console.log(mask.width)
-        console.log(mask.height)
-
         // return cropped.toDataURL();
         return mask.toDataURL();
     }
@@ -172,7 +169,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                     <CloseIcon 
                         sx={{fontSize: '40px'}}/>
                 </IconButton>
-                <img src={imgSrc} />
+                <img src={imgSrc} alt='card-scan-result'/>
             </Box>
         </>
     )

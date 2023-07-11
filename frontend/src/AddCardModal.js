@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Container, Paper, Button, IconButton, Box } from "@mui/material";
+import { Modal, Container, Paper, IconButton, Box } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Autocomplete, Button, Modal, Box, IconButton } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import { TextField, Autocomplete, Button, Modal, Box } from "@mui/material";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Api from './Api'
 import WebcamCardReader from "./WebcamCardReader";
@@ -49,7 +48,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
             // Set cards to empty array to clear old results
             setCardOptions(() => [])
         }
-    }, [searchInput])
+    }, [searchInput, selectedCard])
 
     const handleInputChange = (evt, newValue) => {
         // controlled autocomplete

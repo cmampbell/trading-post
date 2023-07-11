@@ -1,5 +1,6 @@
 import App from "./App";
 import TradePage from "./TradePage";
+import UserPage from "./UserPage"
 import WebcamCardReader from "./WebcamCardReader";
 
 const routes = [
@@ -7,7 +8,7 @@ const routes = [
         element: <App/>,
         children: [
             {
-                path: '/',
+                path: '/trade',
                 element: <TradePage />,
             },
             {
@@ -18,6 +19,10 @@ const routes = [
                                 closeCameraModal={()=> null}
                                 setSearchInput={(()=> null)}
                         />
+            },
+            {
+                path:'/',
+                element: <UserPage />
             }
         ]
     }

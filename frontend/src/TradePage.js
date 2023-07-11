@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Grid, Button } from "@mui/material"
-
 import CardList from './CardList'
 
+/* Parent component for trading functionality. 
+* 
+* Only the active list is able to add cards. Users can
+* change which list is active with a click.
+*
+* Lists are labeled left and right.
+*/
 const TradePage = () => {
 
     const [activeList, setActiveList] = useState('left')

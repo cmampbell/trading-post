@@ -47,12 +47,12 @@ describe('AddCardModal tests', () => {
     it('should be able to be closed with close button', () => {
         let isOpen = true;
         const close = ()=> isOpen = false;
-        const { queryByText, queryByRole } = render(<AddCardModal open={true} setSearchOpen={close} setListCards={()=> null}/>);
+        const { queryByText, queryAllByRole } = render(<AddCardModal open={true} setSearchOpen={close} setListCards={()=> null}/>);
 
         expect(queryByText('Search By Card Name')).toBeInTheDocument();
 
         act(()=> {
-            userEvent.click(queryByRole('button'));
+            userEvent.click(queryAllByRole('button')[0]);
         })
 
         waitFor(()=> {

@@ -53,7 +53,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
             : foil === 'Yes' ? card.usd_foil_price
                 : card.usd_price;
         setListCards((currentCardList) => [...currentCardList, { condition, foil, quantity, price, ...card }]);
-        setCardDetails(() => { { } });
+        setCardDetails(() => ({}));
         handleClose();
     }
 
