@@ -156,18 +156,6 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
-
-  /** Get list of cards in a users collection */
-  // static async getCollection(username) {
-  //   let user = await db.query(
-  //     `SELECT username, id FROM users
-  //       JOIN card_collection AS coll ON coll.user_id = id
-  //       JOIN cards ON cards.id = coll.card_id
-  //       WHERE username = $1`, [username]
-  //   )
-
-  //   (!result.rows[0])
-  // }
 }
 
 
