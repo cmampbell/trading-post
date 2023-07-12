@@ -19,9 +19,11 @@ describe("findCardsByName", function () {
       let cards = await Card.findCardsByName('testCard');
       expect(cards).toEqual([
         {
-          name: 'testCard',
+          name: 'testCard1',
           oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
-        }
+        },
+        {oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        name: 'testCard2'},
       ]);
     });
 });
@@ -33,7 +35,7 @@ describe("findCardsById", function () {
       {
         id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-        name: 'testCard',
+        name: 'testCard1',
         image_uri: 'test_uri',
         usd_price: '1.54',
         usd_foil_price: '3.45',
