@@ -16,7 +16,7 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-/************************************** POST /auth/token */
+/************************************** POST /auth/login */
 
 describe("POST /auth/login", function () {
   test("works", async function () {
@@ -33,7 +33,7 @@ describe("POST /auth/login", function () {
 
   test("unauth with non-existent user", async function () {
     const resp = await request(app)
-        .post("/auth/token")
+        .post("/auth/login")
         .send({
           username: "no-such-user",
           password: "password1",
@@ -43,7 +43,7 @@ describe("POST /auth/login", function () {
 
   test("unauth with wrong password", async function () {
     const resp = await request(app)
-        .post("/auth/token")
+        .post("/auth/login")
         .send({
           username: "user1",
           password: "nope",
@@ -53,7 +53,7 @@ describe("POST /auth/login", function () {
 
   test("bad request with missing data", async function () {
     const resp = await request(app)
-        .post("/auth/token")
+        .post("/auth/login")
         .send({
           username: "user1",
         });
@@ -62,7 +62,7 @@ describe("POST /auth/login", function () {
 
   test("bad request with invalid data", async function () {
     const resp = await request(app)
-        .post("/auth/token")
+        .post("/auth/login")
         .send({
           username: 42,
           password: "above-is-a-number",

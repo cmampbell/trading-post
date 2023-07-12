@@ -1,10 +1,14 @@
 "use strict";
 
 const db = require("../db.js");
-const User = require("../models/user.js")
+const User = require("../models/user.js");
+const { createToken } = require("../helpers/tokens");
+
+let user1ID;
+let user2ID;
 
 async function commonBeforeAll() {
-  process.env.NODE_ENV = 'test'
+  process.env.NODE_ENV = 'test';
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM cards");
   await db.query("DELETE FROM users");
@@ -88,13 +92,21 @@ async function commonBeforeAll() {
     testCard.textless // $22
   ];
 
-  db.query(query, values)
+  await db.query(query, values);
 
-  User.register({
+  const user1 = await User.register({
     username: "user1",
     password: "password",
     email: "test@gmail.com"
-  })
+  });
+  const user2 = await User.register({
+    username: "user2",
+    password: "password",
+    email: "test2@gmail.com"
+  });
+
+  user1ID = user1.id;
+  user2ID = user2.id;
 }
 
 async function commonBeforeEach() {
@@ -109,9 +121,14 @@ async function commonAfterAll() {
   await db.end();
 }
 
+let user1Token = createToken({ username: "user1", user1ID });
+let user2Token = createToken({ username: "user2", user2ID });
+
 module.exports = {
   commonBeforeAll,
   commonBeforeEach,
   commonAfterEach,
-  commonAfterAll
+  commonAfterAll,
+  user1Token,
+  user2Token
 };
