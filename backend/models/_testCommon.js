@@ -65,6 +65,7 @@ const addCardToDB = async (cardToAdd) => {
 async function commonBeforeAll() {
   // clear out cards
   process.env.NODE_ENV = 'test'
+  await db.query("DELETE FROM card_want_list")
   await db.query("DELETE FROM card_collection")
   await db.query("DELETE FROM cards");
   await db.query("DELETE FROM users");
@@ -139,8 +140,14 @@ async function commonBeforeAll() {
   await db.query(
     `INSERT INTO card_collection (user_id, card_id, for_trade, quantity, quality, foil)
       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [1, testCard1.id, true, 2, "Lightly Played", false]
-      );
+    [1, testCard1.id, true, 2, "Lightly Played", false]
+  );
+
+  await db.query(
+    `INSERT INTO card_want_list (user_id, card_id, quantity)
+          VALUES ($1, $2, $3)`,
+    [1, testCard1.id, 4 ]
+  );
 }
 
 async function commonBeforeEach() {

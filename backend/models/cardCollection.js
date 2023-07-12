@@ -31,7 +31,7 @@ class CardCollection {
         return cards.rows;
     }
 
-    /** get the cards in a users collection
+    /** get a specifc card in a users collection
     *
     * Returns cardObject
     *
