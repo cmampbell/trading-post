@@ -4,13 +4,18 @@ import UserPage from "./UserPage";
 import UserRegisterForm from "./UserRegisterForm";
 import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
+import HomePage from "./HomePage";
 
 const routes = [
     {
         element: <App/>,
         children: [
             {
-                path: '/',
+                path:'/',
+                element: <HomePage />
+            },
+            {
+                path: '/trade',
                 element: <TradePage />,
             },
             {

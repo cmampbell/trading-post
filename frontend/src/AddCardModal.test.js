@@ -65,7 +65,7 @@ describe('AddCardModal tests', () => {
         const close = ()=> isOpen = false;
         const setListCards = jest.fn(()=> null)
         axios.mockResolvedValue({data:{cards: [{name: "Ulamog, the Infinite Gyre", oracle_id: "b817bc56-9b4d-4c50-bafa-3c652b99578f"}]}});
-        const { queryByText, queryByLabelText, queryByAltText, queryAllByRole } = render(<AddCardModal open={true} setSearchOpen={close} setListCards={setListCards}/>);
+        const { queryByText, queryByLabelText, queryByAltText } = render(<AddCardModal open={true} setSearchOpen={close} setListCards={setListCards}/>);
 
         expect(queryByLabelText('Card Name')).toBeInTheDocument();
         const searchBar = queryByLabelText('Card Name');
