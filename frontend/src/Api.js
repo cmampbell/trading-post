@@ -35,6 +35,18 @@ class TradingPostApi {
         let res = await this.request(`cards/${oracleId}`);
         return res.cards;
     }
+
+    static async registerUser(regData){
+        let res = await this.request(`auth/register`, regData, 'post');
+        this.token = res.token;
+        return res.token;
+    }
+
+    static async loginUser(loginData){
+        let res = await this.request(`auth/login`, loginData, 'post');
+        this.token = res.token;
+        return res.token;
+    }
 }
 
 export default TradingPostApi;

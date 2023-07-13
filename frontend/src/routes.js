@@ -1,14 +1,16 @@
 import App from "./App";
 import TradePage from "./TradePage";
-import UserPage from "./UserPage"
+import UserPage from "./UserPage";
+import UserRegisterForm from "./UserRegisterForm";
 import WebcamCardReader from "./WebcamCardReader";
+import UserLoginForm from "./UserLoginForm";
 
 const routes = [
     {
         element: <App/>,
         children: [
             {
-                path: '/trade',
+                path: '/',
                 element: <TradePage />,
             },
             {
@@ -21,9 +23,17 @@ const routes = [
                         />
             },
             {
-                path:'/',
+                path:'/user',
                 element: <UserPage />
-            }
+            },
+            {
+                path: '/register',
+                element: <UserRegisterForm/>
+            },
+            {
+                path: '/login',
+                element: <UserLoginForm/>
+            },
         ]
     }
 ];
