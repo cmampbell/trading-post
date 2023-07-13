@@ -95,7 +95,7 @@ class User {
 
   static async get(id) {
     const userRes = await db.query(
-      `SELECT username, email, id
+      `SELECT username, email, id, created_at
            FROM users
            WHERE id = $1`,
       [id],
