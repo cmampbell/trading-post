@@ -45,7 +45,7 @@ class TradingPostApi {
     static async loginUser(loginData){
         let res = await this.request(`auth/login`, loginData, 'post');
         this.token = res.token;
-        return res.token;
+        return res;
     }
 }
 

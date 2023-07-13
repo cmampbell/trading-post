@@ -67,7 +67,7 @@ const UserLoginForm = () => {
                     error={errors.password}
                 />
                 {errors[0] && errors.map((error) => <p style={{ color: 'red' }} key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</p>)}
-                <Button onClick={handleSubmit}>Register!</Button>
+                <Button onClick={handleSubmit}>Log In</Button>
             </form>
         </>
     )

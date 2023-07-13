@@ -37,6 +37,7 @@ const UserRegisterForm = () => {
             try{
                 await register(formData);
             } catch (err) {
+                console.log(err)
                 setErrors(()=> [...err])
             }
         }
