@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Typography, Container } from "@mui/material";
 import { useLoaderData } from "react-router";
+import { Link } from "react-router-dom";
 
 /* This page should display a users profile.
 *  We get the user from the loader function on the route,
@@ -9,9 +10,12 @@ import { useLoaderData } from "react-router";
 */
 
 const UserPage = () => {
-    const user = useLoaderData();
+    const {username, email, created_at: createdAt} = useLoaderData();
 
-    console.log(user);
+    const formatDate = (date) => {
+        return date.substring(0, 10)
+    }
+
     return (
         <Container>
             <Grid container spacing={1}>
@@ -25,23 +29,23 @@ const UserPage = () => {
                 <Grid item container xs={8}>
                     <Grid item xs={6}>
                         <Typography component="h3">
-                            username
+                            {username}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography component="p">
-                            dateJoined
+                            {formatDate(createdAt)}
                         </Typography>
                     </Grid>
                     <Grid item xs={4}>
                         <Typography component="p">
-                            email
+                            {email}
                         </Typography>
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <p>For-Trade Link</p>
-                    <p>Want-List Link</p>
+                    <Link to={`/users/4/collection`}>For-Trade Link</Link>
+                    <Link to={`/users/4/collection`}>Want-List Link</Link>
                 </Grid>
             </Grid>
         </Container>

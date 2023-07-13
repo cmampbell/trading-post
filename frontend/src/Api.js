@@ -50,7 +50,7 @@ class TradingPostApi {
 
     static async getUser(userId){
         let res = await this.request(`users/${userId}`)
-        return res;
+        return res.user;
     }
 }
 
