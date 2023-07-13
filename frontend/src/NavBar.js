@@ -13,11 +13,14 @@ const NavBar = ({ token, logout }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    
+
     return (
         <Grid container>
             <Grid item xs={8}>
                 Trading Post
+            </Grid>
+            <Grid item xs={2}>
+                <NavLink to='/trade'>Trade</NavLink>
             </Grid>
             <Grid item xs={2}>
                 <IconButton
@@ -45,7 +48,7 @@ const NavBar = ({ token, logout }) => {
                             </NavLink>
                         </MenuItem>
                     }
-                                        {!token &&
+                    {!token &&
                         <MenuItem onClick={handleClose}>
                             <NavLink to="/register" >
                                 Register

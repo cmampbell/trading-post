@@ -21,4 +21,17 @@ describe('HomePage component', () => {
             expect(queryByText('Register')).toBeInTheDocument();
         })
     })
+
+    it('should display user links if there is a token', ()=> {
+        const { queryByRole, queryByText } = renderWithRouter(<NavBar token={'testToken'}/>);
+
+        act(()=> {
+            userEvent.click(queryByRole('button'));
+        })
+
+        waitFor(()=> {
+            expect(queryByText('My Account')).toBeInTheDocument();
+            expect(queryByText('Log Out')).toBeInTheDocument();
+        })
+    })
 })

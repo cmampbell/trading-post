@@ -33,7 +33,7 @@ router.post("/login", async function (req, res, next) {
     const user = await User.authenticate(username, password);
     const token = createToken(user);
 
-    return res.json({ token });
+    return res.json({ token, user });
   } catch (err) {
     return next(err);
   }
