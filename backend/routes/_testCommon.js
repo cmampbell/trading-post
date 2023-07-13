@@ -10,6 +10,7 @@ let user2ID;
 async function commonBeforeAll() {
   process.env.NODE_ENV = 'test';
   // noinspection SqlWithoutWhere
+  await db.query("DELETE FROM card_want_list")
   await db.query("DELETE FROM card_collection")
   await db.query("DELETE FROM cards");
   await db.query("DELETE FROM users");

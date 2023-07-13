@@ -65,11 +65,19 @@ class User {
 
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
+    // current timestamp in milliseconds
+    let ts = Date.now();
+
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+
     const result = await db.query(
-      `INSERT INTO users (username, password, email)
-           VALUES ($1, $2, $3)
-           RETURNING username, email, id`,
-      [username, hashedPassword, email],
+      `INSERT INTO users (username, password, email, created_at)
+           VALUES ($1, $2, $3, $4)
+           RETURNING username, email, id, created_at`,
+      [username, hashedPassword, email,(year + "-" + month + "-" + date)],
     );
 
     const user = result.rows[0];
@@ -124,7 +132,7 @@ class User {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
 
-    const { setCols, values } = sqlForPartialUpdate( data, {});
+    const { setCols, values } = sqlForPartialUpdate(data, {});
     const usernameVarIdx = "$" + (values.length + 1);
 
     const querySql = `UPDATE users 
