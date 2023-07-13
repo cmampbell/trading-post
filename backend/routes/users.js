@@ -12,23 +12,23 @@ const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
 
-/** GET /[username] => { user }
+/** GET /[id] => { user }
  *
  * Returns { username, email, id }
  *
- * Authorization required: admin or same user-as-:username
+ * Authorization required: none
  **/
 
-router.get("/:username", ensureLoggedIn, async function (req, res, next) {
+router.get("/:id", async function (req, res, next) {
   try {
-    const user = await User.get(req.params.username);
+    const user = await User.get(req.params.id);
     return res.json({ user });
   } catch (err) {
     return next(err);
   }
 });
 
-/** PATCH /[username] { user } => { user }
+/** PATCH /[id] { user } => { user }
  *
  * Data can include:
  *   { password, email }
@@ -38,7 +38,7 @@ router.get("/:username", ensureLoggedIn, async function (req, res, next) {
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.patch("/:username", ensureCorrectUser, async function (req, res, next) {
+router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userUpdateSchema);
     if (!validator.valid) {
@@ -46,7 +46,7 @@ router.patch("/:username", ensureCorrectUser, async function (req, res, next) {
       throw new BadRequestError(errs);
     }
 
-    const user = await User.update(req.params.username, req.body);
+    const user = await User.update(req.params.id, req.body);
     return res.json({ user });
   } catch (err) {
     return next(err);

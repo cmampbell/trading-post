@@ -85,7 +85,7 @@ class User {
     return user;
   }
 
-  /** Given a username, return data about user.
+  /** Given an id, return data about user.
    *
    * Returns { username, first_name, last_name, is_admin, jobs }
    *   where jobs is { id, title, company_handle, company_name, state }
@@ -93,17 +93,17 @@ class User {
    * Throws NotFoundError if user not found.
    **/
 
-  static async get(username) {
+  static async get(id) {
     const userRes = await db.query(
       `SELECT username, email, id
            FROM users
-           WHERE username = $1`,
-      [username],
+           WHERE id = $1`,
+      [id],
     );
 
     const user = userRes.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if (!user) throw new NotFoundError(`No user with id: ${id}`);
 
     // could get want/trade list here or have it be its own method
 

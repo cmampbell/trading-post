@@ -15,6 +15,7 @@ function App() {
       const resp = await Api.registerUser(regData);
       setToken(() => resp.token);
       setCurrUser(() => resp.user);
+      navigate('/')
     } catch (err) {
       console.log(err);
       throw err;
@@ -24,6 +25,7 @@ function App() {
   const login = async (loginData) => {
     try {
       const resp = await Api.loginUser(loginData);
+      console.log(resp)
       setToken(() => resp.token);
       setCurrUser(()=> resp.user);
       navigate('/');
@@ -38,8 +40,8 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar token={token} logout={logout} />
-      <Outlet context={{ register, token, login }} />
+      <NavBar token={token} logout={logout} currUser={currUser} />
+      <Outlet context={{ register, token, login, currUser }} />
     </div>
   );
 }

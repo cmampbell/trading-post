@@ -5,6 +5,7 @@ import UserRegisterForm from "./UserRegisterForm";
 import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
+import Api from './Api'
 
 const routes = [
     {
@@ -28,8 +29,12 @@ const routes = [
                         />
             },
             {
-                path:'/user',
-                element: <UserPage />
+                path:'/users/:id',
+                element: <UserPage />,
+                loader: ({ params }) => {
+                    console.log(params)
+                    return Api.getUser(params.id)
+                }
             },
             {
                 path: '/register',

@@ -47,6 +47,11 @@ class TradingPostApi {
         this.token = res.token;
         return res;
     }
+
+    static async getUser(userId){
+        let res = await this.request(`users/${userId}`)
+        return res;
+    }
 }
 
 export default TradingPostApi;

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { IconButton, Menu, MenuItem, Grid } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const NavBar = ({ token, logout }) => {
+const NavBar = ({ token, logout, currUser }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -13,7 +13,7 @@ const NavBar = ({ token, logout }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    console.log(currUser)
     return (
         <Grid container>
             <Grid item xs={8}>
@@ -57,8 +57,8 @@ const NavBar = ({ token, logout }) => {
                     }
                     {token &&
                         <MenuItem onClick={handleClose}>
-                            <NavLink to="/user" >
-                                My Account
+                            <NavLink to={`/users/${currUser.id}`} >
+                                {currUser.username}
                             </NavLink>
                         </MenuItem>}
                     {token &&

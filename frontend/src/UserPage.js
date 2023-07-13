@@ -1,13 +1,17 @@
 import React from "react";
 import { Grid, Typography, Container } from "@mui/material";
+import { useLoaderData } from "react-router";
 
-/* This page should display information to a user about their profile
-*  including a link to their for-trade list and their want list. 
+/* This page should display a users profile.
+*  We get the user from the loader function on the route,
+* and populate the page with that data. 
 * 
-*
 */
 
 const UserPage = () => {
+    const user = useLoaderData();
+
+    console.log(user);
     return (
         <Container>
             <Grid container spacing={1}>
