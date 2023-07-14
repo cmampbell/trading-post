@@ -8,9 +8,19 @@ const express = require("express");
 const { ensureCorrectUser, ensureLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
+const CardCollection = require("../models/cardCollection")
 const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
+
+router.get("/:id/collection", async function (req, res, next) {
+  try{
+    const cards = await CardCollection.getCollection();
+    return res.json({cards})
+  } catch (err) {
+    return next(err);
+  }
+})
 
 /** GET /[id] => { user }
  *
