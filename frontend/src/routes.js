@@ -34,8 +34,14 @@ const routes = [
                 loader: ({ params }) => {
                     console.log(params)
                     return Api.getUser(params.id)
-                }
+                },
+                children: [
+                ]
             },
+            {
+                path: '/users/:id/collection',
+                element: <h1>collection</h1>
+            }, 
             {
                 path: '/register',
                 element: <UserRegisterForm/>
