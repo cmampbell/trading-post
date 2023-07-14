@@ -5,6 +5,7 @@ import UserRegisterForm from "./UserRegisterForm";
 import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
+import CollectionPage from "./CollectionPage"
 import Api from './Api'
 
 const routes = [
@@ -32,15 +33,15 @@ const routes = [
                 path:'/users/:id',
                 element: <UserPage />,
                 loader: ({ params }) => {
-                    console.log(params)
                     return Api.getUser(params.id)
-                },
-                children: [
-                ]
+                }
             },
             {
                 path: '/users/:id/collection',
-                element: <h1>collection</h1>
+                element: <CollectionPage />,
+                // loader: ({params}) => {
+                //     return Api.getUserCollection(params.id)
+                // }
             }, 
             {
                 path: '/register',
