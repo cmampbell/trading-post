@@ -3,8 +3,8 @@ import { Grid, Paper, Button, Stack } from "@mui/material";
 import CardItem from './CardItem';
 import AddCardModal from './AddCardModal'
 
-const CardList = ({ activeList, makeActive, side }) => {
-    const [listCards, setListCards] = useState([])
+const CardList = ({ activeList, makeActive, side, cards=[] }) => {
+    const [listCards, setListCards] = useState(cards)
     const [searchOpen, setSearchOpen] = useState(false)
 
     const handleSearchOpen = () => {
