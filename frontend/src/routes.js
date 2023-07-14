@@ -39,9 +39,9 @@ const routes = [
             {
                 path: '/users/:id/collection',
                 element: <CollectionPage />,
-                // loader: ({params}) => {
-                //     return Api.getUserCollection(params.id)
-                // }
+                loader: ({params}) => {
+                    return Api.getUserCollection(params.id)
+                }
             }, 
             {
                 path: '/register',

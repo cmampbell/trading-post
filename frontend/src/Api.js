@@ -54,7 +54,7 @@ class TradingPostApi {
     }
 
     static async getUserCollection(userId){
-        let res = await this.request(`collections/${userId}`)
+        let res = await this.request(`users/${userId}/collection`)
         return res.cards;
     }
 }
