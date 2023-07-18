@@ -35,10 +35,11 @@ function App() {
   }
 
   const logout = () =>{
-    setToken(()=> null)
+    setToken(()=> null);
+    setCurrUser(()=> null);
+    navigate('/');
   }
 
-  console.log(currUser)
   return (
     <div className="App">
       <NavBar token={token} logout={logout} currUser={currUser} />
