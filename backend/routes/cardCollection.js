@@ -12,83 +12,67 @@ const newCardInCollectionSchema = require("../schemas/newCardInCollection.json")
 
 const router = express.Router();
 
-/** post /:userId/addCard => { cards }
+/** POST /:userId/addCard => { message }
  *
- * Returns { cardObjects, ... }
+ * Returns { string }
  *
  * Authorization required: same-user
  **/
 router.post("/:userId/addCard", ensureCorrectUser, async function (req, res, next) {
-  try{
-    console.log(req.body)
-    const validator = jsonschema.validate(req.body, newCardInCollectionSchema);
+    try {
+        const validator = jsonschema.validate(req.body, newCardInCollectionSchema);
 
-    if(!validator.valid){
-        const errs = validator.errors.map(e => e.stack);
-        throw new BadRequestError(errs);
+        if (!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+        const message = await CardCollection.addCardToCollection({ ...req.body, userId: req.params.userId });
+        return res.json({ message })
+    } catch (err) {
+        return next(err);
     }
-    const message = await CardCollection.addCardToCollection({...req.body, userId: req.params.userId});
-    return res.json({message})
-  } catch (err) {
-    return next(err);
-  }
 })
 
-/** GET /[id] => { user }
+// /** PATCH /[id] { user } => { user }
+//  *
+//  * Data can include:
+//  *   { password, email }
+//  *
+//  * Returns { username, email, id }
+//  *
+//  * Authorization required: admin or same-user-as-:username
+//  **/
+
+// router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
+//     try {
+//         const validator = jsonschema.validate(req.body, userUpdateSchema);
+//         if (!validator.valid) {
+//             const errs = validator.errors.map(e => e.stack);
+//             throw new BadRequestError(errs);
+//         }
+
+//         const user = await User.update(req.params.id, req.body);
+//         return res.json({ user });
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
+
+/** DELETE /[userId]/delete/[cardId] => { message }
  *
- * Returns { username, email, id, created_at }
+ * Returns { string }
  *
- * Authorization required: none
+ * Authorization required: same-user
  **/
 
-router.get("/:id", async function (req, res, next) {
-  try {
-    const user = await User.get(req.params.id);
-    return res.json({ user });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-/** PATCH /[id] { user } => { user }
- *
- * Data can include:
- *   { password, email }
- *
- * Returns { username, email, id }
- *
- * Authorization required: admin or same-user-as-:username
- **/
-
-router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, userUpdateSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
+router.delete("/:userId/delete/:cardId", ensureCorrectUser, async function (req, res, next) {
+    try {
+        const { userId, cardId } = req.params;
+        const message = await CardCollection.removeCardFromCollection(userId, cardId);
+        return res.json({ message });
+    } catch (err) {
+        return next(err);
     }
-
-    const user = await User.update(req.params.id, req.body);
-    return res.json({ user });
-  } catch (err) {
-    return next(err);
-  }
 });
-
-
-/** DELETE /[username]  =>  { deleted: username }
- *
- * Authorization required: admin or same-user-as-:username
- **/
-
-router.delete("/:username", ensureCorrectUser, async function (req, res, next) {
-  try {
-    await User.remove(req.params.username);
-    return res.json({ deleted: req.params.username });
-  } catch (err) {
-    return next(err);
-  }
-});
-
 
 module.exports = router;
