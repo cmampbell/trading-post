@@ -30,17 +30,17 @@ const routes = [
                         />
             },
             {
-                path:'/users/:id',
+                path:'/users/:userId',
                 element: <UserPage />,
                 loader: ({ params }) => {
-                    return Api.getUser(params.id)
+                    return Api.getUser(params.userId)
                 }
             },
             {
-                path: '/users/:id/collection',
+                path: '/users/:userId/collection',
                 element: <CollectionPage />,
                 loader: ({params}) => {
-                    return Api.getUserCollection(params.id)
+                    return Api.getUserCollection(params.userId)
                 }
             }, 
             {

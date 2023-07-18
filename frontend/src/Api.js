@@ -57,6 +57,13 @@ class TradingPostApi {
         let res = await this.request(`users/${userId}/collection`)
         return res.cards;
     }
+
+    static async addCardToCollection(userId, card){
+        console.log('in API')
+        card.userID = userId;
+        let res = await this.request(`collection/${userId}/addCard`, card, "post")
+        return res.message;
+    }
 }
 
 export default TradingPostApi;

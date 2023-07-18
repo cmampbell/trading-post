@@ -13,7 +13,6 @@ const NavBar = ({ token, logout, currUser }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    console.log(currUser)
     return (
         <Grid container>
             <Grid item xs={8}>

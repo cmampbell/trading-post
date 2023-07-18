@@ -38,6 +38,7 @@ function App() {
     setToken(()=> null)
   }
 
+  console.log(currUser)
   return (
     <div className="App">
       <NavBar token={token} logout={logout} currUser={currUser} />

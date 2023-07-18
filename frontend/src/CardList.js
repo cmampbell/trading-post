@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useOutletContext } from 'react-router';
 import { Grid, Paper, Button, Stack } from "@mui/material";
 import CardItem from './CardItem';
 import AddCardModal from './AddCardModal'
 
-const CardList = ({ activeList, makeActive, side, cards=[] }) => {
+const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
     const [listCards, setListCards] = useState(cards)
     const [searchOpen, setSearchOpen] = useState(false)
 

@@ -63,7 +63,7 @@ const CardItem = ({ card, deleteCard }) => {
                         </Grid>
                         <Grid item xs={4}>
                             <Typography component={'p'} variant='body2'>
-                                {`$${(price * quantity).toFixed(2)}`}
+                                {`$${(+price * quantity).toFixed(2)}`}
                             </Typography>
                         </Grid>
                     </Grid>

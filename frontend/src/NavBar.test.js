@@ -23,7 +23,7 @@ describe('HomePage component', () => {
     })
 
     it('should display user links if there is a token', ()=> {
-        const { queryByRole, queryByText } = renderWithRouter(<NavBar token={'testToken'}/>);
+        const { queryByRole, queryByText } = renderWithRouter(<NavBar token={'token'} currUser={{id: '0', username: 'test'}}/>);
 
         act(()=> {
             userEvent.click(queryByRole('button'));
