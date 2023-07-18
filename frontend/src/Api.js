@@ -59,9 +59,13 @@ class TradingPostApi {
     }
 
     static async addCardToCollection(userId, card){
-        console.log('in API')
         card.userID = userId;
         let res = await this.request(`collection/${userId}/addCard`, card, "post")
+        return res.message;
+    }
+
+    static async removeCardFromCollection(userId, cardId){
+        let res = await this.request(`collection/${userId}/delete/${cardId}`, {}, "delete")
         return res.message;
     }
 }

@@ -125,12 +125,12 @@ class CardCollection {
     *
     * Throws NotFoundError is user or card not found in db.
     **/
-    static async removeCardFromCollection({ userID, cardID }) {
+    static async removeCardFromCollection({ userId, cardId }) {
 
         await db.query(
             `DELETE FROM card_collection
                 WHERE user_id=$1 AND card_id=$2
-                RETURNING user_id, card_id`, [userID, cardID]);
+                RETURNING user_id, card_id`, [userId, cardId]);
 
         return 'Succesfully removed card from collection';
     }

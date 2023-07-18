@@ -67,8 +67,7 @@ router.post("/:userId/addCard", ensureCorrectUser, async function (req, res, nex
 
 router.delete("/:userId/delete/:cardId", ensureCorrectUser, async function (req, res, next) {
     try {
-        const { userId, cardId } = req.params;
-        const message = await CardCollection.removeCardFromCollection(userId, cardId);
+        const message = await CardCollection.removeCardFromCollection(req.params);
         return res.json({ message });
     } catch (err) {
         return next(err);

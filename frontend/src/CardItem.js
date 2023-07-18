@@ -13,10 +13,12 @@ const CardItem = ({ card, deleteCard }) => {
         condition,
         foil,
         quantity,
+        card_id: cardId
     } = card;
+    console.log(card)
 
     const deleteSelf = () => {
-        deleteCard(name)
+        deleteCard(cardId)
     }
 
     return (

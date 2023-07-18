@@ -31,8 +31,9 @@ const CollectionPage = () => {
         setListCards((oldListCards) => [...oldListCards, newCard]);
     }
     
-    const deleteCard = () => {
-        return null;
+    const deleteCard = async (cardId) => {
+        const resp = await TradingPostApi.removeCardFromCollection(currUser.id, cardId)
+        setListCards((oldListCards) => oldListCards.filter(card => card.id != cardId));
     }
 
     return (
