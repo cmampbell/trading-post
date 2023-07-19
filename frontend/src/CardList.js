@@ -21,6 +21,10 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
         setListCards((oldCards)=> oldCards.filter((card)=> card.name !== cardName))
     }
 
+    const addCardToList = (card) => {
+        setListCards((oldListCards) => [...oldListCards, card])
+    }
+
     return (
         <Grid item xs={activeList === side ? 7 : 5}>
             {/* TODO: change paper drop shadow from black to blue */}
@@ -32,7 +36,7 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
                 </Stack>
                 <p>Total Price: ${sumTotalPrice()}</p>
                 {activeList === side && <Button onClick={handleSearchOpen} variant="outlined">Add Card</Button>}
-                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} setListCards={setListCards}/>
+                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToList}/>
             </Paper>
         </Grid>
     )

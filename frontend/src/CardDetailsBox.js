@@ -20,7 +20,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 *  and close the Modal.
 *
 */
-const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
+const CardDetailsBox = ({ cards, addCard, handleClose }) => {
     const INITIAL_STATE = { card: cards[0], condition: 'Lightly Played', foil: 'No', quantity: 1 };
     cards[0].usd_price ? INITIAL_STATE.foil = 'No'
         : cards[0].usd_foil_price ? INITIAL_STATE.foil = 'Yes'
@@ -52,7 +52,7 @@ const CardDetailsBox = ({ cards, setListCards, handleClose }) => {
         const price = foil === 'Etched' ? card.usd_etched_price
             : foil === 'Yes' ? card.usd_foil_price
                 : card.usd_price;
-        setListCards((currentCardList) => [...currentCardList, { condition, foil, quantity, price, ...card }]);
+        addCard({ condition, foil, quantity, price, ...card });
         setCardDetails(() => ({}));
         handleClose();
     }

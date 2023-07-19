@@ -15,7 +15,6 @@ const CardItem = ({ card, deleteCard }) => {
         quantity,
         card_id: cardId
     } = card;
-    console.log(card)
 
     const deleteSelf = () => {
         deleteCard(cardId)

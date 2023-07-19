@@ -24,23 +24,32 @@ const CollectionPage = () => {
         setSearchOpen(true)
     }
 
-    const handleCardAdd = async (currentCardList) => {
-        const newCard = currentCardList(listCards)[currentCardList(listCards).length - 1];
-        const cardToAdd = { cardID: newCard.id, forTrade: false, quantity: newCard.quantity, quality: newCard.condition, foil: newCard.foil};
-        const resp = await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
-        setListCards((oldListCards) => [...oldListCards, newCard]);
+    const addCardToCollection = async (card) => {
+        try{
+            const cardToAdd = { cardID: card.id, forTrade: false, quantity: card.quantity, quality: card.condition, foil: card.foil};
+            const resp = await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
+            console.log(resp);
+            setListCards((oldListCards) => [...oldListCards, card]);
+        } catch (err) {
+            console.log(err);
+        }
     }
     
     const deleteCard = async (cardId) => {
-        const resp = await TradingPostApi.removeCardFromCollection(currUser.id, cardId)
-        setListCards((oldListCards) => oldListCards.filter(card => card.id != cardId));
+        try{
+            const resp = await TradingPostApi.removeCardFromCollection(currUser.id, cardId);
+            setListCards((oldListCards) => oldListCards.filter(card => card.id != cardId));
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
     return (
         <>
             <h1>{currUser.username}'s collection</h1>
             <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>
-            <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} setListCards={handleCardAdd} />
+            <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToCollection} />
             {listCards && listCards.map((card, idx) => {
                         card.price = card.foil === 'Etched' ? card.usd_etched_price
                         : card.foil === 'Yes' ? card.usd_foil_price
