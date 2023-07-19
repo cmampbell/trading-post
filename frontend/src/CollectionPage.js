@@ -1,17 +1,33 @@
 import React, { useState } from "react";
 import { useLoaderData, useOutletContext } from "react-router";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
 import CardItem from "./CardItem";
 import TradingPostApi from "./Api";
 
-/*
-* This is a mess and needs to be refactored
-* It is adding cards to the collection db though
+/* 
+*  Returns MUI container component with title, addCard button, and list of cards
 *
-* I'm not sure how the handleCardAdd function is working but it is
+*  In the loader function for this component route, we query Api for a users collection,
+*  then set listCards state to the response.
+*  
+*  listCards is where we store the cards that a user has in their collection for the
+*  front-end. This should stay up-to-date with the backend database
 *
-* Need to show cards in list
+*  searchOpen and handleSearchOpen are used to control whether the AddCardModal is open. The
+*  AddCardModal should be open only if a user is searching for cards to add to the collection.
+*
+*  addCardToCollection will take a card object, and add the card to the users collection in
+*  the database, and in state on the front end. deleteCard will remove the card from the users
+*  collection in the database, and in state on the front end
+*  
+*  We are currently returning a list of CardItems, which will need to change to a collection
+*  card item
+* 
+*  To-Do: write CardEditModal
+*  To-Do: write CollectionCardItem
+*  To-Do: write CollectionDisplay
+*  To-Do: add flash messages to confirm changes to collection
 */
 const CollectionPage = () => {
     const cards = useLoaderData();
@@ -28,10 +44,17 @@ const CollectionPage = () => {
         try{
             const cardToAdd = { cardID: card.id, forTrade: false, quantity: card.quantity, quality: card.condition, foil: card.foil};
             const resp = await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
-            console.log(resp);
             setListCards((oldListCards) => [...oldListCards, card]);
         } catch (err) {
             console.log(err);
+        }
+    }
+
+    const editCardInCollection = async (card) => {
+        try {
+            //ToDo - Write this function
+        } catch (err){
+            console.log(err)
         }
     }
     
@@ -42,11 +65,10 @@ const CollectionPage = () => {
         } catch (err) {
             console.log(err);
         }
-
     }
 
     return (
-        <>
+        <Container>
             <h1>{currUser.username}'s collection</h1>
             <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>
             <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToCollection} />
@@ -56,7 +78,7 @@ const CollectionPage = () => {
                             : card.usd_price;
             return <CardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard}/>;})}
 
-        </>
+        </Container>
     )
 };
 
