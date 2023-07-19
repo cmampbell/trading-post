@@ -13,21 +13,6 @@ const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
 
-/** GET /[id]/collection => { cards }
- *
- * Returns { cardObjects, ... }
- *
- * Authorization required: none
- **/
-router.get("/:userId/collection", ensureLoggedIn, async function (req, res, next) {
-  try{
-    const cards = await CardCollection.getCollection(req.params.userId);
-    return res.json({cards})
-  } catch (err) {
-    return next(err);
-  }
-})
-
 /** GET /[id] => { user }
  *
  * Returns { username, email, id, created_at }

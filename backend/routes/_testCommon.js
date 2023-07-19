@@ -5,6 +5,7 @@ const User = require("../models/user.js");
 const { createToken } = require("../helpers/tokens");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
+const CardCollection = require("../models/cardCollection.js")
 
 let user1ID;
 let user2ID;
@@ -109,6 +110,15 @@ async function commonBeforeAll() {
     username: "user2",
     password: "password",
     email: "test2@gmail.com"
+  });
+
+  CardCollection.addCardToCollection({
+    userID: 1,
+    cardID: testCard.id,
+    forTrade: true,
+    quantity: 1,
+    quality: "Near Mint",
+    foil: "Yes"
   });
 
   user2ID = user2.id;
