@@ -66,11 +66,11 @@ class CardCollection {
 
     static async addCardToCollection({ userID, cardID, forTrade, quantity, quality, foil }) {
 
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID]);
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID]);
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
-        const cardCheck = await db.query(`SELECT id FROM cards WHERE id = $1`, [cardID]);
+        const cardCheck = await db.query(`SELECT id, name FROM cards WHERE id = $1`, [cardID]);
 
         if (!cardCheck.rows[0]) throw new NotFoundError(`Card not found`);
 
@@ -80,7 +80,7 @@ class CardCollection {
                 RETURNING user_id, card_id`,
             [userID, cardID, forTrade, quantity, quality, foil]);
 
-        return 'Succesfully added card to collection';
+        return `Succesfully added ${cardCheck.rows[0].name} to ${userCheck.rows[0].username} collection`;
     }
 
     /** update the cards in a users collection

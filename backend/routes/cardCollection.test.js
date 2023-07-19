@@ -6,12 +6,12 @@ const app = require("../app");
 const User = require("../models/user");
 
 const {
-  commonBeforeAll,
-  commonBeforeEach,
-  commonAfterEach,
-  commonAfterAll,
-  user1Token,
-  user2Token
+    commonBeforeAll,
+    commonBeforeEach,
+    commonAfterEach,
+    commonAfterAll,
+    user1Token,
+    user2Token
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -22,42 +22,50 @@ afterAll(commonAfterAll);
 /************************************** POST /collection/:userId/addCard */
 
 describe("POST /collection/:userId/addCard", function () {
+
+    const newCard = {
+        userID: 1,
+        cardID: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        foil: "No",
+        forTrade: true,
+        quality: "Near Mint",
+        quantity: 1
+    }
+
     test("works for same user", async function () {
-      const resp = await request(app)
-          .post(`/collection/${user1}/addCard`)
-          .set("authorization", `Bearer ${user1Token}`);
-      expect(resp.body).toEqual({
-        user: {
-          id: expect.any(Number),
-          username: "user1",
-          email: "test@gmail.com",
-        },
-      });
+        const resp = await request(app)
+            .post(`/collection/1/addCard`)
+            .send(newCard)
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.body).toEqual({ "message": `Succesfully added testCard to user1 collection` });
     });
-  
-    test("works for any user", async function () {
-      const resp = await request(app)
-          .get(`/users/user1`)
-          .set("authorization", `Bearer ${user2Token}`);
-      expect(resp.body).toEqual({
-        user: {
-          id: expect.any(Number),
-          username: "user1",
-          email: "test@gmail.com",
-        },
-      });
+
+    test("unauthorized for other users", async function () {
+        const resp = await request(app)
+            .post(`/collection/1/addCard`)
+            .send(newCard)
+            .set("authorization", `Bearer ${user2Token}`);
+        expect(resp.statusCode).toEqual(401);
     });
-  
+
     test("unauth for anon", async function () {
-      const resp = await request(app)
-          .get(`/users/user1`);
-      expect(resp.statusCode).toEqual(401);
+        const resp = await request(app)
+            .post(`/collection/1/addCard`)
+            .send(newCard)
+        expect(resp.statusCode).toEqual(401);
     });
-  
+
     test("not found if user not found", async function () {
-      const resp = await request(app)
-          .get(`/users/nope`)
-          .set("authorization", `Bearer ${user1Token}`);
-      expect(resp.statusCode).toEqual(404);
+        const resp = await request(app)
+            .get(`/collection/0/addCard`)
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(404);
     });
-  });
+
+    test("not found if cardId not found", async function () {
+        const resp = await request(app)
+            .get(`/collection/1/addCard`)
+            .send({ ...newCard, cardID: 'a6erbc00-9c0b-4ef8-aa1a-6bb9bd380a11' });
+        expect(resp.statusCode).toEqual(404);
+    })
+});

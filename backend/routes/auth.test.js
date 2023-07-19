@@ -28,6 +28,12 @@ describe("POST /auth/login", function () {
         });
     expect(resp.body).toEqual({
       "token": expect.any(String),
+      "user": {
+        "created_at": expect.any(String),
+        "email": "test@gmail.com",
+        "id": 1,
+        "username": "user1"
+      }
     });
   });
 
