@@ -99,10 +99,10 @@ async function commonBeforeAll() {
   await db.query(query, values);
 
   await db.query(
-    `INSERT INTO users (username, password, email, id)
-         VALUES ($1, $2, $3, $4)
+    `INSERT INTO users (username, password, email, id, created_at)
+         VALUES ($1, $2, $3, $4, $5)
          RETURNING username, email, id`,
-    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1],
+    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1, "2023-07-18"],
   );
 
   const user2 = await User.register({

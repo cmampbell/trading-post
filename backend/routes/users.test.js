@@ -23,7 +23,6 @@ afterAll(commonAfterAll);
 
 describe("GET /users/:userId", function () {
   test("works for same user", async function () {
-    console.log(user1Token)
     const resp = await request(app)
         .get(`/users/1`)
         .set("authorization", `Bearer ${user1Token}`);
@@ -46,6 +45,7 @@ describe("GET /users/:userId", function () {
         id: expect.any(Number),
         username: "user1",
         email: "test@gmail.com",
+        created_at: expect.any(String)
       },
     });
   });
@@ -64,9 +64,9 @@ describe("GET /users/:userId", function () {
   });
 });
 
-/************************************** PATCH /users/:username */
+/************************************** PATCH /users/:userId */
 
-describe("PATCH /users/:username", () => {
+describe("PATCH /users/:userId", () => {
   test("works for same user", async function () {
     const resp = await request(app)
         .patch(`/users/1`)
@@ -78,7 +78,7 @@ describe("PATCH /users/:username", () => {
       user: {
         username: "user1",
         email: "changed@hotmail.com",
-        id: user1ID,
+        id: 1,
       },
     });
   });
@@ -123,7 +123,7 @@ describe("PATCH /users/:username", () => {
       user: {
         username: "user1",
         email: "test@gmail.com",
-        id: user1ID,
+        id: 1,
       },
     });
     const isSuccessful = await User.authenticate("user1", "new-password");

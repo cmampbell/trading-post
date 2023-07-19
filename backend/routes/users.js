@@ -19,9 +19,9 @@ const router = express.Router();
  *
  * Authorization required: none
  **/
-router.get("/:id/collection", ensureLoggedIn, async function (req, res, next) {
+router.get("/:userId/collection", ensureLoggedIn, async function (req, res, next) {
   try{
-    const cards = await CardCollection.getCollection(req.params.id);
+    const cards = await CardCollection.getCollection(req.params.userId);
     return res.json({cards})
   } catch (err) {
     return next(err);
@@ -35,9 +35,9 @@ router.get("/:id/collection", ensureLoggedIn, async function (req, res, next) {
  * Authorization required: none
  **/
 
-router.get("/:id", ensureLoggedIn, async function (req, res, next) {
+router.get("/:userId", ensureLoggedIn, async function (req, res, next) {
   try {
-    const user = await User.get(req.params.id);
+    const user = await User.get(req.params.userId);
     return res.json({ user });
   } catch (err) {
     return next(err);
@@ -54,7 +54,7 @@ router.get("/:id", ensureLoggedIn, async function (req, res, next) {
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
+router.patch("/:userId", ensureCorrectUser, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userUpdateSchema);
     if (!validator.valid) {
@@ -62,7 +62,7 @@ router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
       throw new BadRequestError(errs);
     }
 
-    const user = await User.update(req.params.id, req.body);
+    const user = await User.update(req.params.userId, req.body);
     return res.json({ user });
   } catch (err) {
     return next(err);
@@ -75,10 +75,10 @@ router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.delete("/:username", ensureCorrectUser, async function (req, res, next) {
+router.delete("/:userId", ensureCorrectUser, async function (req, res, next) {
   try {
-    await User.remove(req.params.username);
-    return res.json({ deleted: req.params.username });
+    const user = await User.remove(req.params.userId);
+    return res.json({ deleted: user.username });
   } catch (err) {
     return next(err);
   }
