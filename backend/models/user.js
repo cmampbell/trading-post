@@ -127,24 +127,24 @@ class User {
    * or a serious security risks are opened.
    */
 
-  static async update(username, data) {
+  static async update(userId, data) {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
 
     const { setCols, values } = sqlForPartialUpdate(data, {});
-    const usernameVarIdx = "$" + (values.length + 1);
+    const userIdVarIdx = "$" + (values.length + 1);
 
     const querySql = `UPDATE users 
                       SET ${setCols} 
-                      WHERE username = ${usernameVarIdx} 
+                      WHERE id = ${userIdVarIdx} 
                       RETURNING username,
                                 email,
                                 id`;
-    const result = await db.query(querySql, [...values, username]);
+    const result = await db.query(querySql, [...values, userId]);
     const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if (!user) throw new NotFoundError(`No user: ${userId}`);
 
     delete user.password;
     return user;
@@ -152,17 +152,17 @@ class User {
 
   /** Delete given user from database; returns undefined. */
 
-  static async remove(username) {
+  static async remove(userId) {
     let result = await db.query(
       `DELETE
            FROM users
-           WHERE username = $1
-           RETURNING username`,
-      [username],
+           WHERE id = $1
+           RETURNING username, id, email`,
+      [userId],
     );
     const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if (!user) throw new NotFoundError(`No user: ${userId}`);
   }
 }
 

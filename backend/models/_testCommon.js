@@ -124,17 +124,17 @@ async function commonBeforeAll() {
   await addCardToDB(testCard2)
 
   await db.query(
-    `INSERT INTO users (username, password, email, id)
-         VALUES ($1, $2, $3, $4)
+    `INSERT INTO users (username, password, email, id, created_at)
+         VALUES ($1, $2, $3, $4, $5)
          RETURNING username, email, id`,
-    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1],
+    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1, "2023-07-18"], 
   );
 
   await db.query(
-    `INSERT INTO users (username, password, email, id)
-         VALUES ($1, $2, $3, $4)
+    `INSERT INTO users (username, password, email, id, created_at)
+         VALUES ($1, $2, $3, $4, $5)
          RETURNING username, email, id`,
-    ["user2", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test2@gmail.com", 2],
+    ["user2", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test2@gmail.com", 2, "2023-07-18"],
   );
 
   await db.query(

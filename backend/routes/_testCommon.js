@@ -3,6 +3,8 @@
 const db = require("../db.js");
 const User = require("../models/user.js");
 const { createToken } = require("../helpers/tokens");
+const bcrypt = require("bcrypt");
+const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
 let user1ID;
 let user2ID;
@@ -96,18 +98,19 @@ async function commonBeforeAll() {
 
   await db.query(query, values);
 
-  const user1 = await User.register({
-    username: "user1",
-    password: "password",
-    email: "test@gmail.com"
-  });
+  await db.query(
+    `INSERT INTO users (username, password, email, id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING username, email, id`,
+    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1],
+  );
+
   const user2 = await User.register({
     username: "user2",
     password: "password",
     email: "test2@gmail.com"
   });
 
-  user1ID = user1.id;
   user2ID = user2.id;
 }
 
@@ -123,8 +126,8 @@ async function commonAfterAll() {
   await db.end();
 }
 
-let user1Token = createToken({ username: "user1", user1ID });
-let user2Token = createToken({ username: "user2", user2ID });
+let user1Token = createToken({ username: "user1", id: 1 });
+let user2Token = createToken({ username: "user2", id: user2ID });
 
 module.exports = {
   commonBeforeAll,
@@ -132,5 +135,5 @@ module.exports = {
   commonAfterEach,
   commonAfterAll,
   user1Token,
-  user2Token
+  user2Token,
 };

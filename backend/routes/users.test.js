@@ -11,7 +11,7 @@ const {
   commonAfterEach,
   commonAfterAll,
   user1Token,
-  user2Token
+  user2Token,
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -21,23 +21,25 @@ afterAll(commonAfterAll);
 
 /************************************** GET /users/:username */
 
-describe("GET /users/:username", function () {
+describe("GET /users/:userId", function () {
   test("works for same user", async function () {
+    console.log(user1Token)
     const resp = await request(app)
-        .get(`/users/user1`)
+        .get(`/users/1`)
         .set("authorization", `Bearer ${user1Token}`);
     expect(resp.body).toEqual({
       user: {
-        id: expect.any(Number),
+        id: 1,
         username: "user1",
         email: "test@gmail.com",
+        created_at: expect.any(String)
       },
     });
   });
 
   test("works for any user", async function () {
     const resp = await request(app)
-        .get(`/users/user1`)
+        .get(`/users/1`)
         .set("authorization", `Bearer ${user2Token}`);
     expect(resp.body).toEqual({
       user: {
@@ -50,13 +52,13 @@ describe("GET /users/:username", function () {
 
   test("unauth for anon", async function () {
     const resp = await request(app)
-        .get(`/users/user1`);
+        .get(`/users/1`);
     expect(resp.statusCode).toEqual(401);
   });
 
   test("not found if user not found", async function () {
     const resp = await request(app)
-        .get(`/users/nope`)
+        .get(`/users/0`)
         .set("authorization", `Bearer ${user1Token}`);
     expect(resp.statusCode).toEqual(404);
   });
@@ -67,7 +69,7 @@ describe("GET /users/:username", function () {
 describe("PATCH /users/:username", () => {
   test("works for same user", async function () {
     const resp = await request(app)
-        .patch(`/users/user1`)
+        .patch(`/users/1`)
         .send({
           email: "changed@hotmail.com",
         })
@@ -76,14 +78,14 @@ describe("PATCH /users/:username", () => {
       user: {
         username: "user1",
         email: "changed@hotmail.com",
-        id: expect.any(Number),
+        id: user1ID,
       },
     });
   });
 
   test("unauth if not same user", async function () {
     const resp = await request(app)
-        .patch(`/users/user1`)
+        .patch(`/users/1`)
         .send({
           email: "changed@hotmail.com",
         })
@@ -93,7 +95,7 @@ describe("PATCH /users/:username", () => {
 
   test("unauth for anon", async function () {
     const resp = await request(app)
-        .patch(`/users/user1`)
+        .patch(`/users/1`)
         .send({
           email: "changed@hotmail.com",
         });
@@ -102,7 +104,7 @@ describe("PATCH /users/:username", () => {
 
   test("bad request if invalid data", async function () {
     const resp = await request(app)
-        .patch(`/users/user1`)
+        .patch(`/users/1`)
         .send({
           email: 27
         })
@@ -112,7 +114,7 @@ describe("PATCH /users/:username", () => {
 
   test("works: can set new password", async function () {
     const resp = await request(app)
-        .patch(`/users/user1`)
+        .patch(`/users/1`)
         .send({
           password: "new-password",
         })
@@ -121,7 +123,7 @@ describe("PATCH /users/:username", () => {
       user: {
         username: "user1",
         email: "test@gmail.com",
-        id: expect.any(Number),
+        id: user1ID,
       },
     });
     const isSuccessful = await User.authenticate("user1", "new-password");
@@ -134,21 +136,21 @@ describe("PATCH /users/:username", () => {
 describe("DELETE /users/:username", function () {
   test("works for same user", async function () {
     const resp = await request(app)
-        .delete(`/users/user1`)
+        .delete(`/users/1`)
         .set("authorization", `Bearer ${user1Token}`);
     expect(resp.body).toEqual({ deleted: "user1" });
   });
 
   test("unauth if not same user", async function () {
     const resp = await request(app)
-        .delete(`/users/user1`)
+        .delete(`/users/1`)
         .set("authorization", `Bearer ${user2Token}`);
     expect(resp.statusCode).toEqual(401);
   });
 
   test("unauth for anon", async function () {
     const resp = await request(app)
-        .delete(`/users/user1`);
+        .delete(`/users/1`);
     expect(resp.statusCode).toEqual(401);
   });
 });

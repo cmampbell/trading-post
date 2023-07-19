@@ -19,7 +19,7 @@ const router = express.Router();
  *
  * Authorization required: none
  **/
-router.get("/:id/collection", async function (req, res, next) {
+router.get("/:id/collection", ensureLoggedIn, async function (req, res, next) {
   try{
     const cards = await CardCollection.getCollection(req.params.id);
     return res.json({cards})
@@ -35,7 +35,7 @@ router.get("/:id/collection", async function (req, res, next) {
  * Authorization required: none
  **/
 
-router.get("/:id", async function (req, res, next) {
+router.get("/:id", ensureLoggedIn, async function (req, res, next) {
   try {
     const user = await User.get(req.params.id);
     return res.json({ user });
