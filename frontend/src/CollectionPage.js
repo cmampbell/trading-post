@@ -4,6 +4,7 @@ import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
 import CardItem from "./CardItem";
 import TradingPostApi from "./Api";
+import CollectionCardItem from "./CollectionCardItem";
 
 /* 
 *  Returns MUI container component with title, addCard button, and list of cards
@@ -25,8 +26,6 @@ import TradingPostApi from "./Api";
 *  card item
 * 
 *  To-Do: write CardEditModal
-*  To-Do: write CollectionCardItem
-*  To-Do: write CollectionDisplay
 *  To-Do: add flash messages to confirm changes to collection
 */
 const CollectionPage = () => {
@@ -76,7 +75,7 @@ const CollectionPage = () => {
                         card.price = card.foil === 'Etched' ? card.usd_etched_price
                         : card.foil === 'Yes' ? card.usd_foil_price
                             : card.usd_price;
-            return <CardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard}/>;})}
+            return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard}/>;})}
 
         </Container>
     )
