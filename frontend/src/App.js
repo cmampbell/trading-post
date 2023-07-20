@@ -25,7 +25,6 @@ function App() {
   const login = async (loginData) => {
     try {
       const resp = await Api.loginUser(loginData);
-      console.log(resp)
       setToken(() => resp.token);
       setCurrUser(()=> resp.user);
       navigate('/');

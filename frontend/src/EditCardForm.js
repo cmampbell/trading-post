@@ -16,8 +16,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-const EditCardForm = ({ card, editCardInCollection, setEditOpen }) => {
-    const INITIAL_STATE = { quantity: card.quantity, condition: card.quality, forTrade: card.for_trade };
+const EditCardForm = ({ card, editCard, setEditOpen }) => {
+    const INITIAL_STATE = { quantity: card.quantity, quality: card.quality, forTrade: card.for_trade };
 
     const [editData, setEditData] = useState(INITIAL_STATE);
 
@@ -43,7 +43,7 @@ const EditCardForm = ({ card, editCardInCollection, setEditOpen }) => {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        editCardInCollection(card, editData);
+        editCard(card, editData);
         setEditOpen(false);
     }
 
@@ -97,12 +97,12 @@ const EditCardForm = ({ card, editCardInCollection, setEditOpen }) => {
                     <FormControl size="small" sx={{ width: '100%' }}>
                         <InputLabel id="condition-select-label">Condition</InputLabel>
                         <Select
-                            labelId="condition-select-label"
-                            id="condition-select"
-                            value={editData.condition}
-                            label="condition"
+                            labelId="quality-select-label"
+                            id="quality-select"
+                            value={editData.quality}
+                            label="Condition"
                             onChange={handleChange}
-                            name="condition"
+                            name="quality"
                         >
                             {/* using condition list from tcgplayer.com
                             {/* TODO: Add condition price modifier */}

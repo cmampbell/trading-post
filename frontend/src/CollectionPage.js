@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useLoaderData, useOutletContext } from "react-router";
 import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
-import CardItem from "./CardItem";
 import TradingPostApi from "./Api";
 import CollectionCardItem from "./CollectionCardItem";
 
@@ -42,20 +41,19 @@ const CollectionPage = () => {
     const addCardToCollection = async (card) => {
         try{
             const cardToAdd = { cardID: card.id, forTrade: false, quantity: card.quantity, quality: card.condition, foil: card.foil};
-            const resp = await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
+            await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
             setListCards((oldListCards) => [...oldListCards, card]);
         } catch (err) {
             console.log(err);
         }
     }
 
-    const editCardInCollection = async (card, editData) => {
+    const editCard = async (cardToUpdate, editData) => {
         try {
-            console.log(card)
-            console.log(editData)
-            console.log(currUser)
-            const resp = await editCardInCollection(currUser.id, card.id, editData)
-            // update card in state
+            const card = await TradingPostApi.editCardInCollection(currUser.id, cardToUpdate.id, editData);
+            setListCards((oldListCards) => oldListCards.map(
+                            oldCard=> oldCard.id === card.card_id
+                                    ? {...oldCard, ...card} : oldCard));
         } catch (err){
             console.log(err)
         }
@@ -63,8 +61,8 @@ const CollectionPage = () => {
     
     const deleteCard = async (cardId) => {
         try{
-            const resp = await TradingPostApi.removeCardFromCollection(currUser.id, cardId);
-            setListCards((oldListCards) => oldListCards.filter(card => card.id != cardId));
+            await TradingPostApi.removeCardFromCollection(currUser.id, cardId);
+            setListCards((oldListCards) => oldListCards.filter(card => card.id !== cardId));
         } catch (err) {
             console.log(err);
         }
@@ -78,7 +76,7 @@ const CollectionPage = () => {
                         card.price = card.foil === 'Etched' ? card.usd_etched_price
                         : card.foil === 'Yes' ? card.usd_foil_price
                             : card.usd_price;
-            return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCardInCollection={editCardInCollection}/> ;})}
+            return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCard={editCard}/> ;})}
         </Container>
     )
 };

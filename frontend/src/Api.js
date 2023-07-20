@@ -71,7 +71,8 @@ class TradingPostApi {
 
     static async editCardInCollection(userId, cardId, editData){
         let res = await this.request(`collection/${userId}/patch/${cardId}`, editData, "patch");
-        return res.message;
+        console.log(res);
+        return res.card;
     }
 }
 

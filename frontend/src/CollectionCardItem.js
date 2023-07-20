@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import EditCardForm from "./EditCardForm";
 
-const CollectionCardItem = ({ card, editCardInCollection }) => {
+const CollectionCardItem = ({ card, editCard }) => {
     const [editOpen, setEditOpen] = useState(false);
 
     const handleEditOpen = () => {
@@ -39,7 +39,7 @@ const CollectionCardItem = ({ card, editCardInCollection }) => {
                         <Typography variant="body1">Qty:{card.quantity}</Typography>
                     </Grid>
                     <Grid item xs={1}>
-                        <Typography variant="body1">${card.price * card.quantity}</Typography>
+                        <Typography variant="body1">${(card.price * card.quantity).toFixed(2)}</Typography>
                     </Grid>
                 </Grid>
             </AccordionSummary>
@@ -98,7 +98,7 @@ const CollectionCardItem = ({ card, editCardInCollection }) => {
                         <Grid item xs={6}>
                             Illustrated by {card.artist}
                         </Grid>
-                        {editOpen && <EditCardForm card={card} editCardInCollection={editCardInCollection} setEditOpen={setEditOpen}/>}
+                        {editOpen && <EditCardForm card={card} editCard={editCard} setEditOpen={setEditOpen}/>}
                     </Grid>
                 </Grid>
             </AccordionDetails>
