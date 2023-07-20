@@ -68,6 +68,11 @@ class TradingPostApi {
         let res = await this.request(`collection/${userId}/delete/${cardId}`, {}, "delete")
         return res.message;
     }
+
+    static async editCardInCollection(userId, cardId, editData){
+        let res = await this.request(`collection/${userId}/patch/${cardId}`, editData, "patch");
+        return res.message;
+    }
 }
 
 export default TradingPostApi;

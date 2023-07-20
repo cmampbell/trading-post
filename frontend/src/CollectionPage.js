@@ -32,11 +32,11 @@ const CollectionPage = () => {
     const cards = useLoaderData();
     const { currUser } = useOutletContext();
 
-    const [listCards, setListCards] = useState(cards)
-    const [searchOpen, setSearchOpen] = useState(false)
+    const [listCards, setListCards] = useState(cards);
+    const [searchOpen, setSearchOpen] = useState(false);
 
     const handleSearchOpen = () => {
-        setSearchOpen(true)
+        setSearchOpen(true);
     }
 
     const addCardToCollection = async (card) => {
@@ -49,9 +49,13 @@ const CollectionPage = () => {
         }
     }
 
-    const editCardInCollection = async (card) => {
+    const editCardInCollection = async (card, editData) => {
         try {
-            //ToDo - Write this function
+            console.log(card)
+            console.log(editData)
+            console.log(currUser)
+            const resp = await editCardInCollection(currUser.id, card.id, editData)
+            // update card in state
         } catch (err){
             console.log(err)
         }
@@ -65,7 +69,6 @@ const CollectionPage = () => {
             console.log(err);
         }
     }
-
     return (
         <Container>
             <h1>{currUser.username}'s collection</h1>
@@ -75,8 +78,7 @@ const CollectionPage = () => {
                         card.price = card.foil === 'Etched' ? card.usd_etched_price
                         : card.foil === 'Yes' ? card.usd_foil_price
                             : card.usd_price;
-            return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard}/>;})}
-
+            return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCardInCollection={editCardInCollection}/> ;})}
         </Container>
     )
 };

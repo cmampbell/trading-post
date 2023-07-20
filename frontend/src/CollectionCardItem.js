@@ -1,11 +1,25 @@
-import React from "react";
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid, IconButton } from "@mui/material";
+import React, { useState } from "react";
+import {
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    Typography,
+    Grid,
+    IconButton,
+} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
+import EditCardForm from "./EditCardForm";
 
-const CollectionCardItem = ({ card }) => {
+const CollectionCardItem = ({ card, editCardInCollection }) => {
+    const [editOpen, setEditOpen] = useState(false);
+
+    const handleEditOpen = () => {
+        setEditOpen(!editOpen);
+    }
+
     return (
-        <Accordion>
+        <Accordion TransitionProps={{ unmountOnExit: true }}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${card.name}-content`}
@@ -13,7 +27,7 @@ const CollectionCardItem = ({ card }) => {
             >
                 <Grid container spacing={4}>
                     <Grid item xs={4} sx={{ textAlign: 'left' }}>
-                        <Typography variant="body1" sx={{fontWeight: 'bold'}}>{card.name}</Typography>
+                        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{card.name}</Typography>
                     </Grid>
                     <Grid item xs={3}>
                         <Typography variant="body1">Quality: {card.quality}</Typography>
@@ -56,7 +70,7 @@ const CollectionCardItem = ({ card }) => {
                         </Grid>
                         <Grid item xs={1}>
                             {/* BUTTON TO OPEN EDIT FORM */}
-                            <IconButton onClick={() => console.log('clicked button')}>
+                            <IconButton onClick={handleEditOpen}>
                                 <EditIcon />
                             </IconButton>
                         </Grid>
@@ -84,6 +98,7 @@ const CollectionCardItem = ({ card }) => {
                         <Grid item xs={6}>
                             Illustrated by {card.artist}
                         </Grid>
+                        {editOpen && <EditCardForm card={card} editCardInCollection={editCardInCollection} setEditOpen={setEditOpen}/>}
                     </Grid>
                 </Grid>
             </AccordionDetails>
