@@ -27,10 +27,11 @@ const addCardToDB = async (cardToAdd) => {
     variation,
     artist,
     full_art,
-    textless
+    textless,
+    art_uri
   )
   VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23
   )`;
 
   const values = [
@@ -55,7 +56,8 @@ const addCardToDB = async (cardToAdd) => {
     cardToAdd.variation, // $19
     cardToAdd.artist, // $20
     cardToAdd.full_art, // $21
-    cardToAdd.textless // $22
+    cardToAdd.textless, // $22
+    cardToAdd.art_uri // $23
   ];
 
   await db.query(query, values);
@@ -92,7 +94,8 @@ async function commonBeforeAll() {
     variation: false,
     artist: 'Matt',
     full_art: false,
-    textless: false
+    textless: false,
+    art_uri: 'test_art_uri'
   };
 
   const testCard2 = {
@@ -117,7 +120,8 @@ async function commonBeforeAll() {
     variation: false,
     artist: 'Matt',
     full_art: false,
-    textless: false
+    textless: false,
+    art_uri: 'test_art_uri'
   };
 
   await addCardToDB(testCard1)

@@ -9,6 +9,7 @@ const { ensureCorrectUser } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const CardCollection = require("../models/cardCollection")
 const newCardInCollectionSchema = require("../schemas/newCardInCollection.json")
+const cardUpdateSchema = require("../schemas/cardUpdateSchema.json")
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.get("/:userId", ensureCorrectUser, async function (req, res, next) {
     }
   })
   
-/** POST /:userId/addCard => { message }
+/** POST /[userId]/addCard => { message }
  *
  * Returns { string }
  *
@@ -49,30 +50,33 @@ router.post("/:userId/addCard", ensureCorrectUser, async function (req, res, nex
     }
 })
 
-// /** PATCH /[id] { user } => { user }
-//  *
-//  * Data can include:
-//  *   { password, email }
-//  *
-//  * Returns { username, email, id }
-//  *
-//  * Authorization required: same-user-as-:username
-//  **/
+/** PATCH /[userId]/patch/[cardId] { editData } =>  { card }
+ *
+ * Data can include:
+ *   { quantity, foil, forTrade }
+ *
+ * Returns { cardObj }
+ *
+ * Authorization required: same-user-as-:userId
+ **/
 
-// router.patch("/:id", ensureCorrectUser, async function (req, res, next) {
-//     try {
-//         const validator = jsonschema.validate(req.body, userUpdateSchema);
-//         if (!validator.valid) {
-//             const errs = validator.errors.map(e => e.stack);
-//             throw new BadRequestError(errs);
-//         }
+router.patch("/:userId/patch/:cardId", ensureCorrectUser, async function (req, res, next) {
+    try {
+        const {userId, cardId} = req.params;
+        const validator = jsonschema.validate({...req.body}, cardUpdateSchema);
 
-//         const user = await User.update(req.params.id, req.body);
-//         return res.json({ user });
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
+        if (!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+
+        const card = await CardCollection.updateCardInCollection(userId, cardId, req.body);
+        // console.log(card);
+        return res.json({ card });
+    } catch (err) {
+        return next(err);
+    }
+});
 
 /** DELETE /[userId]/delete/[cardId] => { message }
  *

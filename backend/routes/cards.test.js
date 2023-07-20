@@ -61,7 +61,8 @@ describe("GET /cards/:id", function () {
                         variation: false,
                         artist: 'Matt',
                         full_art: false,
-                        textless: false
+                        textless: false,
+                        art_uri: 'test_art_uri',
                       }
                 ]
         });

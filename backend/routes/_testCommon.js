@@ -7,12 +7,11 @@ const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 const CardCollection = require("../models/cardCollection.js")
 
-let user1ID;
 let user2ID;
 
 async function commonBeforeAll() {
   process.env.NODE_ENV = 'test';
-  // noinspection SqlWithoutWhere
+
   await db.query("DELETE FROM card_want_list")
   await db.query("DELETE FROM card_collection")
   await db.query("DELETE FROM cards");
@@ -40,7 +39,8 @@ async function commonBeforeAll() {
     variation: false,
     artist: 'Matt',
     full_art: false,
-    textless: false
+    textless: false,
+    art_uri: 'test_art_uri'
   };
 
   const query = `
@@ -66,10 +66,11 @@ async function commonBeforeAll() {
     variation,
     artist,
     full_art,
-    textless
+    textless,
+    art_uri
   )
   VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23
   )`;
 
   const values = [
@@ -94,9 +95,11 @@ async function commonBeforeAll() {
     testCard.variation, // $19
     testCard.artist, // $20
     testCard.full_art, // $21
-    testCard.textless // $22
+    testCard.textless, // $22
+    testCard.art_uri // $23
   ];
 
+  // adding testCard into db
   await db.query(query, values);
 
   await db.query(
@@ -112,7 +115,7 @@ async function commonBeforeAll() {
     email: "test2@gmail.com"
   });
 
-  CardCollection.addCardToCollection({
+  await CardCollection.addCardToCollection({
     userID: 1,
     cardID: testCard.id,
     forTrade: true,

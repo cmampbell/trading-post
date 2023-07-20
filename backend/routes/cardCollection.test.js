@@ -110,6 +110,81 @@ describe("POST /collection/:userId/addCard", function () {
     })
 });
 
+/************************************** PATCH /collection/:userID/patch/:cardID */
+
+describe("PATCH /collection/:userID/patch/:cardID", function () {
+
+    const userID = 1;
+    const cardID = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11';
+    const cardUpdateData = {
+        foil: "Yes",
+        forTrade: false,
+        quality: "Damaged",
+        quantity: 50,
+    };
+
+    test("works for same user", async function () {
+
+        const resp = await request(app)
+            .patch(`/collection/1/patch/${cardID}`)
+            .send(cardUpdateData)
+            .set("authorization", `Bearer ${user1Token}`);
+
+        const { card } = resp.body;
+
+        expect(card.quantity).toEqual(50);
+        expect(card.foil).toEqual('Yes');
+        expect(card.for_trade).toEqual(false);
+        expect(card.quality).toEqual('Damaged');
+    });
+
+    test("unauthorized for other users", async function () {
+        const resp = await request(app)
+            .patch(`/collection/${userID}/patch/${cardID}`)
+            .send(cardUpdateData)
+            .set("authorization", `Bearer ${user2Token}`);
+        expect(resp.statusCode).toEqual(401);
+    });
+
+    test("unauth for anon", async function () {
+        const resp = await request(app)
+            .patch(`/collection/${userID}/patch/${cardID}`)
+            .send(cardUpdateData)
+        expect(resp.statusCode).toEqual(401);
+    });
+
+    test("not found if cardId not found", async function () {
+        const resp = await request(app)
+            .patch(`/collection/${userID}/patch/0000bc99-9c0b-4ef8-bb6d-6bb9bd380a11`)
+            .send(cardUpdateData)
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(404);
+    })
+
+    test("works for partial update", async function () {
+        const resp = await request(app)
+            .patch(`/collection/${userID}/patch/${cardID}`)
+            .send({ foil: "Yes", quantity: 50 })
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(200);
+
+        const { card } = resp.body;
+
+        expect(card.quantity).toEqual(50);
+        expect(card.foil).toEqual('Yes');
+        expect(card.for_trade).toEqual(true);
+        expect(card.quality).toEqual('Near Mint');
+    })
+
+    test("bad request with bad data", async function () {
+        const resp = await request(app)
+        .patch(`/collection/${userID}/patch/${cardID}`)
+        .send({userId: 1, invalid: ':('})
+        .set("authorization", `Bearer ${user1Token}`);
+    expect(resp.statusCode).toEqual(400);
+    })
+});
+
 /************************************** DELETE /collection/:userId/addCard */
 
 describe("DELETE /collection/:userId/delete/:cardId", function () {

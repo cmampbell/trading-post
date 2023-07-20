@@ -108,10 +108,10 @@ describe("addCardToCollection", function () {
 describe("updateCardInCollection", function() {
 
   test("works", async function() {
-    const updatedCard = await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: true, quantity: 4});
+    const updatedCard = await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: "Yes", quantity: 4});
 
     expect(updatedCard.quantity).toEqual(4);
-    expect(updatedCard.foil).toEqual(true);
+    expect(updatedCard.foil).toEqual("Yes");
   })
 
   test("BadRequest trying to update cardID", async function(){

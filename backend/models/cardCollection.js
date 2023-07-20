@@ -110,11 +110,18 @@ class CardCollection {
         const userIDVarIdx = "$" + (values.length + 1);
         const cardIDVarIdx = "$" + (values.length + 2);
 
+        // console.log(setCols)
+        // console.log([...values, userID, cardID])
+
         const querySql = `UPDATE card_collection
                             SET ${setCols} 
                             WHERE user_id = ${userIDVarIdx} AND card_id = ${cardIDVarIdx}
                             RETURNING *`;
+
+        // console.log(querySql);
         const result = await db.query(querySql, [...values, userID, cardID]);
+
+        // console.log(result)
 
         return result.rows[0];
     }
