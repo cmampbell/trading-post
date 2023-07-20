@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Typography, Container } from "@mui/material";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useOutletContext } from "react-router";
 import { Link } from "react-router-dom";
 
 /* This page should display a users profile.
@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 */
 
 const UserPage = () => {
-    const {username, email, created_at: createdAt} = useLoaderData();
+    const {username, email, created_at: createdAt, id} = useLoaderData();
+    const { currUser } = useOutletContext();
 
     const formatDate = (date) => {
         return date.substring(0, 10)
@@ -44,6 +45,7 @@ const UserPage = () => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
+                    {currUser.id === id && <Link to={`/users/4/collection`}>Collection Link</Link>}
                     <Link to={`/users/4/collection`}>For-Trade Link</Link>
                     <Link to={`/users/4/collection`}>Want-List Link</Link>
                 </Grid>

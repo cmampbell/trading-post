@@ -6,7 +6,8 @@ import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
 import CollectionPage from "./CollectionPage"
-import Api from './Api'
+import ForTradePage from "./ForTradePage";
+import Api from './Api';
 
 const routes = [
     {
@@ -40,7 +41,14 @@ const routes = [
                 path: '/users/:userId/collection',
                 element: <CollectionPage />,
                 loader: ({params}) => {
-                    return Api.getUserCollection(params.userId)
+                    return Api.getUserCollection(params.userId);
+                }
+            },
+            {
+                path: '/users/:userId/collection',
+                element: <ForTradePage />,
+                loader: ({params}) => {
+                    return Api.getUserCardForTrade(params.userId);
                 }
             }, 
             {
