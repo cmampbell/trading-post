@@ -4,7 +4,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 class TradingPostApi {
 
-    static token
+    static token;
 
     static async request(endpoint, data = {}, method = "get") {
         console.debug("API Call:", endpoint, data, method);
@@ -55,6 +55,16 @@ class TradingPostApi {
 
     static async getUserCollection(userId){
         let res = await this.request(`collection/${userId}/`)
+        return res.cards;
+    }
+
+    static async getUserCardsForTrade(userId){
+        let res = await this.request(`collection/${userId}/forTrade`)
+        return res.cards;
+    }
+
+    static async getUserWantList(userId){
+        let res = await this.request(`collection/${userId}/forTrade`)
         return res.cards;
     }
 

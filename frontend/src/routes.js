@@ -6,12 +6,21 @@ import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
 import CollectionPage from "./CollectionPage"
-import ForTradePage from "./ForTradePage";
 import Api from './Api';
 
 const routes = [
     {
         element: <App/>,
+        loader: () => {
+            const localStorageToken = localStorage.getItem('token');
+        
+            Api.token = localStorageToken;
+
+            const localStorageCurrUser = JSON.parse(localStorage.getItem('currUser'));
+
+            return [localStorageToken, localStorageCurrUser];
+        },
+        path: '/',
         children: [
             {
                 path:'/',
@@ -45,10 +54,17 @@ const routes = [
                 }
             },
             {
-                path: '/users/:userId/collection',
-                element: <ForTradePage />,
+                path: '/users/:userId/for-trade',
+                element: <CollectionPage />,
                 loader: ({params}) => {
-                    return Api.getUserCardForTrade(params.userId);
+                    return Api.getUserCardsForTrade(params.userId);
+                }
+            },
+            {
+                path: '/users/:userId/want-list',
+                element: <CollectionPage />,
+                loader: ({ params }) => {
+                    return Api.getUserWantList(params.userId);
                 }
             }, 
             {

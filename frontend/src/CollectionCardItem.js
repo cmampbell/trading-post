@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import EditCardForm from "./EditCardForm";
 
-const CollectionCardItem = ({ card, editCard }) => {
+const CollectionCardItem = ({ card, editCard, canEdit }) => {
     const [editOpen, setEditOpen] = useState(false);
 
     const handleEditOpen = () => {
@@ -70,9 +70,10 @@ const CollectionCardItem = ({ card, editCard }) => {
                         </Grid>
                         <Grid item xs={1}>
                             {/* BUTTON TO OPEN EDIT FORM */}
-                            <IconButton onClick={handleEditOpen}>
+                            {canEdit && <IconButton onClick={handleEditOpen}>
                                 <EditIcon />
-                            </IconButton>
+                            </IconButton>}
+
                         </Grid>
                         <Grid item xs={8}>
                             <Typography variant="h5">
@@ -98,7 +99,7 @@ const CollectionCardItem = ({ card, editCard }) => {
                         <Grid item xs={6}>
                             Illustrated by {card.artist}
                         </Grid>
-                        {editOpen && <EditCardForm card={card} editCard={editCard} setEditOpen={setEditOpen}/>}
+                        {editOpen && <EditCardForm card={card} editCard={editCard} setEditOpen={setEditOpen} />}
                     </Grid>
                 </Grid>
             </AccordionDetails>

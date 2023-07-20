@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLoaderData, useOutletContext } from "react-router";
+import React, { useEffect, useState } from "react";
+import { useLoaderData, useOutletContext, useParams } from "react-router";
 import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
 import TradingPostApi from "./Api";
@@ -24,23 +24,24 @@ import CollectionCardItem from "./CollectionCardItem";
 *  We are currently returning a list of CardItems, which will need to change to a collection
 *  card item
 * 
-*  To-Do: write CardEditModal
 *  To-Do: add flash messages to confirm changes to collection
 */
 const CollectionPage = () => {
     const cards = useLoaderData();
+    const { userId } = useParams();
     const { currUser } = useOutletContext();
 
     const [listCards, setListCards] = useState(cards);
     const [searchOpen, setSearchOpen] = useState(false);
+    const [canEdit, setCanEdit] = useState((currUser.id == userId) || false);
 
     const handleSearchOpen = () => {
         setSearchOpen(true);
     }
 
     const addCardToCollection = async (card) => {
-        try{
-            const cardToAdd = { cardID: card.id, forTrade: false, quantity: card.quantity, quality: card.condition, foil: card.foil};
+        try {
+            const cardToAdd = { cardID: card.id, forTrade: false, quantity: card.quantity, quality: card.condition, foil: card.foil };
             await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
             setListCards((oldListCards) => [...oldListCards, card]);
         } catch (err) {
@@ -52,31 +53,33 @@ const CollectionPage = () => {
         try {
             const card = await TradingPostApi.editCardInCollection(currUser.id, cardToUpdate.id, editData);
             setListCards((oldListCards) => oldListCards.map(
-                            oldCard=> oldCard.id === card.card_id
-                                    ? {...oldCard, ...card} : oldCard));
-        } catch (err){
+                oldCard => oldCard.id === card.card_id
+                    ? { ...oldCard, ...card } : oldCard));
+        } catch (err) {
             console.log(err)
         }
     }
-    
+
     const deleteCard = async (cardId) => {
-        try{
+        try {
             await TradingPostApi.removeCardFromCollection(currUser.id, cardId);
             setListCards((oldListCards) => oldListCards.filter(card => card.id !== cardId));
         } catch (err) {
             console.log(err);
         }
     }
+
     return (
         <Container>
             <h1>{currUser.username}'s collection</h1>
-            <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>
-            <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToCollection} />
+            { canEdit && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
+            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToCollection} />}
             {listCards && listCards.map((card, idx) => {
-                        card.price = card.foil === 'Etched' ? card.usd_etched_price
-                        : card.foil === 'Yes' ? card.usd_foil_price
-                            : card.usd_price;
-            return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCard={editCard}/> ;})}
+                card.price = card.foil === 'Etched' ? card.usd_etched_price
+                    : card.foil === 'Yes' ? card.usd_foil_price
+                        : card.usd_price;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCard={editCard} canEdit={canEdit} />;
+            })}
         </Container>
     )
 };

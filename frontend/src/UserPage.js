@@ -10,8 +10,9 @@ import { Link } from "react-router-dom";
 */
 
 const UserPage = () => {
-    const {username, email, created_at: createdAt, id} = useLoaderData();
+    const { username, email, created_at: createdAt, id } = useLoaderData();
     const { currUser } = useOutletContext();
+    console.log(currUser);
 
     const formatDate = (date) => {
         return date.substring(0, 10)
@@ -45,7 +46,7 @@ const UserPage = () => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    {currUser.id === id && <Link to={`/users/4/collection`}>Collection Link</Link>}
+                    {currUser.id === id && <Link to={`/users/${currUser.id}/collection`}>Collection Link</Link>}
                     <Link to={`/users/4/collection`}>For-Trade Link</Link>
                     <Link to={`/users/4/collection`}>Want-List Link</Link>
                 </Grid>
