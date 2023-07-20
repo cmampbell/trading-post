@@ -11,7 +11,8 @@ const cardsRoutes = require("./routes/cards");
 const { authenticateJWT } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
-const collectionRoutes = require("./routes/cardCollection")
+const collectionRoutes = require("./routes/cardCollection");
+const wantListRoutes = require("./routes/wantList");
 
 const morgan = require("morgan");
 
@@ -26,6 +27,7 @@ app.use("/cards", cardsRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/collection", collectionRoutes);
+app.use("/want-list", wantListRoutes);
 
 
 /** Handle 404 errors -- this matches everything */

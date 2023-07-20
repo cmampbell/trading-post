@@ -6,8 +6,7 @@ const { createToken } = require("../helpers/tokens");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 const CardCollection = require("../models/cardCollection.js")
-
-let user2ID;
+const WantList = require("../models/wantList.js")
 
 async function commonBeforeAll() {
   process.env.NODE_ENV = 'test';
@@ -109,11 +108,12 @@ async function commonBeforeAll() {
     ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1, "2023-07-18"],
   );
 
-  const user2 = await User.register({
-    username: "user2",
-    password: "password",
-    email: "test2@gmail.com"
-  });
+  await db.query(
+    `INSERT INTO users (username, password, email, id, created_at)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING username, email, id`,
+    ["user2", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 2, "2023-07-20"],
+  );
 
   await CardCollection.addCardToCollection({
     userID: 1,
@@ -124,7 +124,12 @@ async function commonBeforeAll() {
     foil: "Yes"
   });
 
-  user2ID = user2.id;
+  await WantList.addCardToWantList({
+    userID: 2,
+    cardID: testCard.id,
+    quantity: 4,
+    foil: "Yes"
+  })
 }
 
 async function commonBeforeEach() {
@@ -140,7 +145,7 @@ async function commonAfterAll() {
 }
 
 let user1Token = createToken({ username: "user1", id: 1 });
-let user2Token = createToken({ username: "user2", id: user2ID });
+let user2Token = createToken({ username: "user2", id: 2 });
 
 module.exports = {
   commonBeforeAll,

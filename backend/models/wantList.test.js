@@ -82,7 +82,7 @@ describe("addCardToWantList", function () {
         cardID: '0000579f-7b35-4ed3-b44c-db2a538066fe',
         forTrade: true,
         quantity: 2,
-        foil: true,
+        foil: "Yes",
     }
 
     test("works", async function () {

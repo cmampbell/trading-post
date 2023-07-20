@@ -65,23 +65,23 @@ class WantList {
     * Throws NotFoundError is user or card not found in db.
     **/
 
-    static async addCardToWantList({ userID, cardID, quantity }) {
+    static async addCardToWantList({ userID, cardID, quantity, foil }) {
 
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID]);
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID]);
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
-        const cardCheck = await db.query(`SELECT id FROM cards WHERE id = $1`, [cardID]);
+        const cardCheck = await db.query(`SELECT id, name FROM cards WHERE id = $1`, [cardID]);
 
         if (!cardCheck.rows[0]) throw new NotFoundError(`Card not found`);
 
         await db.query(`
-            INSERT INTO card_want_list (user_id, card_id, quantity)
-                VALUES ($1, $2, $3)
+            INSERT INTO card_want_list (user_id, card_id, quantity, foil)
+                VALUES ($1, $2, $3, $4)
                 RETURNING user_id, card_id`,
-            [userID, cardID, quantity]);
+            [userID, cardID, quantity, foil]);
 
-        return 'Succesfully added card to collection';
+        return `Succesfully added ${cardCheck.rows[0].name} to ${userCheck.rows[0].username} want list`;
     }
 
     /** update the cards in a users want list
