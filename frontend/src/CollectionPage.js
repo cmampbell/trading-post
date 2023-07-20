@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLoaderData, useOutletContext, useParams, useLocation } from "react-router";
+import React, { useState } from "react";
+import { useLoaderData, useOutletContext, useParams } from "react-router";
 import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
 import TradingPostApi from "./Api";
@@ -33,7 +33,7 @@ const CollectionPage = ({ pageType }) => {
 
     const [listCards, setListCards] = useState(cards);
     const [searchOpen, setSearchOpen] = useState(false);
-    const [canEdit, setCanEdit] = useState((currUser.id == userId) || false);
+    const [canEdit, setCanEdit] = useState((currUser.id === +userId) || false);
 
 
     const handleSearchOpen = () => {
