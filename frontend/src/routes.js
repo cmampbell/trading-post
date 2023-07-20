@@ -48,21 +48,21 @@ const routes = [
             },
             {
                 path: '/users/:userId/collection',
-                element: <CollectionPage />,
+                element: <CollectionPage pageType={'collection'} />,
                 loader: ({params}) => {
                     return Api.getUserCollection(params.userId);
                 }
             },
             {
                 path: '/users/:userId/for-trade',
-                element: <CollectionPage />,
+                element: <CollectionPage pageType={'trade list'}/>,
                 loader: ({params}) => {
                     return Api.getUserCardsForTrade(params.userId);
                 }
             },
             {
                 path: '/users/:userId/want-list',
-                element: <CollectionPage />,
+                element: <CollectionPage pageType={'want list'}/>,
                 loader: ({ params }) => {
                     return Api.getUserWantList(params.userId);
                 }

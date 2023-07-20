@@ -64,7 +64,7 @@ class TradingPostApi {
     }
 
     static async getUserWantList(userId){
-        let res = await this.request(`collection/${userId}/forTrade`)
+        let res = await this.request(`want-list/${userId}`)
         return res.cards;
     }
 

@@ -3,8 +3,6 @@ import {
     Grid,
     IconButton,
     FormControl,
-    FormControlLabel,
-    Checkbox,
     FormGroup,
     TextField,
     Stack,
@@ -16,19 +14,19 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-const EditCardForm = ({ card, editCard, setEditOpen }) => {
-    const INITIAL_STATE = { quantity: card.quantity, quality: card.quality, forTrade: card.for_trade };
+const EditWantListCardForm = ({ card, editCard, setEditOpen }) => {
+    const INITIAL_STATE = { quantity: card.quantity, foil: card.foil };
 
     const [editData, setEditData] = useState(INITIAL_STATE);
 
     const handleChange = (evt) => {
         const { name, value } = (evt.target);
+        console.log(name);
+        console.log(value);
         setEditData(editData => ({...editData, [name]: value}))
     }
 
-    const handleCheck = (evt) => {
-        setEditData(oldEditData => ({...oldEditData, forTrade: evt.target.checked}))
-    }
+    console.log(editData);
     
     const changeQty = (num) => {
         if (editData.quantity + num < 0) return
@@ -54,17 +52,7 @@ const EditCardForm = ({ card, editCard, setEditOpen }) => {
     return (
         <FormGroup>
             <Grid container spacing={1}>
-                {/* edit qty, quality, for trade */}
-                <Grid item xs={2}>
-                    <FormControlLabel
-                        labelPlacement="end"
-                        value="end"
-                        label="For Trade"
-                        control={<Checkbox
-                                    checked={editData.forTrade}
-                                    onChange={handleCheck}
-                                    inputProps={{'aria-label': 'controlled'}}/>} />
-                </Grid>
+                {/* edit qty, foil */}
                 <Grid container item xs={3} spacing={2}>
                     <Grid item xs={9}>
                         <FormControl
@@ -94,25 +82,25 @@ const EditCardForm = ({ card, editCard, setEditOpen }) => {
                     </Grid>
                 </Grid>
                 <Grid item xs={3}>
-                    <FormControl size="small" sx={{ width: '100%' }}>
-                        <InputLabel id="condition-select-label">Condition</InputLabel>
-                        <Select
-                            labelId="quality-select-label"
-                            id="quality-select"
-                            value={editData.quality}
-                            label="Condition"
-                            onChange={handleChange}
-                            name="quality"
-                        >
-                            {/* using condition list from tcgplayer.com
-                            {/* TODO: Add condition price modifier */}
-                            <MenuItem value="Near Mint" key="mint">Near Mint</MenuItem>
-                            <MenuItem value="Lightly Played" key="lightly-played">Lightly Played</MenuItem>
-                            <MenuItem value="Moderately Played" key="moderately-played">Moderately Played</MenuItem>
-                            <MenuItem value="Heavily Played" key="heavily-played">Heavily Played</MenuItem>
-                            <MenuItem value="Damaged" key="damaged">Damaged</MenuItem>
-                        </Select>
-                    </FormControl>
+                <FormControl
+                    sx={{ m: 1, width: '100%' }}
+                    size="small"
+                >
+                    <InputLabel id="foil-select-label">Foil</InputLabel>
+                    <Select
+                        labelId="foil-select-label"
+                        id="foil-select"
+                        value={editData.foil}
+                        label="foil"
+                        name="foil"
+                        onChange={handleChange}
+                    >
+                        {/* certain cards only have certain prices, only render the ones they have */}
+                        {card.usd_price && <MenuItem value="No" key="no">No</MenuItem>}
+                        {card.usd_foil_price && <MenuItem value="Yes" key="yes">Yes</MenuItem>}
+                        {card.usd_etched_price && <MenuItem value="Etched" key="etched">Etched</MenuItem>}
+                    </Select>
+                </FormControl>
                 </Grid>
                 <Grid item xs={4}>
                     <Button onClick={handleSubmit}>Save Changes</Button>
@@ -123,4 +111,4 @@ const EditCardForm = ({ card, editCard, setEditOpen }) => {
     )
 }
 
-export default EditCardForm;
+export default EditWantListCardForm;

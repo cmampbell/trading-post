@@ -46,9 +46,9 @@ const UserPage = () => {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    {currUser.id === id && <Link to={`/users/${currUser.id}/collection`}>Collection Link</Link>}
-                    <Link to={`/users/4/collection`}>For-Trade Link</Link>
-                    <Link to={`/users/4/collection`}>Want-List Link</Link>
+                    {currUser.id === id && <Link to={`/users/${id}/collection`}>Collection Link</Link>}
+                    <Link to={`/users/${id}/for-trade`}>For Trade Link</Link>
+                    <Link to={`/users/${id}/want-list`}>Want List Link</Link>
                 </Grid>
             </Grid>
         </Container>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLoaderData, useOutletContext, useParams } from "react-router";
+import { useLoaderData, useOutletContext, useParams, useLocation } from "react-router";
 import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
 import TradingPostApi from "./Api";
@@ -26,7 +26,7 @@ import CollectionCardItem from "./CollectionCardItem";
 * 
 *  To-Do: add flash messages to confirm changes to collection
 */
-const CollectionPage = () => {
+const CollectionPage = ({ pageType }) => {
     const cards = useLoaderData();
     const { userId } = useParams();
     const { currUser } = useOutletContext();
@@ -34,6 +34,7 @@ const CollectionPage = () => {
     const [listCards, setListCards] = useState(cards);
     const [searchOpen, setSearchOpen] = useState(false);
     const [canEdit, setCanEdit] = useState((currUser.id == userId) || false);
+
 
     const handleSearchOpen = () => {
         setSearchOpen(true);
@@ -71,14 +72,14 @@ const CollectionPage = () => {
 
     return (
         <Container>
-            <h1>{currUser.username}'s collection</h1>
-            { canEdit && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
+            <h1>{currUser.username}'s {pageType}</h1>
+            {canEdit && pageType !== "trade list" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
             {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToCollection} />}
             {listCards && listCards.map((card, idx) => {
                 card.price = card.foil === 'Etched' ? card.usd_etched_price
                     : card.foil === 'Yes' ? card.usd_foil_price
                         : card.usd_price;
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCard={editCard} canEdit={canEdit} />;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCard={editCard} canEdit={canEdit} pageType={pageType} />;
             })}
         </Container>
     )

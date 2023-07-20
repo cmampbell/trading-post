@@ -1,5 +1,6 @@
 import UserPage from "./UserPage";
 import renderWithRouter from './renderWithRouter'
+import { screen } from '@testing-library/react';
 
 jest.mock("react-router", () => ({
     ...jest.requireActual("react-router"),
@@ -10,7 +11,12 @@ jest.mock("react-router", () => ({
                 created_at: '2023-07-13T04:00:00.000Z',
                 email: 'test@gmail.com'
         }
-    }
+    },
+    useOutletContext: function () {
+        return {
+            currUser: { username: 'test', id: 1 }
+        }
+    },
 }));
 
 describe("UserPage tests", () => {
@@ -21,6 +27,7 @@ describe("UserPage tests", () => {
     it('should display user info', () => {
         const { queryByText } = renderWithRouter(<UserPage />);
 
+        screen.debug();
         expect(queryByText('test')).toBeInTheDocument();
         expect(queryByText('2023-07-13')).toBeInTheDocument();
         expect(queryByText('test@gmail.com')).toBeInTheDocument();
