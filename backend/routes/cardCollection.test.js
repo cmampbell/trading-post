@@ -19,6 +19,61 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
+/************************************** GET /collection/:userId/forTrade */
+describe("GET /collection/:userId/forTrade", function () {
+    test("works for same user", async function () {
+        const resp = await request(app)
+            .get(`/collection/1/forTrade`)
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+
+        const card = resp.body.cards[0];
+
+        expect(card).toHaveProperty('id');
+        expect(card).toHaveProperty('oracle_id');
+        expect(card).toHaveProperty('image_uri');
+        expect(card).toHaveProperty('usd_price');
+        expect(card).toHaveProperty('mana_cost');
+        expect(card).toHaveProperty('oracle_text')
+        expect(card).toHaveProperty('power');
+        expect(card).toHaveProperty('toughness');
+        expect(card).toHaveProperty('set_name');
+        expect(card).toHaveProperty('set_code');
+        expect(card).toHaveProperty('collector_number');
+        expect(card).toHaveProperty('artist');
+    })
+
+    test("works for other users", async function () {
+        const resp = await request(app)
+            .get(`/collection/1/forTrade`)
+            .set("authorization", `Bearer ${user2Token}`);
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+
+        const card = resp.body.cards[0];
+
+        expect(card).toHaveProperty('id');
+        expect(card).toHaveProperty('oracle_id');
+        expect(card).toHaveProperty('image_uri');
+        expect(card).toHaveProperty('usd_price');
+        expect(card).toHaveProperty('mana_cost');
+        expect(card).toHaveProperty('oracle_text')
+        expect(card).toHaveProperty('power');
+        expect(card).toHaveProperty('toughness');
+        expect(card).toHaveProperty('set_name');
+        expect(card).toHaveProperty('set_code');
+        expect(card).toHaveProperty('collector_number');
+        expect(card).toHaveProperty('artist');
+    })
+
+    test("unauth for anon", async function () {
+        const resp = await request(app)
+            .get(`/collection/1/forTrade`);
+        expect(resp.statusCode).toEqual(401);
+    })
+})
+
 /************************************** GET /collection/:userId */
 describe("GET /collection/:userId", function () {
     test("works for same user", async function () {
@@ -56,6 +111,7 @@ describe("GET /collection/:userId", function () {
         expect(resp.statusCode).toEqual(401);
     })
 })
+
 
 /************************************** POST /collection/:userId/addCard */
 
@@ -178,10 +234,10 @@ describe("PATCH /collection/:userID/patch/:cardID", function () {
 
     test("bad request with bad data", async function () {
         const resp = await request(app)
-        .patch(`/collection/${userID}/patch/${cardID}`)
-        .send({userId: 1, invalid: ':('})
-        .set("authorization", `Bearer ${user1Token}`);
-    expect(resp.statusCode).toEqual(400);
+            .patch(`/collection/${userID}/patch/${cardID}`)
+            .send({ userId: 1, invalid: ':(' })
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(400);
     })
 });
 

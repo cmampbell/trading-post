@@ -24,7 +24,7 @@ describe("getCollection", function () {
   test("works", async function () {
     const collection = await CardCollection.getCollection(1);
 
-    expect(collection.length).toEqual(1);
+    expect(collection.length).toEqual(2);
   });
 
   test("returns empty array if user has no cards in collection", async () => {
@@ -73,6 +73,35 @@ describe("getCardInCollection", function () {
   })
 });
 
+/**************************************** getCardsForTrade */
+describe("getCardsForTrade", function () {
+  test("works", async function () {
+    const forTrade = await CardCollection.getCardsForTrade(1)
+
+    expect(forTrade.length).toEqual(1);
+
+    const card = forTrade[0]
+
+    expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
+  })
+
+  test("returns empty array if user has no cards marked for trade", async () => {
+    const collection = await CardCollection.getCardsForTrade(2);
+
+    expect(collection.length).toEqual(0);
+  })
+
+  test("not found if no such user", async function () {
+    try {
+      await CardCollection.getCardsForTrade(0);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+})
+
+
 /************************************** addCardToCollection */
 
 describe("addCardToCollection", function () {
@@ -90,7 +119,7 @@ describe("addCardToCollection", function () {
 
     const collection = await CardCollection.getCollection(1);
 
-    expect(collection.length).toEqual(2);
+    expect(collection.length).toEqual(3);
   });
 
   test("not found if no such user", async function () {
@@ -157,8 +186,8 @@ describe("updateCardInCollection", function() {
 describe("removeCardFromCollection", function () {
 
   const cardToRemove = {
-    userID: 1,
-    cardID: '0000579f-7b35-4ed3-b44c-db2a538066fe',
+    userId: 1,
+    cardId: '0000579f-7b35-4ed3-b44c-db2a538066fe',
   }
 
   test("works", async function () {

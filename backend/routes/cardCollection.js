@@ -5,13 +5,28 @@
 const jsonschema = require("jsonschema");
 
 const express = require("express");
-const { ensureCorrectUser } = require("../middleware/auth");
+const { ensureCorrectUser, ensureLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const CardCollection = require("../models/cardCollection")
 const newCardInCollectionSchema = require("../schemas/newCardInCollection.json")
 const cardUpdateSchema = require("../schemas/cardUpdateSchema.json")
 
 const router = express.Router();
+
+/** GET /[userId]/forTrade => { cards }
+ *
+ * Returns { cardObjects, ... }
+ *
+ * Authorization required: none
+ **/
+router.get("/:userId/forTrade", ensureLoggedIn, async function (req, res, next) {
+    try{
+      const cards = await CardCollection.getCardsForTrade(req.params.userId);
+      return res.json({cards})
+    } catch (err) {
+      return next(err);
+    }
+  })
 
 /** GET /[userId] => { cards }
  *
@@ -27,6 +42,8 @@ router.get("/:userId", ensureCorrectUser, async function (req, res, next) {
       return next(err);
     }
   })
+
+
   
 /** POST /[userId]/addCard => { message }
  *

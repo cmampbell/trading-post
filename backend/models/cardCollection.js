@@ -31,6 +31,27 @@ class CardCollection {
         return cards.rows;
     }
 
+    /** get cards in collection marked for trade
+    *
+    * Returns [ cardObjects, ...]
+    *
+    * Throws NotFoundError is user not found.
+    **/
+
+    static async getCardsForTrade(userID) {
+        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
+
+        if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
+
+        const cards = await db.query(`
+                SELECT * FROM card_collection
+                JOIN cards ON card_id = cards.id
+                WHERE user_id = $1 AND for_trade=true
+            `, [userID])
+
+        return cards.rows;
+    }
+
     /** get a specifc card in a users collection
     *
     * Returns cardObject
@@ -52,7 +73,7 @@ class CardCollection {
                             JOIN cards ON card_id = cards.id
                             WHERE user_id=$1 AND card_id=$2`, [userID, cardID])
 
-        if(result.rows.length < 1) throw new NotFoundError(`Card not in collection`);
+        if (result.rows.length < 1) throw new NotFoundError(`Card not in collection`);
 
         return result.rows[0];
     }
@@ -92,8 +113,8 @@ class CardCollection {
     **/
 
     static async updateCardInCollection(userID, cardID, data) {
-        if(data.userID) throw new BadRequestError('Cannot update userID');
-        if(data.cardID) throw new BadRequestError('Cannot update cardID');
+        if (data.userID) throw new BadRequestError('Cannot update userID');
+        if (data.cardID) throw new BadRequestError('Cannot update cardID');
 
         const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID]);
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);

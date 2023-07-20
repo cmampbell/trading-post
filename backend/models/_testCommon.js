@@ -144,7 +144,13 @@ async function commonBeforeAll() {
   await db.query(
     `INSERT INTO card_collection (user_id, card_id, for_trade, quantity, quality, foil)
       VALUES ($1, $2, $3, $4, $5, $6)`,
-    [1, testCard1.id, true, 2, "Lightly Played", false]
+    [1, testCard1.id, true, 2, "Lightly Played", "No"]
+  );
+
+  await db.query(
+    `INSERT INTO card_collection (user_id, card_id, for_trade, quantity, quality, foil)
+      VALUES ($1, $2, $3, $4, $5, $6)`,
+    [1, testCard2.id, false, 2, "Lightly Played", "No"]
   );
 
   await db.query(
