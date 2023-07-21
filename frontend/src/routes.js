@@ -5,7 +5,7 @@ import UserRegisterForm from "./UserRegisterForm";
 import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
-import CollectionPage from "./CollectionPage"
+import CardBinder from "./CardBinder";
 import Api from './Api';
 
 const routes = [
@@ -48,21 +48,21 @@ const routes = [
             },
             {
                 path: '/users/:userId/collection',
-                element: <CollectionPage pageType={'collection'} />,
+                element: <CardBinder pageType={'collection'} />,
                 loader: ({params}) => {
                     return Api.getUserCollection(params.userId);
                 }
             },
             {
                 path: '/users/:userId/for-trade',
-                element: <CollectionPage pageType={'trade list'}/>,
+                element: <CardBinder pageType={'trade list'}/>,
                 loader: ({params}) => {
                     return Api.getUserCardsForTrade(params.userId);
                 }
             },
             {
                 path: '/users/:userId/want-list',
-                element: <CollectionPage pageType={'want list'}/>,
+                element: <CardBinder pageType={'want list'}/>,
                 loader: ({ params }) => {
                     return Api.getUserWantList(params.userId);
                 }

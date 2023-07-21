@@ -25,8 +25,14 @@ import CollectionCardItem from "./CollectionCardItem";
 *  card item
 * 
 *  To-Do: add flash messages to confirm changes to collection
+* 
+* This should only care about getting cards and displaying them.
+*
+* Props: addCard function to add card to Collection/WantList
+*        editCard function to edit a card in collection/wantList
+         remove card Function to remove a card in collection/wantList
 */
-const CollectionPage = ({ pageType }) => {
+const Binder = ({ pageType }) => {
     const cards = useLoaderData();
     const { userId } = useParams();
     const { currUser } = useOutletContext();
@@ -85,4 +91,4 @@ const CollectionPage = ({ pageType }) => {
     )
 };
 
-export default CollectionPage;
+export default Binder;
