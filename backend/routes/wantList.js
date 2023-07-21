@@ -8,7 +8,7 @@ const express = require("express");
 const { ensureCorrectUser, ensureLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const WantList = require("../models/wantList")
-const newCardInWantListSchema = require("../schemas/newCardInCollection.json")
+const newCardInWantListSchema = require("../schemas/newCardInWantList.json")
 const updateCardInWantListSchema = require("../schemas/updateCardInWantList.json")
 
 const router = express.Router();

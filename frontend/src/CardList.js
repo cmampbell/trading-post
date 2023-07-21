@@ -21,8 +21,8 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
         setListCards((oldCards)=> oldCards.filter((card)=> card.name !== cardName))
     }
 
-    const addCardToList = (card) => {
-        setListCards((oldListCards) => [...oldListCards, card])
+    const addCardToList = (card, cardData) => {
+        setListCards((oldListCards) => [...oldListCards, {...card, ...cardData}])
     }
 
     return (

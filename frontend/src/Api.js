@@ -49,41 +49,49 @@ class TradingPostApi {
     }
 
     static async getUser(userId){
-        let res = await this.request(`users/${userId}`)
+        let res = await this.request(`users/${userId}`);
         return res.user;
     }
 
     static async getUserCollection(userId){
-        let res = await this.request(`collection/${userId}/`)
+        let res = await this.request(`collection/${userId}/`);
         return res.cards;
     }
 
     static async getUserCardsForTrade(userId){
-        let res = await this.request(`collection/${userId}/forTrade`)
-        return res.cards;
-    }
-
-    static async getUserWantList(userId){
-        let res = await this.request(`want-list/${userId}`)
+        let res = await this.request(`collection/${userId}/forTrade`);
         return res.cards;
     }
 
     static async addCardToCollection(userId, card){
         card.userID = userId;
-        let res = await this.request(`collection/${userId}/addCard`, card, "post")
+        card.forTrade = false;
+        delete card.price;
+        let res = await this.request(`collection/${userId}/addCard`, card, "post");
         return res.message;
     }
 
     static async removeCardFromCollection(userId, cardId){
-        let res = await this.request(`collection/${userId}/delete/${cardId}`, {}, "delete")
+        let res = await this.request(`collection/${userId}/delete/${cardId}`, {}, "delete");
         return res.message;
     }
 
     static async editCardInCollection(userId, cardId, editData){
         let res = await this.request(`collection/${userId}/patch/${cardId}`, editData, "patch");
-        console.log(res);
         return res.card;
     }
+
+    static async getUserWantList(userId){
+        let res = await this.request(`want-list/${userId}`);
+        return res.cards;
+    }
+
+    static async addCardToWantList(userId, card){
+        card.userId = userId;
+        let res = await this.request(`want-list/${userId}/addCard`, card, "post");
+        return res.message;
+    }
+
 }
 
 export default TradingPostApi;

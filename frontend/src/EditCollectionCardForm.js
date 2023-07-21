@@ -16,7 +16,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-const EditColectionCardForm = ({ card, editCard, setEditOpen }) => {
+const EditCollectionCardForm = ({ card, editCard, setEditOpen }) => {
     const INITIAL_STATE = { quantity: card.quantity, quality: card.quality, forTrade: card.for_trade };
 
     const [editData, setEditData] = useState(INITIAL_STATE);
@@ -123,4 +123,4 @@ const EditColectionCardForm = ({ card, editCard, setEditOpen }) => {
     )
 }
 
-export default EditColectionCardForm;
+export default EditCollectionCardForm;

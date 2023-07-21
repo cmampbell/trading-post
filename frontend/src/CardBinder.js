@@ -32,7 +32,7 @@ import CollectionCardItem from "./CollectionCardItem";
 *        editCard function to edit a card in collection/wantList
          remove card Function to remove a card in collection/wantList
 */
-const Binder = ({ pageType }) => {
+const CardBinder = ({ binderType, addCard, editCard, removeCard, Form }) => {
     const cards = useLoaderData();
     const { userId } = useParams();
     const { currUser } = useOutletContext();
@@ -46,19 +46,19 @@ const Binder = ({ pageType }) => {
         setSearchOpen(true);
     }
 
-    const addCardToCollection = async (card) => {
+    const addCardToBinder = async (card, cardData) => {
         try {
-            const cardToAdd = { cardID: card.id, forTrade: false, quantity: card.quantity, quality: card.condition, foil: card.foil };
-            await TradingPostApi.addCardToCollection(currUser.id, cardToAdd);
-            setListCards((oldListCards) => [...oldListCards, card]);
+            const cardToAdd = { cardID: card.id, ...cardData };
+            await addCard(currUser.id, cardToAdd);
+            setListCards((oldListCards) => [...oldListCards, {...card, ...cardData}]);
         } catch (err) {
             console.log(err);
         }
     }
 
-    const editCard = async (cardToUpdate, editData) => {
+    const editCardInBinder = async (cardToUpdate, editData) => {
         try {
-            const card = await TradingPostApi.editCardInCollection(currUser.id, cardToUpdate.id, editData);
+            const card = await editCard(currUser.id, cardToUpdate.id, editData);
             setListCards((oldListCards) => oldListCards.map(
                 oldCard => oldCard.id === card.card_id
                     ? { ...oldCard, ...card } : oldCard));
@@ -67,9 +67,9 @@ const Binder = ({ pageType }) => {
         }
     }
 
-    const deleteCard = async (cardId) => {
+    const removeCardFromBinder = async (cardId) => {
         try {
-            await TradingPostApi.removeCardFromCollection(currUser.id, cardId);
+            await removeCard(currUser.id, cardId);
             setListCards((oldListCards) => oldListCards.filter(card => card.id !== cardId));
         } catch (err) {
             console.log(err);
@@ -78,17 +78,17 @@ const Binder = ({ pageType }) => {
 
     return (
         <Container>
-            <h1>{currUser.username}'s {pageType}</h1>
-            {canEdit && pageType !== "trade list" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
-            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToCollection} />}
+            <h1>{currUser.username}'s {binderType}</h1>
+            {canEdit && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
+            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} />}
             {listCards && listCards.map((card, idx) => {
                 card.price = card.foil === 'Etched' ? card.usd_etched_price
                     : card.foil === 'Yes' ? card.usd_foil_price
                         : card.usd_price;
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard} editCard={editCard} canEdit={canEdit} pageType={pageType} />;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCardFromBinder={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} Form={Form}/>;
             })}
         </Container>
     )
 };
 
-export default Binder;
+export default CardBinder;

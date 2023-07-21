@@ -48,11 +48,11 @@ const CardDetailsBox = ({ cards, addCard, handleClose }) => {
 
     // add card object to list on click
     const handleClick = () => {
-        const { card, condition, foil, quantity } = cardDetails;
+        const { card, condition: quality, foil, quantity } = cardDetails;
         const price = foil === 'Etched' ? card.usd_etched_price
             : foil === 'Yes' ? card.usd_foil_price
                 : card.usd_price;
-        addCard({ condition, foil, quantity, price, ...card });
+        addCard(card, { quality, foil, quantity, price });
         setCardDetails(() => ({}));
         handleClose();
     }

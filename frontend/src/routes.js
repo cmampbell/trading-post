@@ -6,14 +6,16 @@ import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
 import CardBinder from "./CardBinder";
+import EditCollectionCardForm from "./EditCollectionCardForm";
+import EditWantListCardForm from "./EditWantListCardForm";
 import Api from './Api';
 
 const routes = [
     {
-        element: <App/>,
+        element: <App />,
         loader: () => {
             const localStorageToken = localStorage.getItem('token');
-        
+
             Api.token = localStorageToken;
 
             const localStorageCurrUser = JSON.parse(localStorage.getItem('currUser'));
@@ -23,7 +25,7 @@ const routes = [
         path: '/',
         children: [
             {
-                path:'/',
+                path: '/',
                 element: <HomePage />
             },
             {
@@ -34,13 +36,13 @@ const routes = [
                 // this is for manual camera testing purposes
                 path: '/camera',
                 element: <WebcamCardReader
-                                getCardWithCamera={(name)=> console.log(name)}
-                                closeCameraModal={()=> null}
-                                setSearchInput={(()=> null)}
-                        />
+                    getCardWithCamera={(name) => console.log(name)}
+                    closeCameraModal={() => null}
+                    setSearchInput={(() => null)}
+                />
             },
             {
-                path:'/users/:userId',
+                path: '/users/:userId',
                 element: <UserPage />,
                 loader: ({ params }) => {
                     return Api.getUser(params.userId)
@@ -48,32 +50,60 @@ const routes = [
             },
             {
                 path: '/users/:userId/collection',
-                element: <CardBinder pageType={'collection'} />,
-                loader: ({params}) => {
+                element: <CardBinder
+                    binderType={'collection'}
+                    addCard={
+                        (userId, card) =>
+                            Api.addCardToCollection(userId, card)
+                    }
+                    editCard={
+                        (userId, card, editData) =>
+                            Api.editCardInCollection(userId, card, editData)
+                    }
+                    removeCard={
+                        (cardId) =>
+                            Api.removeCardFromCollection(cardId)
+                    }
+                    Form={EditCollectionCardForm}
+                />,
+                loader: ({ params }) => {
                     return Api.getUserCollection(params.userId);
                 }
             },
             {
+                // For trade might not need the props
                 path: '/users/:userId/for-trade',
-                element: <CardBinder pageType={'trade list'}/>,
-                loader: ({params}) => {
+                element: <CardBinder
+                    binderType={'trade'}
+                    addCard={Api.addCardToCollection}
+                    editCard={Api.editCardInCollection}
+                    removeCard={Api.removeCardFromCollection}
+                    Form={EditCollectionCardForm}
+                />,
+                loader: ({ params }) => {
                     return Api.getUserCardsForTrade(params.userId);
                 }
             },
             {
                 path: '/users/:userId/want-list',
-                element: <CardBinder pageType={'want list'}/>,
+                element: <CardBinder
+                    binderType={'want'}
+                    addCard={(userId, card) => Api.addCardToWantList(userId, card)}
+                    editCard={Api.editCardInWantList}
+                    removeCard={Api.removeCardFromWantList}
+                    Form={EditWantListCardForm}
+                />,
                 loader: ({ params }) => {
                     return Api.getUserWantList(params.userId);
                 }
-            }, 
+            },
             {
                 path: '/register',
-                element: <UserRegisterForm/>
+                element: <UserRegisterForm />
             },
             {
                 path: '/login',
-                element: <UserLoginForm/>
+                element: <UserLoginForm />
             },
         ]
     }

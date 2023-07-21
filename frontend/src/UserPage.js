@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 const UserPage = () => {
     const { username, email, created_at: createdAt, id } = useLoaderData();
     const { currUser } = useOutletContext();
-    console.log(currUser);
 
     const formatDate = (date) => {
         return date.substring(0, 10)
