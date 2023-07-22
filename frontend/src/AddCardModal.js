@@ -94,7 +94,7 @@ const AddCardModal = ({ open, addCard, setSearchOpen }) => {
                     />
                     {printings.length > 0
                         && <CardDetailsBox
-                            cards={printings}
+                            printings={printings}
                             addCard={addCard}
                             handleClose={handleClose}
                         />}
