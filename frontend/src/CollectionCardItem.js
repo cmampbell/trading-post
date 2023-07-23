@@ -20,6 +20,8 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
         setEditOpen(!editOpen);
     }
 
+    console.log(card)
+
     return (
         <Accordion TransitionProps={{ unmountOnExit: true }}>
             <AccordionSummary
@@ -78,7 +80,7 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                         </Grid>
                         <Grid item xs={1}>
                             {/* BUTTON TO REMOVE CARD */}
-                            {canEdit && <IconButton onClick={()=> removeCard(card.card_id)}>
+                            {canEdit && <IconButton onClick={()=> removeCard(card.id)}>
                                 <ClearIcon />
                             </IconButton>}
                         </Grid>
