@@ -17,22 +17,24 @@ import useFields from "./useFields";
 */
 
 const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) => {
+    // create INITIAL_STATE from fields prop and card
     const [cardData, setCardData ] = useState(useFields(fields, card));
 
     // update state based on input changes
     const updateCardData = (name, value) => {
         setCardData(oldCardData => ({...oldCardData, [name]: value}))
-        setCard(oldCard => ({...oldCard, [name]: value}))
+        if(setCard) setCard(oldCard => ({...oldCard, [name]: value}))
     }
 
     // add card object to list on click
     const handleClick = () => {
         // this function handles submitting the form
         addCard(card, cardData);
-        setCard(() => ({}));
+        if(setCard) setCard(() => ({}));
         handleClose();
     }
 
+    console.log(fields)
     return (
         <Box sx={{
             display: 'flex',

@@ -9,20 +9,20 @@ import FoilSelectField from "./FormInputs/FoilSelectField";
 import QualitySelectField from "./FormInputs/QualitySelectField";
 import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
-const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
-    const [listCards, setListCards] = useState(cards)
-    const [searchOpen, setSearchOpen] = useState(false)
+const CardList = ({ activeList='left', makeActive, side='left', cards=[], fields }) => {
+    const [listCards, setListCards] = useState(cards);
+    const [searchOpen, setSearchOpen] = useState(false);
 
     const handleSearchOpen = () => {
-        setSearchOpen(true)
+        setSearchOpen(true);
     }
 
     const deleteCard = (cardName) => {
-        setListCards((oldCards)=> oldCards.filter((card)=> card.name !== cardName))
+        setListCards((oldCards)=> oldCards.filter((card)=> card.name !== cardName));
     }
 
     const addCardToList = (card, cardData) => {
-        setListCards((oldListCards) => [...oldListCards, {...card, ...cardData}])
+        setListCards((oldListCards) => [...oldListCards, {...card, ...cardData}]);
     }
 
     return (
@@ -36,7 +36,7 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
                 </Stack>
                 <PriceDisplay cards={listCards} />
                 {activeList === side && <Button onClick={handleSearchOpen} variant="outlined">Add Card</Button>}
-                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToList} fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}/>
+                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToList} fields={fields}/>
             </Paper>
         </Grid>
     )

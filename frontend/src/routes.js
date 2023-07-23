@@ -6,8 +6,11 @@ import WebcamCardReader from "./WebcamCardReader";
 import UserLoginForm from "./UserLoginForm";
 import HomePage from "./HomePage";
 import CardBinder from "./CardBinder";
-import EditCollectionCardForm from "./EditCollectionCardForm";
-import EditWantListCardForm from "./EditWantListCardForm";
+import SetSelectField from "./FormInputs/SetSelectField";
+import FoilSelectField from "./FormInputs/FoilSelectField";
+import QualitySelectField from "./FormInputs/QualitySelectField";
+import QuantitySelectField from "./FormInputs/QuantitySelectField";
+import ForTradeField from "./FormInputs/ForTradeField";
 import Api from './Api';
 
 const routes = [
@@ -30,7 +33,7 @@ const routes = [
             },
             {
                 path: '/trade',
-                element: <TradePage />,
+                element: <TradePage fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}/>,
             },
             {
                 // this is for manual camera testing purposes
@@ -64,7 +67,8 @@ const routes = [
                         (cardId) =>
                             Api.removeCardFromCollection(cardId)
                     }
-                    Form={EditCollectionCardForm}
+                    addFields={[SetSelectField, QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField, ]}
+                    editFields={[QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField]}
                 />,
                 loader: ({ params }) => {
                     return Api.getUserCollection(params.userId);
@@ -78,7 +82,7 @@ const routes = [
                     addCard={Api.addCardToCollection}
                     editCard={Api.editCardInCollection}
                     removeCard={Api.removeCardFromCollection}
-                    Form={EditCollectionCardForm}
+                    editFields={[QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField]}
                 />,
                 loader: ({ params }) => {
                     return Api.getUserCardsForTrade(params.userId);
@@ -89,9 +93,10 @@ const routes = [
                 element: <CardBinder
                     binderType={'want'}
                     addCard={(userId, card) => Api.addCardToWantList(userId, card)}
-                    editCard={Api.editCardInWantList}
+                    editCard={(userId, card, cardData) => Api.editCardInWantList(userId, card, cardData)}
                     removeCard={Api.removeCardFromWantList}
-                    Form={EditWantListCardForm}
+                    addFields={[SetSelectField, FoilSelectField, QuantitySelectField]}
+                    editFields={[FoilSelectField, QuantitySelectField]}
                 />,
                 loader: ({ params }) => {
                     return Api.getUserWantList(params.userId);

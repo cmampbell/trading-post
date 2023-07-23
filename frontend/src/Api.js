@@ -86,11 +86,15 @@ class TradingPostApi {
     }
 
     static async addCardToWantList(userId, card){
-        card.userId = userId;
+        card.userID = userId;
         let res = await this.request(`want-list/${userId}/addCard`, card, "post");
         return res.message;
     }
 
+    static async editCardInWantList(userId, cardId, editData){
+        let res = await this.request(`want-list/${userId}/patch/${cardId}`, editData, "patch");
+        return res.card;
+    }
 }
 
 export default TradingPostApi;

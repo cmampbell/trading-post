@@ -37,7 +37,7 @@ import QuantitySelectField from "./FormInputs/QuantitySelectField";
 *        editCard function to edit a card in collection/wantList
          remove card Function to remove a card in collection/wantList
 */
-const CardBinder = ({ binderType, addCard, editCard, removeCard, Form }) => {
+const CardBinder = ({ binderType, addCard, editCard, removeCard, addFields, editFields }) => {
     const cards = useLoaderData();
     const { userId } = useParams();
     const { currUser } = useOutletContext();
@@ -64,6 +64,7 @@ const CardBinder = ({ binderType, addCard, editCard, removeCard, Form }) => {
     const editCardInBinder = async (cardToUpdate, editData) => {
         try {
             const card = await editCard(currUser.id, cardToUpdate.id, editData);
+            console.log(card);
             setListCards((oldListCards) => oldListCards.map(
                 oldCard => oldCard.id === card.card_id
                     ? { ...oldCard, ...card } : oldCard));
@@ -85,9 +86,9 @@ const CardBinder = ({ binderType, addCard, editCard, removeCard, Form }) => {
         <Container>
             <h1>{currUser.username}'s {binderType}</h1>
             {canEdit && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
-            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField, ForTradeField]}/>}
+            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields}/>}
             {listCards && listCards.map((card, idx) => {
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCardFromBinder={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} Form={Form}/>;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCardFromBinder={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} fields={editFields}/>;
             })}
         </Container>
     )
