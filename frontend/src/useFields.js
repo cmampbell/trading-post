@@ -1,0 +1,34 @@
+// we want to take an array of field components
+// return an initial state for those fields
+// we will need to define an object
+// that will translate our fields into initial state
+
+const useFields = (fieldArr, card={}) => {
+
+    const fieldDictionary = {
+        'FoilSelectField' : {
+            name: 'foil',
+            value: card.usd_price ? 'No' : card.usd_foil_price ? 'Yes' : 'Etched'
+        },
+        'QualitySelectField' : {
+            name: 'quality',
+            value: 'Lightly Played'
+        },
+        'QuantitySelectField' : {
+            name: 'quantity',
+            value: card.quantity || 1
+        },
+    }
+
+    const INITIAL_STATE = fieldArr.reduce((object, field) => {
+        if(fieldDictionary[field.name]){
+            const {name, value} = fieldDictionary[field.name]
+            object[name] = value
+        }
+        return object;
+    }, {})
+
+    return INITIAL_STATE
+}
+
+export default useFields;

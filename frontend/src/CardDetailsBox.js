@@ -4,7 +4,7 @@ import CardForm from "./CardForm";
 import SetSelectField from "./FormInputs/SetSelectField";
 import FoilSelectField from "./FormInputs/FoilSelectField";
 import QualitySelectField from "./FormInputs/QualitySelectField";
-import QuantitySelectField from "./FormInputs/QuantitySelectForm";
+import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
 /* 
 *  Returns MUI box component with several input boxes and a button.

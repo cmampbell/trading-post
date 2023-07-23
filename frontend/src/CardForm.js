@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import PriceDisplay from "./PriceDisplay";
+import useFields from "./useFields";
 
 /* This form should be used across Collection, Trade, and Want List pages.
 *
@@ -16,19 +17,7 @@ import PriceDisplay from "./PriceDisplay";
 */
 
 const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) => {
-    const INITIAL_STATE = {quality: 'Lightly Played', quantity: card.quantity || 1}
-
-    // need to be able to create INITIAL_STATE from fields
-    // fields is an array of components
-    // key in INITIAL_STATE needs to match name on input label
-    // fields could be an array of objects linking names to components, and initial values
-    
-
-    card.usd_price ? INITIAL_STATE.foil = 'No'
-    : card.usd_foil_price ? INITIAL_STATE.foil = 'Yes'
-        : INITIAL_STATE.foil = 'Etched';
-
-    const [cardData, setCardData ] = useState(INITIAL_STATE);
+    const [cardData, setCardData ] = useState(useFields(fields, card));
 
     // update state based on input changes
     const updateCardData = (name, value) => {

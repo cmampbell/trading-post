@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
 
 const FoilSelectField = ({cardData, updateCardData, card}) => {
