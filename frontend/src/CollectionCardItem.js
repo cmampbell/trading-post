@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
+import PriceDisplay from "./PriceDisplay";
 
 const CollectionCardItem = ({ card, editCard, canEdit, Form }) => {
     const [editOpen, setEditOpen] = useState(false);
@@ -38,7 +39,7 @@ const CollectionCardItem = ({ card, editCard, canEdit, Form }) => {
                         <Typography variant="body1">Qty:{card.quantity}</Typography>
                     </Grid>
                     <Grid item xs={1}>
-                        <Typography variant="body1">${(card.price * card.quantity).toFixed(2)}</Typography>
+                        <PriceDisplay card={card}/>
                     </Grid>
                 </Grid>
             </AccordionSummary>

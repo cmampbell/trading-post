@@ -67,7 +67,14 @@ const CardDetailsBox = ({ printings, addCard, handleClose }) => {
             <h3>{card.name}</h3>
             {/* Add form component here */}
             {/* Add context provider here */}
-            <CardForm card={card} setCard={setCard} printings={printings} handleClose={handleClose} fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}/>
+            <CardForm
+                card={card}
+                setCard={setCard}
+                printings={printings}
+                handleClose={handleClose}
+                fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}
+                addCard={addCard}
+            />
         </Box>
     )
 }

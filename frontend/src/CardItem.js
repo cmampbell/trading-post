@@ -1,16 +1,16 @@
 import React from 'react';
 import { Card, Typography, CardMedia, Grid, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import PriceDisplay from './PriceDisplay';
 
 const CardItem = ({ card, deleteCard }) => {
     const {
         name,
         set_code: setCode,
-        price,
         art_uri: artURI,
         artist,
         collector_number: collectorNumber,
-        condition,
+        quality,
         foil,
         quantity,
         card_id: cardId
@@ -32,7 +32,7 @@ const CardItem = ({ card, deleteCard }) => {
                         sx={{ width: '10vh' }}
                     />
                 </Grid>
-                <Grid item xs={9} container>
+                <Grid item xs={10} container>
                     <Grid item xs container direction="row" spacing={2} sx={{ textAlign: 'left' }}>
                         <Grid item xs={8}>
                             <Typography variant='h6' component={'p'}> {name} </Typography>
@@ -47,25 +47,23 @@ const CardItem = ({ card, deleteCard }) => {
                                 <CloseIcon />
                             </Button>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <Typography component={'p'} variant='body2'>
-                                {condition}
+                                {quality}
                             </Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <Typography component={'p'} variant='body2'>
                                 Foil: {foil}
                             </Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <Typography component={'p'} variant='body2'>
                                 Qty: {quantity}
                             </Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography component={'p'} variant='body2'>
-                                {`$${(+price * quantity).toFixed(2)}`}
-                            </Typography>
+                        <Grid item xs={3}>
+                            <PriceDisplay card={card}/>
                         </Grid>
                     </Grid>
                 </Grid>

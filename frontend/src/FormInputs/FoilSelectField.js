@@ -1,7 +1,7 @@
 import React from "react";
 import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
 
-const FoildSelectField = ({cardData, updateCardData, card}) => {
+const FoilSelectField = ({cardData, updateCardData, card}) => {
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
@@ -31,4 +31,4 @@ const FoildSelectField = ({cardData, updateCardData, card}) => {
     )
 }
 
-export default FoildSelectField;
+export default FoilSelectField;

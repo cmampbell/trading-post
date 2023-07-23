@@ -3,6 +3,7 @@ import { useOutletContext } from 'react-router';
 import { Grid, Paper, Button, Stack } from "@mui/material";
 import CardItem from './CardItem';
 import AddCardModal from './AddCardModal'
+import PriceDisplay from './PriceDisplay';
 
 const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
     const [listCards, setListCards] = useState(cards)
@@ -10,11 +11,6 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
 
     const handleSearchOpen = () => {
         setSearchOpen(true)
-    }
-
-    const sumTotalPrice = () => {
-        const priceSum = listCards.reduce((sum, card)=> sum + (+card.price * card.quantity), 0)
-        return priceSum.toFixed(2)
     }
 
     const deleteCard = (cardName) => {
@@ -34,7 +30,7 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
                 <Stack spacing={.5}>
                 {listCards.map((card, idx) => <CardItem card={card} key={`${card.id}+${idx}`} deleteCard={deleteCard}/>)}
                 </Stack>
-                <p>Total Price: ${sumTotalPrice()}</p>
+                <PriceDisplay cards={listCards} />
                 {activeList === side && <Button onClick={handleSearchOpen} variant="outlined">Add Card</Button>}
                 <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToList}/>
             </Paper>
