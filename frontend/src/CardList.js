@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router';
 import { Grid, Paper, Button, Stack } from "@mui/material";
 import CardItem from './CardItem';
 import AddCardModal from './AddCardModal'
 import PriceDisplay from './PriceDisplay';
-import SetSelectField from "./FormInputs/SetSelectField";
-import FoilSelectField from "./FormInputs/FoilSelectField";
-import QualitySelectField from "./FormInputs/QualitySelectField";
-import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
 const CardList = ({ activeList='left', makeActive, side='left', cards=[], fields }) => {
     const [listCards, setListCards] = useState(cards);
@@ -17,8 +12,8 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[], fields
         setSearchOpen(true);
     }
 
-    const deleteCard = (cardName) => {
-        setListCards((oldCards)=> oldCards.filter((card)=> card.name !== cardName));
+    const deleteCard = (cardId) => {
+        setListCards((oldCards)=> oldCards.filter((card)=> card.id !== cardId));
     }
 
     const addCardToList = (card, cardData) => {

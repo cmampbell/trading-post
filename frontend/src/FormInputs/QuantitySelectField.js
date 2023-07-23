@@ -6,7 +6,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 const QuantitySelectField = ({ cardData, updateCardData }) => {
 
     const changeQty = (num) => {
-        if (cardData.quantity + num < 0) return
+        if (cardData.quantity + num < 1) return
         let newQty = cardData.quantity;
 
         newQty += num;

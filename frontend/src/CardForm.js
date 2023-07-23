@@ -34,7 +34,6 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
         handleClose();
     }
 
-    console.log(fields)
     return (
         <Box sx={{
             display: 'flex',
@@ -48,7 +47,7 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
         }}>
 
             {fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings}/>)}
-            <PriceDisplay card={card} />
+            <PriceDisplay card={card} formData={cardData} />
             <Button onClick={handleClick}> Add Card! </Button>
         </Box>
     )
