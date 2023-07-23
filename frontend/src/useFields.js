@@ -18,6 +18,10 @@ const useFields = (fieldArr, card={}) => {
             name: 'quantity',
             value: card.quantity || 1
         },
+        'ForTradeField' : {
+            name: 'forTrade',
+            value: card.for_trade || false
+        },
     }
 
     const INITIAL_STATE = fieldArr.reduce((object, field) => {

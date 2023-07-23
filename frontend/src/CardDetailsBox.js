@@ -27,15 +27,10 @@ import QuantitySelectField from "./FormInputs/QuantitySelectField";
 *  Form component will handle options, it only need to send back which card is selected
 *  from set input.
 */
-const CardDetailsBox = ({ printings, addCard, handleClose }) => {
+const CardDetailsBox = ({ printings, addCard, handleClose, fields }) => {
 
     // the selected card
     const [card, setCard] = useState(printings[0]);
-
-    // This can be moved into it's own price display component
-    const calcTotalPrice = price => {
-        return (price * card.quantity).toFixed(2);
-    }
 
     return (
         <Box sx={{
@@ -72,7 +67,7 @@ const CardDetailsBox = ({ printings, addCard, handleClose }) => {
                 setCard={setCard}
                 printings={printings}
                 handleClose={handleClose}
-                fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}
+                fields={fields}
                 addCard={addCard}
             />
         </Box>

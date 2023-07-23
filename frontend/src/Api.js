@@ -65,7 +65,6 @@ class TradingPostApi {
 
     static async addCardToCollection(userId, card){
         card.userID = userId;
-        card.forTrade = false;
         delete card.price;
         let res = await this.request(`collection/${userId}/addCard`, card, "post");
         return res.message;

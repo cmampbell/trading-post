@@ -4,6 +4,11 @@ import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
 import TradingPostApi from "./Api";
 import CollectionCardItem from "./CollectionCardItem";
+import ForTradeField from "./FormInputs/ForTradeField";
+import SetSelectField from "./FormInputs/SetSelectField";
+import FoilSelectField from "./FormInputs/FoilSelectField";
+import QualitySelectField from "./FormInputs/QualitySelectField";
+import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
 /* 
 *  Returns MUI container component with title, addCard button, and list of cards
@@ -80,11 +85,8 @@ const CardBinder = ({ binderType, addCard, editCard, removeCard, Form }) => {
         <Container>
             <h1>{currUser.username}'s {binderType}</h1>
             {canEdit && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
-            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} />}
+            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField, ForTradeField]}/>}
             {listCards && listCards.map((card, idx) => {
-                card.price = card.foil === 'Etched' ? card.usd_etched_price
-                    : card.foil === 'Yes' ? card.usd_foil_price
-                        : card.usd_price;
                 return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCardFromBinder={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} Form={Form}/>;
             })}
         </Container>

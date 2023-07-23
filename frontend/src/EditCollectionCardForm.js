@@ -23,13 +23,13 @@ const EditCollectionCardForm = ({ card, editCard, setEditOpen }) => {
 
     const handleChange = (evt) => {
         const { name, value } = (evt.target);
-        setEditData(editData => ({...editData, [name]: value}))
+        setEditData(editData => ({ ...editData, [name]: value }))
     }
 
     const handleCheck = (evt) => {
-        setEditData(oldEditData => ({...oldEditData, forTrade: evt.target.checked}))
+        setEditData(oldEditData => ({ ...oldEditData, forTrade: evt.target.checked }))
     }
-    
+
     const changeQty = (num) => {
         if (editData.quantity + num < 0) return
         let newQty = editData.quantity;
@@ -61,9 +61,9 @@ const EditCollectionCardForm = ({ card, editCard, setEditOpen }) => {
                         value="end"
                         label="For Trade"
                         control={<Checkbox
-                                    checked={editData.forTrade}
-                                    onChange={handleCheck}
-                                    inputProps={{'aria-label': 'controlled'}}/>} />
+                            checked={editData.forTrade}
+                            onChange={handleCheck}
+                            inputProps={{ 'aria-label': 'controlled' }} />} />
                 </Grid>
                 <Grid container item xs={3} spacing={2}>
                     <Grid item xs={9}>

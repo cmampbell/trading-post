@@ -4,6 +4,10 @@ import { Grid, Paper, Button, Stack } from "@mui/material";
 import CardItem from './CardItem';
 import AddCardModal from './AddCardModal'
 import PriceDisplay from './PriceDisplay';
+import SetSelectField from "./FormInputs/SetSelectField";
+import FoilSelectField from "./FormInputs/FoilSelectField";
+import QualitySelectField from "./FormInputs/QualitySelectField";
+import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
 const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
     const [listCards, setListCards] = useState(cards)
@@ -32,7 +36,7 @@ const CardList = ({ activeList='left', makeActive, side='left', cards=[] }) => {
                 </Stack>
                 <PriceDisplay cards={listCards} />
                 {activeList === side && <Button onClick={handleSearchOpen} variant="outlined">Add Card</Button>}
-                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToList}/>
+                <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToList} fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}/>
             </Paper>
         </Grid>
     )

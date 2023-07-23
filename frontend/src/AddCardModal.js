@@ -23,7 +23,7 @@ import Api from './Api';
 *
 */
 
-const AddCardModal = ({ open, addCard, setSearchOpen }) => {
+const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
 
     const [selectedCard, setSelectedCard] = useState()
     const [printings, setPrintings] = useState([])
@@ -97,6 +97,7 @@ const AddCardModal = ({ open, addCard, setSearchOpen }) => {
                             printings={printings}
                             addCard={addCard}
                             handleClose={handleClose}
+                            fields={fields}
                         />}
                 </Paper>
             </Container>
