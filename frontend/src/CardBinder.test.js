@@ -1,4 +1,4 @@
-import CollectionPage from './CollectionPage';
+import CardBinder from './CardBinder';
 import renderWithRouter from './renderWithRouter';
 
 jest.mock("react-router", () => ({
@@ -9,17 +9,33 @@ jest.mock("react-router", () => ({
         }
     },
     useParams: function () {
-        return {userId: 1}
+        return { userId: 1 }
     }
 }));
 
-describe('CollectionPage component', () => {
+
+describe('CardBinder component', () => {
     it('renders without crashing', () => {
-        renderWithRouter(<CollectionPage pageType='collection' />);
+        renderWithRouter(
+            <CardBinder
+                binderType={'collection'}
+                addCard={jest.fn()}
+                editCard={jest.fn()}
+                removeCard={jest.fn()}
+                addFields={[]}
+                editFields={[]}
+            />);
     });
 
     it('shows relevant links', () => {
-        const { queryByText } = renderWithRouter(<CollectionPage pageType='collection' />);
+        const { queryByText } = renderWithRouter(
+            <CardBinder
+                binderType={'collection'}
+                addCard={jest.fn()}
+                editCard={jest.fn()}
+                removeCard={jest.fn()}
+                addFields={[]}
+                editFields={[]} />);
 
         expect(queryByText(`test's collection`)).toBeInTheDocument();
         expect(queryByText('Add card to collection')).toBeInTheDocument();

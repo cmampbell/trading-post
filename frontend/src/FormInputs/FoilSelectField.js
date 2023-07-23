@@ -1,11 +1,22 @@
 import React from "react";
-import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, Menu, } from "@mui/material";
 
-const FoilSelectField = ({cardData, updateCardData, card}) => {
+const FoilSelectField = ({ cardData, updateCardData, card }) => {
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
         updateCardData(name, value);
+    }
+
+    const checkFoilOptions = (card) => card.usd_price || card.usd_foil_price || card.usd_etched_price ? true : false
+
+    const getFoilOptions = (card) => {
+        const options = [];
+        if (card.usd_price) options.push('No');
+        if (card.usd_foil_price) options.push('Yes')
+        if (card.usd_etched_price) options.push('Etched')
+
+        return options
     }
 
     return (
@@ -17,15 +28,18 @@ const FoilSelectField = ({cardData, updateCardData, card}) => {
             <Select
                 labelId="foil-select-label"
                 id="foil-select"
-                value={cardData.foil}
+                value={cardData.foil || ''}
                 label="foil"
                 name="foil"
                 onChange={handleChange}
             >
-                {/* certain cards only have certain prices, only render the ones they have */}
-                {card.usd_price && <MenuItem value="No" key="no">No</MenuItem>}
-                {card.usd_foil_price && <MenuItem value="Yes" key="yes">Yes</MenuItem>}
-                {card.usd_etched_price && <MenuItem value="Etched" key="etched">Etched</MenuItem>}
+                {checkFoilOptions && getFoilOptions(card)
+                    .map((option) => <MenuItem
+                        value={option}
+                        key={option}>
+                        {option}
+                    </MenuItem>)}
+                {!checkFoilOptions && <MenuItem value='' key=''></MenuItem>}
             </Select>
         </FormControl>
     )

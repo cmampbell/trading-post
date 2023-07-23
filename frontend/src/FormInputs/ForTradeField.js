@@ -13,7 +13,7 @@ const ForTradeField = ({cardData, updateCardData}) => {
                 value="end"
                 label="For Trade"
                 control={<Checkbox
-                    checked={cardData.forTrade}
+                    checked={cardData.forTrade || false}
                     onChange={handleCheck}
                     inputProps={{ 'aria-label': 'controlled' }} />} />
     )

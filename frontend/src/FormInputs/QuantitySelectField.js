@@ -22,7 +22,7 @@ const QuantitySelectField = ({ cardData, updateCardData }) => {
                 <TextField
                     id="quantity-field"
                     label="Quantity"
-                    value={cardData.quantity}
+                    value={cardData.quantity || 1}
                     inputProps={{
                         inputMode: 'numeric',
                         pattern: '[0-9]*',
