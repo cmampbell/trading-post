@@ -86,7 +86,8 @@ router.patch("/:userId/patch/:cardId", ensureCorrectUser, async function (req, r
 
 router.delete("/:userId/delete/:cardId", ensureCorrectUser, async function (req, res, next) {
     try {
-        const message = await WantList.removeCardFromWantList(req.params);
+        const {userId, cardId} = req.params;
+        const message = await WantList.removeCardFromWantList(userId, cardId);
         return res.json({ message });
     } catch (err) {
         return next(err);

@@ -122,7 +122,7 @@ class WantList {
     *
     * Throws NotFoundError is user or card not found in db.
     **/
-    static async removeCardFromWantList({ userID, cardID }) {
+    static async removeCardFromWantList(userID, cardID ) {
 
         await db.query(
             `DELETE FROM card_want_list

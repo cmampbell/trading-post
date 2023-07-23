@@ -88,7 +88,7 @@ const CardBinder = ({ binderType, addCard, editCard, removeCard, addFields, edit
             {canEdit && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
             {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields}/>}
             {listCards && listCards.map((card, idx) => {
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCardFromBinder={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} fields={editFields}/>;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} fields={editFields}/>;
             })}
         </Container>
     )

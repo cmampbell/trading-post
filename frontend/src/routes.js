@@ -64,8 +64,8 @@ const routes = [
                             Api.editCardInCollection(userId, card, editData)
                     }
                     removeCard={
-                        (cardId) =>
-                            Api.removeCardFromCollection(cardId)
+                        (userId, cardId) =>
+                            Api.removeCardFromCollection(userId, cardId)
                     }
                     addFields={[SetSelectField, QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField, ]}
                     editFields={[QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField]}
@@ -79,10 +79,16 @@ const routes = [
                 path: '/users/:userId/for-trade',
                 element: <CardBinder
                     binderType={'trade'}
-                    addCard={Api.addCardToCollection}
-                    editCard={Api.editCardInCollection}
-                    removeCard={Api.removeCardFromCollection}
-                    editFields={[QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField]}
+                    addCard={()=> null}
+                    editCard={
+                        (userId, card, editData) =>
+                            Api.editCardInCollection(userId, card, editData)
+                    }
+                    removeCard={
+                        (userId, card, editData) =>
+                            Api.editCardInCollection(userId, card, {forTrade: false})
+                    }
+                    editFields={[ForTradeField]}
                 />,
                 loader: ({ params }) => {
                     return Api.getUserCardsForTrade(params.userId);
@@ -94,7 +100,7 @@ const routes = [
                     binderType={'want'}
                     addCard={(userId, card) => Api.addCardToWantList(userId, card)}
                     editCard={(userId, card, cardData) => Api.editCardInWantList(userId, card, cardData)}
-                    removeCard={Api.removeCardFromWantList}
+                    removeCard={(userId, cardId) => Api.removeCardFromWantList(userId, cardId)}
                     addFields={[SetSelectField, FoilSelectField, QuantitySelectField]}
                     editFields={[FoilSelectField, QuantitySelectField]}
                 />,

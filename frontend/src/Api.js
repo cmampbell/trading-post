@@ -95,6 +95,11 @@ class TradingPostApi {
         let res = await this.request(`want-list/${userId}/patch/${cardId}`, editData, "patch");
         return res.card;
     }
+
+    static async removeCardFromWantList(userId, cardId){
+        let res = await this.request(`want-list/${userId}/delete/${cardId}`, {}, "delete")
+        return res.message;
+    }
 }
 
 export default TradingPostApi;

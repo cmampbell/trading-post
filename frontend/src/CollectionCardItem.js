@@ -9,17 +9,16 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
 import PriceDisplay from "./PriceDisplay";
 import CardForm from "./CardForm";
 
-const CollectionCardItem = ({ card, editCard, canEdit, fields }) => {
+const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => {
     const [editOpen, setEditOpen] = useState(false);
 
     const handleEditOpen = () => {
         setEditOpen(!editOpen);
     }
-
-    console.log(card)
 
     return (
         <Accordion TransitionProps={{ unmountOnExit: true }}>
@@ -76,7 +75,12 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields }) => {
                             {canEdit && <IconButton onClick={handleEditOpen}>
                                 <EditIcon />
                             </IconButton>}
-
+                        </Grid>
+                        <Grid item xs={1}>
+                            {/* BUTTON TO REMOVE CARD */}
+                            {canEdit && <IconButton onClick={()=> removeCard(card.card_id)}>
+                                <ClearIcon />
+                            </IconButton>}
                         </Grid>
                         <Grid item xs={8}>
                             <Typography variant="h5">
