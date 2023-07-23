@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router";
 import { Button, Container } from "@mui/material";
 import AddCardModal from "./AddCardModal";
-import TradingPostApi from "./Api";
 import CollectionCardItem from "./CollectionCardItem";
-import ForTradeField from "./FormInputs/ForTradeField";
-import SetSelectField from "./FormInputs/SetSelectField";
-import FoilSelectField from "./FormInputs/FoilSelectField";
-import QualitySelectField from "./FormInputs/QualitySelectField";
-import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
 /* 
 *  Returns MUI container component with title, addCard button, and list of cards
@@ -44,8 +38,6 @@ const CardBinder = ({ binderType, addCard, editCard, removeCard, addFields, edit
 
     const [listCards, setListCards] = useState(cards);
     const [searchOpen, setSearchOpen] = useState(false);
-    const [canEdit, setCanEdit] = useState((currUser.id === +userId) || false);
-
 
     const handleSearchOpen = () => {
         setSearchOpen(true);
@@ -85,10 +77,10 @@ const CardBinder = ({ binderType, addCard, editCard, removeCard, addFields, edit
     return (
         <Container>
             <h1>{currUser.username}'s {binderType}</h1>
-            {canEdit && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
-            {canEdit && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields}/>}
+            {(currUser.id === +userId) && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
+            {(currUser.id === +userId) && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields}/>}
             {listCards && listCards.map((card, idx) => {
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={canEdit} pageType={binderType} fields={editFields}/>;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(currUser.id === +userId)} pageType={binderType} fields={editFields}/>;
             })}
         </Container>
     )

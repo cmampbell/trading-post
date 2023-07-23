@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Box, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import PriceDisplay from "./PriceDisplay";
 import useFields from "./useFields";
 

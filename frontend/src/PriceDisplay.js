@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Typography } from "@mui/material";
 
 
@@ -11,7 +11,7 @@ const PriceDisplay = ({ card = null, cards = null, formData = {} }) => {
 
     const calcCardPrice = (card) => {
         let price;
-        
+
         if (card.foil) {
             price = card.foil === "Yes" ? card.usd_foil_price
                 : card.foil === "Etched" ? card.usd_etched_price
