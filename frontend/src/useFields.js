@@ -24,15 +24,18 @@ const useFields = (fieldArr, card={}) => {
         },
     }
 
-    const INITIAL_STATE = fieldArr.reduce((object, field) => {
-        if(fieldDictionary[field.name]){
-            const {name, value} = fieldDictionary[field.name]
-            object[name] = value
-        }
-        return object;
-    }, {})
 
-    return INITIAL_STATE
+    if(fieldArr.length > 0){
+        return fieldArr.reduce((object, field) => {
+            if(fieldDictionary[field.name]){
+                const {name, value} = fieldDictionary[field.name]
+                object[name] = value
+            }
+            return object;
+        }, {})
+    } else {
+        return {}
+    }
 }
 
 export default useFields;

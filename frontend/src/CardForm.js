@@ -46,7 +46,7 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
             height: 'auto'
         }}>
 
-            {fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings}/>)}
+            {fields.length > 0 && fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings}/>)}
             <PriceDisplay card={card} formData={cardData} />
             <Button onClick={handleClick}> Add Card! </Button>
         </Box>

@@ -13,10 +13,10 @@ const FoilSelectField = ({ cardData, updateCardData, card }) => {
     const getFoilOptions = (card) => {
         const options = [];
         if (card.usd_price) options.push('No');
-        if (card.usd_foil_price) options.push('Yes')
-        if (card.usd_etched_price) options.push('Etched')
+        if (card.usd_foil_price) options.push('Yes');
+        if (card.usd_etched_price) options.push('Etched');
 
-        return options
+        return options;
     }
 
     return (
