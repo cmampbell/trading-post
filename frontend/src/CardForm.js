@@ -6,14 +6,26 @@ import useFields from "./useFields";
 /* This form should be used across Collection, Trade, and Want List pages.
 *
 *  Props:
-*       fields - an Array of input field components. The form will create an initial state
-*                from these fields in order to keep the inputs controlled by state. These can
-*                 be found in the FormInputs directory.
-*                 
+*       card - the card that populates the form. passed from CardCollectionItem or AddCardModal.
+*
+*       setCard - updates card in parent state. If we have this, then we know we are working 
+*                  in an edit form and not an add form. Need to update the card object with
+*                  form input changes
+*
 *       printings - an array of card ids for printings of cards that share an oracle id.
 *                    necessary for set select form.
 *
-*  
+*       handleClose - closes editForm or AddCardModal on submit
+*
+*       fields - an Array of input field components. with useFields we create an initial state
+*                from fields, and use it to keep the inputs controlled by state. These can
+*                be found in the FormInputs directory. We map over the array to create the
+*                input elements.
+*
+*       addCard - needs a better name. This function is passed from the parent CardBinder or CardList
+*                  component. It sends the card and card data up to parent, then parent sends that data
+*                  to the API. Can add cards to db or edit cards in db depending on form
+*
 */
 
 const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) => {
@@ -46,7 +58,7 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
             height: 'auto'
         }}>
 
-            {fields.length > 0 && fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings}/>)}
+            {fields && fields.length > 0 && fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings}/>)}
             <PriceDisplay card={card} formData={cardData} />
             <Button onClick={handleClick}> Add Card! </Button>
         </Box>

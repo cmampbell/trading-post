@@ -1,4 +1,4 @@
-import { waitFor, act, screen } from "@testing-library/react";
+import { waitFor, act, screen, queryByLabelText } from "@testing-library/react";
 import renderWithRouter from "./renderWithRouter";
 import CardForm from "./CardForm";
 import userEvent from '@testing-library/user-event'
@@ -15,7 +15,7 @@ const testCard1 = {
     oracle_id: "b817bc56-9b4d-4c50-bafa-3c652b99578f",
     set_code: "2x2",
     set_name: "Double Masters 2022",
-    usd_etched_price: null,
+    usd_etched_price: "60.23",
     usd_foil_price: "32.03",
     usd_price: "25.48"
 }
@@ -48,7 +48,7 @@ describe("CardForm Unit Tests", () => {
             />);
     })
 
-    it("should keep track of field input", async () => {
+    it("should track input and on submit pass into addCard", async () => {
         const addCard = jest.fn();
         const handleClose = jest.fn();
         const setCard = jest.fn();
@@ -56,6 +56,8 @@ describe("CardForm Unit Tests", () => {
             queryAllByRole,
             queryByRole,
             queryByDisplayValue,
+            queryAllByLabelText,
+            queryByTestId
         } = renderWithRouter(
             <CardForm
                 card={testCard1}
@@ -66,19 +68,36 @@ describe("CardForm Unit Tests", () => {
                 setCard={setCard}
             />);
 
-            // set input variable is null
         const quantity = queryByRole('textbox');
         const foilInput = queryByDisplayValue("No");
         const setInput = queryByDisplayValue("Double Masters 2022-337")
 
         const [setDropdown,
             foilDropdown,
-            incrementButton,] = queryAllByRole('button');
+            incrementButton,
+            decrementButton,
+            addButton] = queryAllByRole('button');
 
         expect(quantity).toHaveValue("1");
-        expect(foilInput).toHaveValue("No");
+        expect(foilInput).toHaveDisplayValue("No");
         expect(setInput).toHaveValue("Double Masters 2022-337");
 
+
+        act(() => {
+            userEvent.click(setDropdown);
+        })
+
+        await waitFor(() => {
+            expect(queryAllByRole('option').length).toEqual(2);
+        })
+
+        const ixalan = queryAllByRole('option')[1];
+
+        act(() => {
+            userEvent.click(ixalan);
+        })
+
+        expect(setCard).toHaveBeenCalled();
 
         act(() => {
             userEvent.click(incrementButton);
@@ -88,34 +107,24 @@ describe("CardForm Unit Tests", () => {
 
         await waitFor(() => {
             expect(quantity).toHaveValue("2");
-            expect(queryAllByRole('option').length).toEqual(2);
-        })
-
-        const [no, yes] = queryAllByRole('option')
-
-        act(() => {
-            userEvent.click(yes);
-        })
-
-        await waitFor(()=> {
-            expect(foilInput).toHaveValue('Yes');
+            expect(queryAllByRole('option').length).toEqual(3);
         })
 
         act(() => {
-            userEvent.click(setDropdown);
+            userEvent.click(queryAllByRole('option')[1]);
         })
 
-        await waitFor(()=> {
-            expect(queryAllByRole('option').length).toEqual(2);
+        await waitFor(() => {
+            expect(foilInput).toHaveDisplayValue('Yes');
         })
-
-        const [doubleMasters, ixalan ] = queryAllByRole('option');
 
         act(() => {
-            userEvent.click(ixalan);
+            userEvent.click(addButton);
         })
 
-        expect(setCard).toHaveBeenCalled();
+        expect(addCard).toHaveBeenCalled();
+        expect(addCard).toHaveBeenLastCalledWith({...testCard1}, {foil: "Yes", quantity: 2 })
+        expect(handleClose).toHaveBeenCalled();
 
     })
 })

@@ -36,7 +36,8 @@ const FoilSelectField = ({ cardData, updateCardData, card }) => {
                 {checkFoilOptions && getFoilOptions(card)
                     .map((option) => <MenuItem
                         value={option}
-                        key={option}>
+                        key={option}
+                        data-testid={`${option}-test`}>
                         {option}
                     </MenuItem>)}
                 {!checkFoilOptions && <MenuItem value='' key=''></MenuItem>}

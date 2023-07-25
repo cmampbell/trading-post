@@ -20,8 +20,6 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
         setEditOpen(!editOpen);
     }
 
-    console.log(card)
-
     return (
         <Accordion TransitionProps={{ unmountOnExit: true }}>
             <AccordionSummary

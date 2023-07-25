@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import PriceDisplay from './PriceDisplay';
 
 const CardItem = ({ card, deleteCard }) => {
-    console.log(card)
     const {
         name,
         set_code: setCode,
@@ -20,7 +19,7 @@ const CardItem = ({ card, deleteCard }) => {
     const deleteSelf = () => {
         deleteCard(cardId)
     }
-    console.log(cardId);
+
     return (
         // TO-DO: have outline change depending on foil status
         <Card variant="outlined">

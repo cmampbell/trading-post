@@ -57,7 +57,7 @@ describe("Quantity Field Unit Tests", () => {
                 updateCardData={(name, value) => cardData[name] = value}
             />);
 
-        const [incrementButton, decrementButton] = queryAllByRole('button');
+        const  decrementButton = queryAllByRole('button')[1];
 
         act(() => {
             userEvent.click(decrementButton);

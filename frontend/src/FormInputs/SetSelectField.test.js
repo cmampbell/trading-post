@@ -28,11 +28,12 @@ describe("Quantity Field Unit Tests", () => {
 
     it("should change set on click", async () => {
         const cardData = { foil: "No" };
+        const setCard = jest.fn();
         const {queryByLabelText, queryByText, queryAllByText} = renderWithRouter(
             <SetSelectField
                 printings={[testCard1, testCard2]}
                 card={testCard1}
-                setCard={jest.fn()}
+                setCard={setCard}
                 updateCardData={(name, value) => cardData[name] = value}
             />);
 
@@ -53,6 +54,7 @@ describe("Quantity Field Unit Tests", () => {
             await waitFor(()=> {
                 expect(cardData.foil).toEqual('Etched');
                 expect(queryByText('Test Card Set 2 - #100')).toBeInTheDocument();
+                expect(setCard).toHaveBeenCalled();
             })
     })
 });

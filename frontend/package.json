@@ -50,6 +50,11 @@
   "jest": {
     "transformIgnorePatterns": [
       "/node_modules/(?!(axios)/)"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
     ]
   }
 }

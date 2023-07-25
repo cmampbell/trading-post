@@ -22,7 +22,8 @@ const testCards = [
         set_name: "Double Masters 2022",
         usd_etched_price: null,
         usd_foil_price: "32.03",
-        usd_price: "25.48"
+        usd_price: "25.48",
+        foil: "No"
     },
     {
         art_uri: "https://cards.scryfall.io/art_crop/front/c/b/cbc085e9-bbb2-463a-b35c-bee13008a2c6.jpg?1682718882",
@@ -36,63 +37,78 @@ const testCards = [
         usd_etched_price: null,
         usd_foil_price: "600",
         usd_price: "30",
+        foil: "No"
     }
 ]
 
 describe('AddCardModal tests', () => {
     it('should render without crashing', () => {
-        render(<AddCardModal open={true} onClose={()=> false}/>);
+        render(<AddCardModal open={true} onClose={() => false} />);
     })
 
     it('should be able to be closed with close button', () => {
         let isOpen = true;
-        const close = ()=> isOpen = false;
-        const { queryByText, queryAllByRole } = render(<AddCardModal open={true} setSearchOpen={close} addCard={()=> null}/>);
+        const close = () => isOpen = false;
+        const { queryByText, queryAllByRole } = render(<AddCardModal open={true} setSearchOpen={close} addCard={() => null} />);
 
         expect(queryByText('Search By Card Name')).toBeInTheDocument();
 
-        act(()=> {
+        act(() => {
             userEvent.click(queryAllByRole('button')[0]);
         })
 
-        waitFor(()=> {
+        waitFor(() => {
             expect(queryByText('Search By Card Name')).not.toBeInTheDocument();
         })
     })
 
-    it('should render CardDetailsBox after user selects card from Searchbar', async ()=> {
+    it('should render CardDetailsBox after user selects card from Searchbar', async () => {
         let isOpen = true;
-        const close = ()=> isOpen = false;
-        const setListCards = jest.fn(()=> null)
-        axios.mockResolvedValue({data:{cards: [{name: "Ulamog, the Infinite Gyre", oracle_id: "b817bc56-9b4d-4c50-bafa-3c652b99578f"}]}});
-        const { queryByText, queryByLabelText, queryByAltText } = render(<AddCardModal open={true} setSearchOpen={close} addCard={setListCards}/>);
+        const close = () => isOpen = false;
+        const setListCards = jest.fn(() => null)
+        axios.mockResolvedValue(
+            {
+                data:
+                {
+                    cards:
+                        [
+                            {
+                                name: "Ulamog, the Infinite Gyre",
+                                oracle_id: "b817bc56-9b4d-4c50-bafa-3c652b99578f"
+                            }
+                        ]
+                }
+            });
+
+        const { queryByText, queryByLabelText, queryByAltText } = render(<AddCardModal open={true} setSearchOpen={close} addCard={setListCards} />);
 
         expect(queryByLabelText('Card Name')).toBeInTheDocument();
         const searchBar = queryByLabelText('Card Name');
 
-        await act(async ()=> {
+        await act(async () => {
             userEvent.type(searchBar, 'Ulam');
         })
 
-        await waitFor( async ()=> {
+        await waitFor(async () => {
             expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
         })
-        axios.mockResolvedValue({data:{cards: testCards }});
-        await act(async ()=>{
+
+        axios.mockResolvedValue({ data: { cards: testCards } });
+        await act(async () => {
             userEvent.click(queryByText('Ulamog, the Infinite Gyre'));
         })
 
-        await waitFor(async ()=> {
+        await waitFor(async () => {
             expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();
             expect(queryByText(`$${testCards[0].usd_price}`)).toBeInTheDocument();
             expect(queryByText('Add Card!')).toBeInTheDocument();
         })
 
-        await act(async ()=> {
+        await act(async () => {
             userEvent.click(queryByText('Add Card!'));
         })
 
-        await waitFor(async ()=> {
+        await waitFor(async () => {
             expect(setListCards.mock.calls).toHaveLength(1);
         })
 

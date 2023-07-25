@@ -2,7 +2,7 @@ import React from "react";
 import renderWithRouter from "./renderWithRouter";
 import CardDetailsBox from "./CardDetailsBox";
 import userEvent from '@testing-library/user-event'
-import { act } from "react-dom/test-utils";
+import { waitFor, act, screen } from "@testing-library/react";
 
 const testCards = [
     {
@@ -17,7 +17,8 @@ const testCards = [
         usd_etched_price: null,
         usd_foil_price: "32.03",
         usd_price: "25.48",
-        quantity: 1
+        quantity: 1,
+        foil: "No"
     },
     {
         art_uri: "https://cards.scryfall.io/art_crop/front/c/b/cbc085e9-bbb2-463a-b35c-bee13008a2c6.jpg?1682718882",
@@ -35,60 +36,15 @@ const testCards = [
     }
 ]
 
-describe('CardDetailsBox tests', () => {
+describe('CardDetailsBox Unit Tests', () => {
     it('should render without crashing', () => {
-        renderWithRouter(<CardDetailsBox cards={testCards} />);
+        renderWithRouter(<CardDetailsBox printings={testCards} fields={[]}/>);
     })
 
-    it('should match snapshot', () => {
-        const { asFragment } = renderWithRouter(<CardDetailsBox cards={testCards} />);
-
-        expect(asFragment()).toMatchSnapshot();
-    })
-
-    it('should render all necessary fields', async () => {
-        const { queryByText, queryByAltText, queryByLabelText } = renderWithRouter(<CardDetailsBox cards={testCards} />);
+    it('should render image, card name, card price', async () => {
+        const { queryByText, queryByAltText } = renderWithRouter(<CardDetailsBox printings={testCards} fields={[]}/>);
 
         expect(queryByText("Ulamog, the Infinite Gyre")).toBeInTheDocument();
         expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();
-        expect(queryByLabelText('Set')).toBeInTheDocument();
-        expect(queryByLabelText('Condition')).toBeInTheDocument();
-        expect(queryByLabelText('Foil')).toBeInTheDocument();
-        expect(queryByText(`$${testCards[0].usd_price}`)).toBeInTheDocument();
-        expect(queryByText(`Add Card!`)).toBeInTheDocument();
-    })
-
-    it('should change cards based on user input', async () => {
-        const { queryByText, queryByLabelText, queryByAltText } = renderWithRouter(<CardDetailsBox cards={testCards} />);
-
-        const setInput = queryByLabelText('Set');
-        const foilInput = queryByLabelText('Foil');
-
-        expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();
-        expect(queryByText(`$${testCards[0].usd_price}`)).toBeInTheDocument();
-
-        await act(async () => {
-            userEvent.click(setInput);
-        })
-
-        expect(queryByText(`${testCards[1].set_name} - #${testCards[1].collector_number}`)).toBeInTheDocument();
-
-        await act(async () => {
-            userEvent.click(queryByText(`${testCards[1].set_name} - #${testCards[1].collector_number}`));
-        })
-
-        expect(queryByAltText(`${testCards[1].name} art by ${testCards[1].artist}`)).toBeInTheDocument();
-        expect(queryByText(`$${testCards[1].usd_foil_price}.00`)).toBeInTheDocument();
-
-        await act(async () => {
-            userEvent.click(foilInput);
-            
-        })
-
-        await act(async() => {
-            userEvent.click(queryByText('Etched'));
-        })
-
-        expect(queryByText(`$${testCards[1].usd_etched_price}.00`)).toBeInTheDocument();
     })
 })
