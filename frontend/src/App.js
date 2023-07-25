@@ -3,6 +3,7 @@ import './App.css';
 import { Outlet, useLoaderData, useNavigate } from 'react-router'
 import Api from './Api'
 import NavBar from './NavBar';
+import CssBaseline from '@mui/material/CssBaseline';
 
 /* Parent component to all routes.
 *
@@ -60,6 +61,7 @@ function App() {
 
   return (
     <div className="App">
+      <CssBaseline />
       <NavBar token={token} logout={logout} currUser={currUser} />
       <Outlet context={{ register, token, login, currUser }} />
     </div>

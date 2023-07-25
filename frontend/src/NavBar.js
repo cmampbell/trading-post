@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { IconButton, Menu, MenuItem, Grid } from '@mui/material';
+import { AppBar, IconButton, Menu, MenuItem, Grid } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const NavBar = ({ token, logout, currUser }) => {
@@ -14,62 +14,64 @@ const NavBar = ({ token, logout, currUser }) => {
         setAnchorEl(null);
     };
     return (
-        <Grid container>
-            <Grid item xs={8}>
-                Trading Post
-            </Grid>
-            <Grid item xs={2}>
-                <NavLink to='/trade'>Trade</NavLink>
-            </Grid>
-            <Grid item xs={2}>
-                <IconButton
-                    id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                    }}
-                >
-                    {!token &&
-                        <MenuItem onClick={handleClose}>
-                            <NavLink to="/login" >
-                                Login
-                            </NavLink>
-                        </MenuItem>
-                    }
-                    {!token &&
-                        <MenuItem onClick={handleClose}>
-                            <NavLink to="/register" >
-                                Register
-                            </NavLink>
-                        </MenuItem>
-                    }
-                    {token &&
-                        <MenuItem onClick={handleClose}>
-                            <NavLink to={`/users/${currUser.id}`} >
-                                {currUser.username}
-                            </NavLink>
-                        </MenuItem>}
-                    {token &&
-                        <MenuItem onClick={() => { logout(); handleClose(); }}>
-                            <NavLink to="#" >
-                                Log Out
-                            </NavLink>
-                        </MenuItem>}
+        // <AppBar>
+            <Grid container >
+                <Grid item xs={8} >
+                    Trading Post
+                </Grid>
+                <Grid item xs={2}>
+                    <NavLink to='/trade'>Trade</NavLink>
+                </Grid>
+                <Grid item xs={2}>
+                    <IconButton
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        {!token &&
+                            <MenuItem onClick={handleClose}>
+                                <NavLink to="/login" >
+                                    Login
+                                </NavLink>
+                            </MenuItem>
+                        }
+                        {!token &&
+                            <MenuItem onClick={handleClose}>
+                                <NavLink to="/register" >
+                                    Register
+                                </NavLink>
+                            </MenuItem>
+                        }
+                        {token &&
+                            <MenuItem onClick={handleClose}>
+                                <NavLink to={`/users/${currUser.id}`} >
+                                    {currUser.username}
+                                </NavLink>
+                            </MenuItem>}
+                        {token &&
+                            <MenuItem onClick={() => { logout(); handleClose(); }}>
+                                <NavLink to="#" >
+                                    Log Out
+                                </NavLink>
+                            </MenuItem>}
 
-                </Menu>
+                    </Menu>
+                </Grid>
             </Grid>
-        </Grid>
+        // </AppBar>
     );
 }
 

@@ -4,13 +4,36 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "./routes";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#01589b',
+    },
+    secondary: {
+      main: '#d86409',
+    },
+  },
+  typography: {
+    h1: {
+      fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
+    },
+    h2: {
+      fontFamily: 'Lora',
+    },
+  },
+});
 
 const router = createBrowserRouter(routes);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
