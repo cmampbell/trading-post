@@ -1,5 +1,5 @@
 import HomePage from './HomePage';
-import renderWithRouter from './renderWithRouter';
+import renderWithRouter from '../_common/renderWithRouter';
 
 describe('HomePage component', () => {
     it('renders without crashing', () => {

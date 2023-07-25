@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Outlet, useLoaderData, useNavigate } from 'react-router'
-import Api from './Api'
-import NavBar from './NavBar';
+import Api from './Api/Api'
+import NavBar from './_common/NavBar';
 import CssBaseline from '@mui/material/CssBaseline';
 
 /* Parent component to all routes.

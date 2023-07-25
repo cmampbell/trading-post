@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
-import PriceDisplay from "./PriceDisplay";
-import useFields from "./useFields";
+import PriceDisplay from "../PriceDisplay";
+import useFields from "./useFields"
 
 /* This form should be used across Collection, Trade, and Want List pages.
 *

@@ -1,9 +1,6 @@
 import React from "react";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../_common/renderWithRouter"
 import TradePage from "./TradePage";
-// import userEvent from '@testing-library/user-event'
-// import { act } from "react-dom/test-utils";
-// import { waitFor, screen } from "@testing-library/react";
 
 
 describe('TradePage tests', () => {

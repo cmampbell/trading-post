@@ -1,11 +1,11 @@
 import React from "react";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../_common/renderWithRouter"
 import CardList from "./CardList";
 import userEvent from '@testing-library/user-event'
-import SetSelectField from "./FormInputs/SetSelectField";
-import FoilSelectField from "./FormInputs/FoilSelectField";
-import QualitySelectField from "./FormInputs/QualitySelectField";
-import QuantitySelectField from "./FormInputs/QuantitySelectField";
+import SetSelectField from "../_common/CardForm/FormInputs/SetSelectField";
+import FoilSelectField from "../_common/CardForm/FormInputs/FoilSelectField";
+import QualitySelectField from "../_common/CardForm/FormInputs/QualitySelectField";
+import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectField";
 import { act, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 

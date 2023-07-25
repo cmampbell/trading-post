@@ -1,8 +1,6 @@
 import React from "react";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../renderWithRouter"
 import CardDetailsBox from "./CardDetailsBox";
-import userEvent from '@testing-library/user-event'
-import { waitFor, act, screen } from "@testing-library/react";
 
 const testCards = [
     {

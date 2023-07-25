@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Grid, Paper, Button, Stack } from "@mui/material";
 import CardItem from './CardItem';
-import AddCardModal from './AddCardModal'
-import PriceDisplay from './PriceDisplay';
+import AddCardModal from '../_common/AddCardModal/AddCardModal';
+import PriceDisplay from '../_common/PriceDisplay';
 
 const CardList = ({ activeList='left', makeActive, side='left', cards=[], fields }) => {
     const [listCards, setListCards] = useState(cards);

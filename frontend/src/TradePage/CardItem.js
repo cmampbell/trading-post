@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Typography, CardMedia, Grid, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import PriceDisplay from './PriceDisplay';
+import PriceDisplay from '../_common/PriceDisplay';
 
 const CardItem = ({ card, deleteCard }) => {
     const {

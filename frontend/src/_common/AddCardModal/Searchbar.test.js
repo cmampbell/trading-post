@@ -1,5 +1,5 @@
 import React from "react";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../renderWithRouter";
 import Searchbar from "./Searchbar";
 import userEvent from '@testing-library/user-event'
 import { act } from "react-dom/test-utils";

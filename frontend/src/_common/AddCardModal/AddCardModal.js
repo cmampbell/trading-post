@@ -3,7 +3,7 @@ import { Modal, Container, Paper, IconButton, Box } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';
-import Api from './Api';
+import Api from '../../Api/Api';
 
 /* Returns MUI modal component https://mui.com/material-ui/react-modal/
 *

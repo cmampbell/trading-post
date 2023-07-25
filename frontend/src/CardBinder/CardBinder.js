@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router";
 import { Button, Container } from "@mui/material";
-import AddCardModal from "./AddCardModal";
+import AddCardModal from "../_common/AddCardModal/AddCardModal";
 import CollectionCardItem from "./CollectionCardItem";
 
 /* 

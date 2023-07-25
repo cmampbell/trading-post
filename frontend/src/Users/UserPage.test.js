@@ -1,5 +1,5 @@
 import UserPage from "./UserPage";
-import renderWithRouter from './renderWithRouter'
+import renderWithRouter from '../_common/renderWithRouter'
 import { screen } from '@testing-library/react';
 
 jest.mock("react-router", () => ({
@@ -27,7 +27,6 @@ describe("UserPage tests", () => {
     it('should display user info', () => {
         const { queryByText } = renderWithRouter(<UserPage />);
 
-        screen.debug();
         expect(queryByText('test')).toBeInTheDocument();
         expect(queryByText('2023-07-13')).toBeInTheDocument();
         expect(queryByText('test@gmail.com')).toBeInTheDocument();

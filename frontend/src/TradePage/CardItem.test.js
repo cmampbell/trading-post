@@ -1,5 +1,5 @@
 import React from "react";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../_common/renderWithRouter"
 import Card from "./CardItem";
 import userEvent from '@testing-library/user-event'
 import { act } from "react-dom/test-utils";

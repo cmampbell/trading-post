@@ -10,8 +10,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
-import PriceDisplay from "./PriceDisplay";
-import CardForm from "./CardForm";
+import PriceDisplay from "../_common/PriceDisplay";
+import CardForm from "../_common/CardForm/CardForm";
 
 const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => {
     const [editOpen, setEditOpen] = useState(false);

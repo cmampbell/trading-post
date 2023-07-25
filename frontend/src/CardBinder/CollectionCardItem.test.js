@@ -1,5 +1,5 @@
 import CollectionCardItem from "./CollectionCardItem";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../_common/renderWithRouter";
 
 const testCard = {
     artist: "Aleksi Briclot",

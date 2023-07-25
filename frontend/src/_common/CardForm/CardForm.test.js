@@ -1,5 +1,5 @@
 import { waitFor, act, screen, queryByLabelText } from "@testing-library/react";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouter from "../renderWithRouter";
 import CardForm from "./CardForm";
 import userEvent from '@testing-library/user-event'
 import FoilSelectField from "./FormInputs/FoilSelectField";
