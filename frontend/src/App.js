@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Outlet, useLoaderData, useNavigate } from 'react-router'
-import Api from './Api/Api'
+import UserService from './Api/UserService'
 import NavBar from './_common/NavBar';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -32,7 +32,7 @@ function App() {
 
   const register = async (regData) => {
     try {
-      const resp = await Api.registerUser(regData);
+      const resp = await UserService.registerUser(regData);
       setStateAndStorage(resp);
       navigate('/')
     } catch (err) {
@@ -43,7 +43,7 @@ function App() {
 
   const login = async (loginData) => {
     try {
-      const resp = await Api.loginUser(loginData);
+      const resp = await UserService.loginUser(loginData);
       setStateAndStorage(resp);
       navigate('/');
     } catch (err) {

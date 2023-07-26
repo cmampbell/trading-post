@@ -31,13 +31,15 @@ import CollectionCardItem from "./CollectionCardItem";
 *        editCard function to edit a card in collection/wantList
          remove card Function to remove a card in collection/wantList
 */
-const CardBinder = ({ binderType, addCard, editCard, removeCard, addFields, editFields }) => {
+const CardBinder = ({ binderType, service }) => {
     const cards = useLoaderData();
     const { userId } = useParams();
     const { currUser } = useOutletContext();
 
     const [listCards, setListCards] = useState(cards);
     const [searchOpen, setSearchOpen] = useState(false);
+
+    const { addCard, editCard, removeCard, addFields, editFields } = service;
 
     const handleSearchOpen = () => {
         setSearchOpen(true);

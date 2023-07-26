@@ -3,7 +3,7 @@ import { Modal, Container, Paper, IconButton, Box } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';
-import Api from '../../Api/Api';
+import CardService from '../../Api/CardService';
 
 /* Returns MUI modal component https://mui.com/material-ui/react-modal/
 *
@@ -32,7 +32,7 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
         if (selectedCard && selectedCard.id) {
             console.log(selectedCard)
             // get matching card printings from database
-            Api.getCardsByOracleId(selectedCard.id)
+            CardService.getCardsByOracleId(selectedCard.id)
                 .then((options) => {
                     // set selected options to returned cards
                     setPrintings(() => [...options])

@@ -6,12 +6,10 @@ import UserRegisterForm from "./Users/UserRegisterForm";
 import UserLoginForm from "./Users/UserLoginForm";
 import CardBinder from "./CardBinder/CardBinder";
 import WebcamCardReader from "./_common/AddCardModal/WebcamCardReader";
-import SetSelectField from "./_common/CardForm/FormInputs/SetSelectField";
-import FoilSelectField from "./_common/CardForm/FormInputs/FoilSelectField";
-import QualitySelectField from "./_common/CardForm/FormInputs/QualitySelectField";
-import QuantitySelectField from "./_common/CardForm/FormInputs/QuantitySelectField";
-import ForTradeField from "./_common/CardForm/FormInputs/ForTradeField";
 import Api from './Api/Api';
+import CardCollection from "./Api/CardCollectionService";
+import User from "./Api/UserService";
+import WantList from "./Api/WantListService";
 
 const routes = [
     {
@@ -33,7 +31,7 @@ const routes = [
             },
             {
                 path: '/trade',
-                element: <TradePage fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]}/>,
+                element: <TradePage />,
             },
             {
                 // this is for manual camera testing purposes
@@ -48,30 +46,17 @@ const routes = [
                 path: '/users/:userId',
                 element: <UserPage />,
                 loader: ({ params }) => {
-                    return Api.getUser(params.userId)
+                    return User.getUser(params.userId)
                 }
             },
             {
                 path: '/users/:userId/collection',
                 element: <CardBinder
                     binderType={'collection'}
-                    addCard={
-                        (userId, card) =>
-                            Api.addCardToCollection(userId, card)
-                    }
-                    editCard={
-                        (userId, card, editData) =>
-                            Api.editCardInCollection(userId, card, editData)
-                    }
-                    removeCard={
-                        (userId, cardId) =>
-                            Api.removeCardFromCollection(userId, cardId)
-                    }
-                    addFields={[SetSelectField, QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField, ]}
-                    editFields={[QualitySelectField, FoilSelectField, QuantitySelectField, ForTradeField]}
-                />,
+                    service={CardCollection}
+                                    />,
                 loader: ({ params }) => {
-                    return Api.getUserCollection(params.userId);
+                    return CardCollection.getUserCollection(params.userId);
                 }
             },
             {
@@ -79,33 +64,20 @@ const routes = [
                 path: '/users/:userId/for-trade',
                 element: <CardBinder
                     binderType={'trade'}
-                    addCard={()=> null}
-                    editCard={
-                        (userId, card, editData) =>
-                            Api.editCardInCollection(userId, card, editData)
-                    }
-                    removeCard={
-                        (userId, card, editData) =>
-                            Api.editCardInCollection(userId, card, {forTrade: false})
-                    }
-                    editFields={[ForTradeField]}
+                    service={CardCollection}
                 />,
                 loader: ({ params }) => {
-                    return Api.getUserCardsForTrade(params.userId);
+                    return CardCollection.getUserCardsForTrade(params.userId);
                 }
             },
             {
                 path: '/users/:userId/want-list',
                 element: <CardBinder
                     binderType={'want'}
-                    addCard={(userId, card) => Api.addCardToWantList(userId, card)}
-                    editCard={(userId, card, cardData) => Api.editCardInWantList(userId, card, cardData)}
-                    removeCard={(userId, cardId) => Api.removeCardFromWantList(userId, cardId)}
-                    addFields={[SetSelectField, FoilSelectField, QuantitySelectField]}
-                    editFields={[FoilSelectField, QuantitySelectField]}
+                    service={WantList}
                 />,
                 loader: ({ params }) => {
-                    return Api.getUserWantList(params.userId);
+                    return WantList.getUserWantList(params.userId);
                 }
             },
             {

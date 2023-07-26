@@ -13,17 +13,21 @@ jest.mock("react-router", () => ({
     }
 }));
 
+const serviceMock = {
+    addCard: jest.fn(),
+    editCard: jest.fn(),
+    removeCard: jest.fn(),
+    addFields: [],
+    editFields: []
+}
+
 
 describe('CardBinder component', () => {
     it('renders without crashing', () => {
         renderWithRouter(
             <CardBinder
                 binderType={'collection'}
-                addCard={jest.fn()}
-                editCard={jest.fn()}
-                removeCard={jest.fn()}
-                addFields={[]}
-                editFields={[]}
+                service={serviceMock}
             />);
     });
 
@@ -31,11 +35,8 @@ describe('CardBinder component', () => {
         const { queryByText } = renderWithRouter(
             <CardBinder
                 binderType={'collection'}
-                addCard={jest.fn()}
-                editCard={jest.fn()}
-                removeCard={jest.fn()}
-                addFields={[]}
-                editFields={[]} />);
+                service={serviceMock}
+            />);
 
         expect(queryByText(`test's collection`)).toBeInTheDocument();
         expect(queryByText('Add card to collection')).toBeInTheDocument();

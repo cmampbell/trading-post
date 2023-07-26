@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Autocomplete, Button, Modal, Box } from "@mui/material";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import Api from '../../Api/Api'
+import CardService from "../../Api/CardService"
 import WebcamCardReader from "./WebcamCardReader";
 
 /* Returns MUI autocomplete component https://mui.com/material-ui/react-autocomplete/
@@ -33,7 +33,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
             setIsLoading(true)
             timerID = setTimeout(async () => {
                 try {
-                    const cards = await Api.getCardsByName(searchInput)
+                    const cards = await CardService.getCardsByName(searchInput)
                     setCardOptions(() => [...cards])
                     setIsLoading(() => false)
                 } catch (err) {
@@ -72,7 +72,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
     const getCardWithCamera = async (cardNameGuess) => {
         if (cardNameGuess) setSearchInput(() => cardNameGuess);
         try {
-            const card = await Api.getCardsByName(cardNameGuess);
+            const card = await CardService.getCardsByName(cardNameGuess);
             setSelectedCard(() => ({ name: card[0].name, id: card[0].oracle_id }))
         } catch (err) {
             console.error(err)
