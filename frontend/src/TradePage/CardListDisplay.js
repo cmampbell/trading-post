@@ -8,6 +8,17 @@ import { Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import PriceDisplay from '../_common/PriceDisplay';
 
+/* Returns a MUI Container with Tabs for each Card List
+*
+*  Uses code from here for Tab functionality: https://mui.com/material-ui/react-tabs/
+*
+*  State: value - the index prop of the current tab that is open
+*
+*         cardLists - an object containing keys of tab indexes, with values
+*                     of card arrays. We track the state of each list here.
+*
+*/
+
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -20,7 +31,7 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ borderLeft: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider'}}>
+                <Box sx={{ borderLeft: 1, borderRight: 1, borderBottom: 1, borderColor: 'divider' }}>
                     {children}
                 </Box>
             )}
@@ -43,32 +54,32 @@ function a11yProps(index) {
 
 const StyledTabs = styled((props) => (
     <Tabs
-      {...props}
-      TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+        {...props}
+        TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
     />
-  ))({
+))({
     '& .MuiTabs-indicator': {
-      display: 'flex',
-      justifyContent: 'center',
-      backgroundColor: 'transparent',
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
     },
     '& .MuiTabs-indicatorSpan': {
-      maxWidth: 40,
-      width: '100%',
-      backgroundColor: '#01589b',
+        maxWidth: 40,
+        width: '100%',
+        backgroundColor: '#01589b',
     },
-  });
+});
 
 export default function CardListDisplay() {
     const [value, setValue] = useState(0);
-    const [cardLists, setCardLists] = useState({0: [], 1:[]})
+    const [cardLists, setCardLists] = useState({ 0: [], 1: [] })
 
-    const addToCardLists = (listNum, card) => {
-        setCardLists((oldCardLists) => ({...oldCardLists, [listNum]: [...oldCardLists[listNum], card]}))
+    const addToCardLists = (card, cardData) => {
+        setCardLists((oldCardLists) => ({ ...oldCardLists, [value]: [...oldCardLists[value], {...card, ...cardData}] }))
     }
 
-    const removeFromCardLists = (listNum, cardId) => {
-        setCardLists((oldCardLists) => ({...oldCardLists, [listNum]: oldCardLists[listNum].filter((card) => card.id !== cardId)}));
+    const removeFromCardLists = (cardId) => {
+        setCardLists((oldCardLists) => ({ ...oldCardLists, [value]: oldCardLists[value].filter((card) => card.id !== cardId) }));
     }
 
     const handleChange = (event, newValue) => {
@@ -77,28 +88,44 @@ export default function CardListDisplay() {
 
     return (
         <Container sx={{ width: '95vw' }}>
-            <Box >
-                <StyledTabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="card list tabs"
-                    variant="fullWidth"
-                    >
-                    <Tab label="Card List One" {...a11yProps(0)} sx={{ borderTop: 1, borderRight: 1, borderLeft: 1, borderBottom: value=== 0 ? 0 : 1, borderColor: 'divider' }}/>
-                    <Tab label="Card List Two" {...a11yProps(1)} sx={{ borderTop: 1, borderRight: 1, borderBottom: value=== 1 ? 0 : 1, borderColor: 'divider' }}/>
-                </StyledTabs>
-            </Box>
+            <StyledTabs
+                value={value}
+                onChange={handleChange}
+                aria-label="card list tabs"
+                variant="fullWidth"
+            >
+                <Tab
+                    label="Card List One"
+                    {...a11yProps(0)}
+                    sx={{ borderTop: 2, borderRight: 2, borderLeft: 2, borderBottom: value === 0 ? 0 : 2, borderColor: 'divider' }}
+                />
+                <Tab
+                    label="Card List Two"
+                    {...a11yProps(1)}
+                    sx={{ borderTop: 2, borderRight: 2, borderBottom: value === 1 ? 0 : 2, borderColor: 'divider' }}
+                />
+            </StyledTabs>
             <CustomTabPanel value={value} index={0}>
-                <CardList  value={value} addToCardLists={addToCardLists} removeFromCardLists={removeFromCardLists} cards={cardLists[value]}/>
+                <CardList
+                    value={value}
+                    addToCardLists={addToCardLists}
+                    removeFromCardLists={removeFromCardLists}
+                    cards={cardLists[0]}
+                />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <CardList value={value} addToCardLists={addToCardLists} removeFromCardLists={removeFromCardLists} cards={cardLists[value]}/>
+                <CardList
+                    value={value}
+                    addToCardLists={addToCardLists}
+                    removeFromCardLists={removeFromCardLists}
+                    cards={cardLists[1]}
+                />
             </CustomTabPanel>
             <Typography>
-                Card List One Price: <PriceDisplay cards={cardLists[0]}/>
+                Card List One Price: <PriceDisplay cards={cardLists[0]} />
             </Typography>
             <Typography>
-                Card List Two Price: <PriceDisplay cards={cardLists[1]}/>
+                Card List Two Price: <PriceDisplay cards={cardLists[1]} />
             </Typography>
         </Container>
     );

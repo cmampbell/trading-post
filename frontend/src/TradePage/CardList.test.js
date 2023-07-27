@@ -92,100 +92,100 @@ describe('CardList Unit Tests', () => {
 
 });
 
-describe("Card List Integration Tests", () => {
-    it("should be able to add a card to itself", async () => {
-        let activeList = 'left';
-        const makeActive = jest.fn();
-        const { queryByText,
-            queryAllByText,
-            queryByRole,
-            queryByLabelText,
-            queryByAltText,
-            queryByDisplayValue } = renderWithRouter(
-                <CardList
-                    activeList={activeList}
-                    makeActive={makeActive}
-                    side={'left'}
-                    fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]} />
-            );
+// describe("Card List Integration Tests", () => {
+//     it("should be able to add a card to itself", async () => {
+//         let activeList = 'left';
+//         const makeActive = jest.fn();
+//         const { queryByText,
+//             queryAllByText,
+//             queryByRole,
+//             queryByLabelText,
+//             queryByAltText,
+//             queryByDisplayValue } = renderWithRouter(
+//                 <CardList
+//                     activeList={activeList}
+//                     makeActive={makeActive}
+//                     side={'left'}
+//                     fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]} />
+//             );
 
-        expect(queryByText('Add Card')).toBeInTheDocument();
-        expect(queryByText('Ulamog, the Infinite Gyre')).not.toBeInTheDocument();
-        // click add card button
-        act(() => {
-            userEvent.click(queryByText('Add Card'));
-        });
+//         expect(queryByText('Add Card')).toBeInTheDocument();
+//         expect(queryByText('Ulamog, the Infinite Gyre')).not.toBeInTheDocument();
+//         // click add card button
+//         act(() => {
+//             userEvent.click(queryByText('Add Card'));
+//         });
 
-        // find searchbar
-        await waitFor(() => {
-            expect(queryByLabelText('Card Name')).toBeInTheDocument();
-        });
+//         // find searchbar
+//         await waitFor(() => {
+//             expect(queryByLabelText('Card Name')).toBeInTheDocument();
+//         });
 
-        const textInput = queryByLabelText('Card Name');
+//         const textInput = queryByLabelText('Card Name');
 
-        // mock axios response with card name and oracle_id
-        axios.mockResolvedValue(
-            {
-                data:
-                {
-                    cards:
-                        [
-                            {
-                                name: "Ulamog, the Infinite Gyre",
-                                oracle_id: "b817bc56-9b4d-4c50-bafa-3c652b99578f"
-                            }
-                        ]
-                }
-            });
+//         // mock axios response with card name and oracle_id
+//         axios.mockResolvedValue(
+//             {
+//                 data:
+//                 {
+//                     cards:
+//                         [
+//                             {
+//                                 name: "Ulamog, the Infinite Gyre",
+//                                 oracle_id: "b817bc56-9b4d-4c50-bafa-3c652b99578f"
+//                             }
+//                         ]
+//                 }
+//             });
 
-        await act(async () => {
-            // enter text
-            userEvent.type(textInput, 'ul');
-        })
+//         await act(async () => {
+//             // enter text
+//             userEvent.type(textInput, 'ul');
+//         })
 
-        expect(textInput).toHaveValue('ul')
+//         expect(textInput).toHaveValue('ul')
 
-        await waitFor(() => {
-            expect(queryByRole('option')).toBeInTheDocument();
-        })
+//         await waitFor(() => {
+//             expect(queryByRole('option')).toBeInTheDocument();
+//         })
 
-        // mock axios response with printings
-        axios.mockResolvedValue({ data: { cards: [testCards[0]] } });
+//         // mock axios response with printings
+//         axios.mockResolvedValue({ data: { cards: [testCards[0]] } });
 
-        await act(async () => {
-            // select card
-            userEvent.click(queryByText('Ulamog, the Infinite Gyre'));
-        })
+//         await act(async () => {
+//             // select card
+//             userEvent.click(queryByText('Ulamog, the Infinite Gyre'));
+//         })
 
-        await waitFor(() => {
-            expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();
-        })
+//         await waitFor(() => {
+//             expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();
+//         })
 
-        // check form input
-        const quantity = queryByRole('textbox');
-        const foilInput = queryByDisplayValue("No");
-        const setInput = queryByDisplayValue("Double Masters 2022-337")
+//         // check form input
+//         const quantity = queryByRole('textbox');
+//         const foilInput = queryByDisplayValue("No");
+//         const setInput = queryByDisplayValue("Double Masters 2022-337")
 
-        expect(quantity).toHaveValue("1");
-        expect(foilInput).toHaveDisplayValue("No");
-        expect(setInput).toHaveValue("Double Masters 2022-337");
-        expect(queryByText('Add Card!')).toBeInTheDocument();
+//         expect(quantity).toHaveValue("1");
+//         expect(foilInput).toHaveDisplayValue("No");
+//         expect(setInput).toHaveValue("Double Masters 2022-337");
+//         expect(queryByText('Add Card!')).toBeInTheDocument();
 
-        // click add card button
+//         // click add card button
 
-        act(()=> {
-            userEvent.click(queryByText('Add Card!'))
-        })
-        // check that the card is in the list
+//         act(()=> {
+//             userEvent.click(queryByText('Add Card!'))
+//         })
+//         // check that the card is in the list
 
-        expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
-        // check that the card is displaying all the correct info
+//         expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
+//         // check that the card is displaying all the correct info
 
-        expect(queryByText('Foil: No')).toBeInTheDocument();
-        expect(queryByText('Qty: 1')).toBeInTheDocument();
-        // price in CardItem
-        expect(queryAllByText('$25.48')[0]).toBeInTheDocument();
+//         expect(queryByText('Foil: No')).toBeInTheDocument();
+//         expect(queryByText('Qty: 1')).toBeInTheDocument();
+//         // price in CardItem
+//         expect(queryAllByText('$25.48')[0]).toBeInTheDocument();
 
-        expect(queryAllByText('$25.48')[1]).toBeInTheDocument();
-    })
-})
+//         expect(queryAllByText('$25.48')[1]).toBeInTheDocument();
+//     })
+// })

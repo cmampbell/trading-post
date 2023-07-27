@@ -13,19 +13,12 @@ import CardListDisplay from "./CardListDisplay";
 * Lists are labeled left and right.
 */
 const TradePage = () => {
-
-    const [activeList, setActiveList] = useState('left')
     const [showHelp, setShowHelp] = useState(false);
-
-    const makeActive = (side) => {
-        setActiveList(side)
-    }
 
     const toggleHelpModal = () => {
         setShowHelp((oldShowHelp) => !oldShowHelp);
     }
-
-    // Make active should have larger z-index
+    
     return (
         <Grid container spacing={2} sx={{ position: 'relative' }}>
             <Grid item xs={12}>
@@ -48,16 +41,6 @@ const TradePage = () => {
                 <TradeHelpModal open={showHelp} toggleHelpModal={toggleHelpModal} />
             </Grid>
             <CardListDisplay />
-            {/* Put tabs here, clicking tabs switches active list */}
-            {/* <Grid item xs={12}>
-                <Button onClick={() => makeActive('left')}>List 1</Button>
-                <Button onClick={() => makeActive('right')}>List 2</Button>
-            </Grid>
-            <Grid item xs={12} sx={{position: 'relative'}}>
-                <CardList activeList={activeList} makeActive={makeActive} side={'left'} color="primary" />
-                <CardList activeList={activeList} makeActive={makeActive} side={'right'} color="secondary" />
-            </Grid> */}
-
             <Grid item xs={12}>
                 <Button variant="outlined" color="success">Commit Trade</Button>
             </Grid>

@@ -30,7 +30,6 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
 
     useEffect(() => {
         if (selectedCard && selectedCard.id) {
-            console.log(selectedCard)
             // get matching card printings from database
             CardService.getCardsByOracleId(selectedCard.id)
                 .then((options) => {
