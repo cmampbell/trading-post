@@ -22,7 +22,7 @@ const CardItem = ({ card, deleteCard }) => {
 
     return (
         // TO-DO: have outline change depending on foil status
-        <Card variant="outlined">
+        <Card >
             <Grid container spacing={10}>
                 <Grid item xs={2}>
                     <CardMedia

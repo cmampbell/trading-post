@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import { Grid, Button, Typography, IconButton, Box } from "@mui/material"
 import CardList from './CardList'
 import TradeHelpModal from "./TradeHelpModal";
-import SetSelectField from "../_common/CardForm/FormInputs/SetSelectField";
-import FoilSelectField from "../_common/CardForm/FormInputs/FoilSelectField";
-import QualitySelectField from "../_common/CardForm/FormInputs/QualitySelectField";
-import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectField";
 import HelpIcon from '@mui/icons-material/Help';
+import CardListDisplay from "./CardListDisplay";
 
 /* Parent component for trading functionality. 
 * 
@@ -28,8 +25,9 @@ const TradePage = () => {
         setShowHelp((oldShowHelp) => !oldShowHelp);
     }
 
+    // Make active should have larger z-index
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ position: 'relative' }}>
             <Grid item xs={12}>
                 <Box sx={{ position: 'relative' }}>
                     <Typography variant="h1">
@@ -49,8 +47,17 @@ const TradePage = () => {
                 </Box>
                 <TradeHelpModal open={showHelp} toggleHelpModal={toggleHelpModal} />
             </Grid>
-            <CardList activeList={activeList} makeActive={makeActive} side='left' key='left' fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]} />
-            <CardList activeList={activeList} makeActive={makeActive} side='right' key='right' fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]} />
+            <CardListDisplay />
+            {/* Put tabs here, clicking tabs switches active list */}
+            {/* <Grid item xs={12}>
+                <Button onClick={() => makeActive('left')}>List 1</Button>
+                <Button onClick={() => makeActive('right')}>List 2</Button>
+            </Grid>
+            <Grid item xs={12} sx={{position: 'relative'}}>
+                <CardList activeList={activeList} makeActive={makeActive} side={'left'} color="primary" />
+                <CardList activeList={activeList} makeActive={makeActive} side={'right'} color="secondary" />
+            </Grid> */}
+
             <Grid item xs={12}>
                 <Button variant="outlined" color="success">Commit Trade</Button>
             </Grid>
