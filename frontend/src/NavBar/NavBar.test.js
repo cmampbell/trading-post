@@ -1,8 +1,7 @@
-import { act } from 'react-dom/test-utils';
 import NavBar from './NavBar';
-import renderWithRouter from './renderWithRouter';
+import renderWithRouter from "../_common/renderWithRouter";
 import userEvent from '@testing-library/user-event';
-import { waitFor } from '@testing-library/react';
+import { waitFor,  act } from '@testing-library/react';
 
 describe('HomePage component', () => {
     it('renders without crashing', () => {

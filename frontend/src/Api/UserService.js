@@ -4,13 +4,13 @@ class User extends Api{
 
     static async registerUser(regData){
         let res = await Api.request(`auth/register`, regData, 'post');
-        this.token = res.token;
+        Api.token = res.token;
         return res.token;
     }
 
     static async loginUser(loginData){
         let res = await Api.request(`auth/login`, loginData, 'post');
-        this.token = res.token;
+        Api.token = res.token;
         return res;
     }
 

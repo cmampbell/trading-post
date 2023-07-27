@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import './App.css';
 import { Outlet, useLoaderData, useNavigate } from 'react-router'
 import UserService from './Api/UserService'
-import NavBar from './_common/NavBar';
+import NavBar from './NavBar/NavBar';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Container, Grid } from '@mui/material';
 
 /* Parent component to all routes.
 *
@@ -25,7 +26,7 @@ function App() {
 
   const setStateAndStorage = (resp) => {
     setToken(() => resp.token);
-    setCurrUser(()=> resp.user);
+    setCurrUser(() => resp.user);
     localStorage.setItem("token", resp.token);
     localStorage.setItem("currUser", JSON.stringify(resp.user));
   }
@@ -51,9 +52,9 @@ function App() {
     }
   }
 
-  const logout = () =>{
-    setToken(()=> null);
-    setCurrUser(()=> null);
+  const logout = () => {
+    setToken(() => null);
+    setCurrUser(() => null);
     localStorage.removeItem("token")
     localStorage.removeItem("currUser")
     navigate('/');
@@ -62,8 +63,10 @@ function App() {
   return (
     <div className="App">
       <CssBaseline />
-      <NavBar token={token} logout={logout} currUser={currUser} />
-      <Outlet context={{ register, token, login, currUser }} />
+      <Grid container>
+        <NavBar token={token} logout={logout} currUser={currUser} />
+        <Outlet context={{ register, token, login, currUser }} />
+      </Grid>
     </div>
   );
 }

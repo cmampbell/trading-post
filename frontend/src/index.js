@@ -4,27 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "./routes";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#01589b',
-    },
-    secondary: {
-      main: '#d86409',
-    },
-  },
-  typography: {
-    h1: {
-      fontFamily: '"Lora", "Helvetica", "Arial", sans-serif',
-    },
-    h2: {
-      fontFamily: 'Lora',
-    },
-  },
-});
+import { ThemeProvider} from '@mui/material/styles';
+import theme from './theme';
 
 const router = createBrowserRouter(routes);
 
