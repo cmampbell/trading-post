@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Grid, Button, Typography, IconButton } from "@mui/material"
+import { Grid, Button, Typography, IconButton, Box } from "@mui/material"
 import CardList from './CardList'
+import TradeHelpModal from "./TradeHelpModal";
 import SetSelectField from "../_common/CardForm/FormInputs/SetSelectField";
 import FoilSelectField from "../_common/CardForm/FormInputs/FoilSelectField";
 import QualitySelectField from "../_common/CardForm/FormInputs/QualitySelectField";
@@ -23,24 +24,30 @@ const TradePage = () => {
         setActiveList(side)
     }
 
-    const handleClick = () => {
+    const toggleHelpModal = () => {
         setShowHelp((oldShowHelp) => !oldShowHelp);
     }
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h1">
-                    Trade Page
-                </Typography>
-                <IconButton onClick={handleClick}>
-                    <HelpIcon />
-                </IconButton>
-                {showHelp && <>
-                    <Typography variant="body1">{`1)`} Click the 'Add Card' button to add a card to the active list</Typography>
-                    <Typography variant="body1">{`2)`} Once all cards are added to the active list, click on the other list to activate</Typography>
-                    <Typography variant="body1">{`3)`} After all cards are added to each list, look at the price and decide whether to commit the trade!</Typography>
-                </>}
+                <Box sx={{ position: 'relative' }}>
+                    <Typography variant="h1">
+                        Trade Page
+                    </Typography>
+                    <IconButton
+                        onClick={toggleHelpModal}
+                        sx={{
+                            position: "absolute",
+                            top: '25%',
+                            right: '1%'
+                        }}
+                        color="primary"
+                    >
+                        <HelpIcon />
+                    </IconButton>
+                </Box>
+                <TradeHelpModal open={showHelp} toggleHelpModal={toggleHelpModal} />
             </Grid>
             <CardList activeList={activeList} makeActive={makeActive} side='left' key='left' fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]} />
             <CardList activeList={activeList} makeActive={makeActive} side='right' key='right' fields={[SetSelectField, FoilSelectField, QualitySelectField, QuantitySelectField]} />
