@@ -54,7 +54,7 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
             alignItems: 'center',
             justifyContent: 'space-between',
             alignContent: 'flex-start',
-            width: '80%',
+            width: '90%',
             height: 'auto'
         }}>
 

@@ -33,7 +33,7 @@ const TradePage = () => {
                             top: '25%',
                             right: '1%'
                         }}
-                        color="primary"
+                        color="info"
                     >
                         <HelpIcon />
                     </IconButton>

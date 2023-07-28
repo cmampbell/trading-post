@@ -5,10 +5,10 @@ let theme = createTheme({
         contrastThreshold: 4.5,
         mode: 'light',
         primary: {
-            main: '#01589b',
+            main: '#EDCF9B',
         },
         secondary: {
-            main: '#d86409',
+            main: '#ab1a00',
         },
     },
 });

@@ -60,6 +60,10 @@ const StyledTabs = styled((props) => (
         TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
     />
 ))({
+    '& .Mui-selected': {
+        color: "#AB1A00",
+        fontWeight: 'bold'
+      },
     '& .MuiTabs-indicator': {
         display: 'flex',
         justifyContent: 'center',
@@ -99,7 +103,13 @@ export default function CardListDisplay() {
                 <Tab
                     label="Card List One"
                     {...a11yProps(0)}
-                    sx={{ borderTop: 2, borderRight: 2, borderLeft: 2, borderBottom: value === 0 ? 0 : 2, borderColor: 'divider' }}
+                    sx={{ 
+                        borderTop: 2,
+                        borderRight: 2,
+                        borderLeft: 2,
+                        borderBottom: value === 0 ? 0 : 2,
+                        borderColor: 'divider',
+                    }}
                 />
                 <Tab
                     label="Card List Two"
@@ -126,20 +136,24 @@ export default function CardListDisplay() {
             <Grid container>
                 <Grid item xs={6}>
                     <Stack>
-                        <Typography>
+                        <Typography variant='h6'>
                             Card List One:
-                            <PriceDisplay cards={cardLists[0]} />
+                        </Typography>
+                        <PriceDisplay cards={cardLists[0]} />
+                        <Typography variant='body1'>
                             {cardLists[0].length} cards
                         </Typography>
                     </Stack>
                 </Grid>
                 <Grid item xs={6}>
                     <Stack>
-                        <Typography>
+                        <Typography variant='h6'>
                             Card List Two:
                         </Typography>
                         <PriceDisplay cards={cardLists[1]} />
-                        {cardLists[1].length} cards
+                        <Typography variant='body1'>
+                            {cardLists[1].length} cards
+                        </Typography>
                     </Stack>
                 </Grid>
             </Grid>

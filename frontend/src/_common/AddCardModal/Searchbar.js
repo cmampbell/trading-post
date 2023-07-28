@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Autocomplete, Button, Modal, Box } from "@mui/material";
+import { TextField, Autocomplete, Button, Modal, Box, InputAdornment, IconButton, Container, Grid } from "@mui/material";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CardService from "../../Api/CardService"
 import WebcamCardReader from "./WebcamCardReader";
@@ -57,7 +57,6 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     const handleValueChange = (evt, newValue) => {
         // value changes when user makes a selection
-        console.log(selectedCard)
         if (newValue) setSelectedCard(() => newValue)
     }
 
@@ -81,33 +80,39 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     return (
         <>
-            <Autocomplete
-                inputValue={searchInput}
-                onInputChange={handleInputChange}
-                value={selectedCard}
-                onChange={handleValueChange}
-                id="searchbar"
-                freeSolo
-                selectOnFocus
-                handleHomeEndKeys
-                clearOnBlur
-                clearOnEscape
-                autoSelect
-                loading={isLoading}
-                loadingText='Loading...'
-                noOptionsText='No options found.'
-                options={cardOptions.map((card) => ({ id: card.oracle_id, label: card.name }))}
-                renderInput={(params) => <TextField {...params} label="Card Name" />}
-                sx={{ width: '90%' }}
-            />
-            <Button onClick={openCameraModal}
-                sx={{
-                    position: 'absolute',
-                    top: '17%',
-                    right: '8%',
-                }}>
-                <PhotoCameraIcon sx={{ fontSize: '35px', }} />
-            </Button>
+            <Grid container sx={{width: '100%'}}>
+                <Grid item xs={10}>
+                    <Autocomplete
+                        inputValue={searchInput}
+                        onInputChange={handleInputChange}
+                        value={selectedCard}
+                        onChange={handleValueChange}
+                        id="searchbar"
+                        freeSolo
+                        selectOnFocus
+                        handleHomeEndKeys
+                        clearOnBlur
+                        clearOnEscape
+                        autoSelect
+                        loading={isLoading}
+                        loadingText='Loading...'
+                        noOptionsText='No cards found.'
+                        options={cardOptions.map((card) => ({ id: card.oracle_id, label: card.name }))}
+                        renderInput={(params) => <TextField
+                            {...params}
+                            label="Card Name"
+                        />}
+                        sx={{ marginLeft: '5%', width: '90%' }}
+                        filterOptions={(x) => x}
+                    />
+                </Grid>
+                <Grid item xs={1}>
+                    <IconButton onClick={openCameraModal} color="primary" >
+                        <PhotoCameraIcon sx={{ fontSize: '35px' }}/>
+                    </IconButton>
+                </Grid>
+            </Grid>
+
             <Modal
                 open={cameraOpen}
                 onClose={closeCameraModal}
@@ -123,6 +128,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                         marginTop: '8vh',
                         height: '85vh',
                         position: 'relative'
+
                     }}>
                     <WebcamCardReader
                         setSearchInput={setSearchInput}

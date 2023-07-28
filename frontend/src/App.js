@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Outlet, useLoaderData, useNavigate } from 'react-router'
+import { Outlet, useLoaderData, useNavigate, useLocation } from 'react-router'
 import UserService from './Api/UserService'
 import NavBar from './NavBar/NavBar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,8 +23,10 @@ function App() {
   const [token, setToken] = useState(localStorageToken || null);
   const [currUser, setCurrUser] = useState(localStorageCurrUser || null);
   const navigate = useNavigate();
+  let location = useLocation();
 
   const setStateAndStorage = (resp) => {
+    console.log(resp);
     setToken(() => resp.token);
     setCurrUser(() => resp.user);
     localStorage.setItem("token", resp.token);
@@ -34,6 +36,7 @@ function App() {
   const register = async (regData) => {
     try {
       const resp = await UserService.registerUser(regData);
+      console.log(resp)
       setStateAndStorage(resp);
       navigate('/')
     } catch (err) {
@@ -64,7 +67,7 @@ function App() {
     <div className="App">
       <CssBaseline />
       <Grid container>
-        <NavBar token={token} logout={logout} currUser={currUser} />
+        {location.pathname !== '/' && <NavBar token={token} logout={logout} currUser={currUser} />}
         <Outlet context={{ register, token, login, currUser }} />
       </Grid>
     </div>

@@ -29,7 +29,7 @@ const CardItem = ({ card, deleteCard }) => {
             }
                 : {
                     border: 2,
-                    borderColor: foil === 'Yes' ? 'pink' : 'black',
+                    borderColor: 'black',
                     width: 'auto',
                 }}>
             <Grid container spacing={0} sx={{ width: '95%' }}>

@@ -11,7 +11,7 @@ const NavBar = ({ token, logout, currUser }) => {
         wrapper : {
             backgroundColor: theme.palette.primary.main,
             alignItems: 'center',
-            color: '#fff',
+            color: '#000000',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -20,11 +20,11 @@ const NavBar = ({ token, logout, currUser }) => {
         }
     }
     return (
-            <Grid item container sx={navBarStyles.wrapper} color="primary">
-                    <NavLink to='/' style={{color: '#fff', textDecoration: 'none', fontWeight: 'bold'}}>
+            <Grid item container sx={navBarStyles.wrapper}>
+                    <NavLink to='/' style={{color: '#000000', textDecoration: 'none', fontWeight: 'bold'}}>
                     Trading Post
                     </NavLink>
-                <NavMenu token={token} logout={logout} currUser={currUser}/>
+                <NavMenu token={token} logout={logout} currUser={currUser} />
             </Grid>
     );
 }

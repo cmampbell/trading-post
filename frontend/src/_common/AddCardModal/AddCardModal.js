@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Container, Paper, IconButton, Box } from "@mui/material";
+import { Modal, Container, Paper, IconButton, Box, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';
@@ -62,8 +62,10 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
                         justifyContent: 'flex-start',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        marginTop: '8vh',
-                        height: '89vh'
+                        marginTop: '6vh',
+                        height: '88vh',
+                        position: 'relative',
+                        width: '100%'
                     }}
                 >
                     <Box
@@ -74,10 +76,13 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
                             width: '100%',
                             position: 'relative'
                         }}>
-                        <h2 id='modal-title'>Search By Card Name</h2>
+                        <Typography variant='h2' sx={{m: 2}}>
+                            Card Search
+                        </Typography>
                         <IconButton
                             aria-label="delete"
                             onClick={handleClose}
+                            color='error'
                             sx={{
                                 position: 'absolute',
                                 top: '25%',

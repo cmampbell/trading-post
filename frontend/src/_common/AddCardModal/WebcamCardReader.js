@@ -2,9 +2,10 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
 import { Image } from 'image-js';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Button, Grid } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import CircleIcon from '@mui/icons-material/Circle';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 /* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
 *  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
@@ -29,11 +30,11 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     // add peice of state that tracks if webcam is loading or not
-    const [ isLoading, setIsLoading ] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(()=> {
-        if(webcamRef.current){
-            setIsLoading(()=> false);
+    useEffect(() => {
+        if (webcamRef.current) {
+            setIsLoading(() => false);
         }
     }, [webcamRef])
 
@@ -81,8 +82,8 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
         const image = await Image.load(imageSource);
 
         // might want to resize to give tesseract more to read
-        const cropped = image.crop({ x: 80, y: 146, width: 460, height: 60 })
-        const resized = cropped.resize({ width: 920, height: 120 })
+        const cropped = image.crop({ x: 60, y: 73, width: 598, height: 78 })
+        const resized = cropped.resize({ width: 1196, height: 156 })
 
         let grey = resized.grey();
         let blur = grey.gaussianFilter({ radius: 1 });
@@ -93,18 +94,22 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
     }
 
     return (
-        <>
-        {isLoading && <p> Loading camera...</p>}
-           <Box sx={{
+        // the parent box gives the camera it's dimensions
+        <Box
+            sx={{
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 height: '640px',
-                width: '360px'
+                width: '360px',
+                backgroundColor: 'white',
             }}>
-                <Box sx={{
-                    border: 'dashed',
-                    borderColor: 'gray',
+            {isLoading && <Typography variant='subtitle1'> Loading camera...</Typography>}
+            {/* This box provides card placement guide */}
+            <Box
+                sx={{
+                    border: 'solid',
+                    borderColor: '#d86409',
                     position: 'absolute',
                     height: '440px',
                     width: '304px',
@@ -112,66 +117,64 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                     left: '30px',
                     zIndex: 2
                 }}>
-                </Box>
-                {/* <Box sx={{
-                    border: 'solid',
-                    borderColor: 'red',
-                    position: 'absolute',
-                    height: '30px',
-                    width: '230px',
-                    top: '73px',
-                    left: '40px',
-                    zIndex: 2
-                }}></Box> */}
-                <h4
-                    style={{position: 'absolute', left: '25%',}}> Place card inside outline
-                </h4> 
-
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat='image/png'
-                    videoConstraints={{
-                        height: 1920,
-                        width: 1080,
-                    }}
-                    style={{ border: 'solid' }}
-                />
-                <IconButton 
-                    onClick={capture}
-                    sx={{
-                        position: 'absolute',
-                        zIndex: 5,
-                        left: '40%',
-                        bottom: '5%',
-                    }}    
-                >
-                    <CircleIcon
-                        fontSize='large'
-                        sx={{
-                            fontSize: '75px',
-                            color: 'blue'
-                        }}
-                        />
-                </IconButton>
-                <IconButton
-                    aria-label="closeCamera"
-                    onClick={closeCameraModal}
-                    sx={{
-                        position: 'absolute',
-                        color: 'red',
-                        zIndex: 5,
-                        right: '5%',
-                        bottom: '5%',
-                        // top: 
-                        }}
-                >
-                    <CloseIcon 
-                        sx={{fontSize: '40px'}}/>
-                </IconButton>
-                <img src={imgSrc} alt='card-scan-result'/>
             </Box>
-        </>
+            {/* This box shows the area of the card scanned, used for testing */}
+            {/* <Box sx={{
+                            border: 'solid',
+                            borderColor: 'red',
+                            position: 'absolute',
+                            height: '30px',
+                            width: '230px',
+                            top: '73px',
+                            left: '40px',
+                            zIndex: 2
+                        }}></Box> */}
+            <Typography
+                variant='h5'
+                style={{ backgroundColor: 'white', textAlign: 'center' }}
+            >
+                Place card borders inside outline
+            </Typography>
+            <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat='image/png'
+                videoConstraints={{
+                    height: 1920,
+                    width: 1080,
+                }}
+            />
+            {!isLoading && <>
+                <Grid container spacing={8}>
+                    <Grid item xs={6}>
+                        <Button
+                            onClick={capture}
+                            color='primary'
+                            variant='contained'
+                            sx={{
+                                width: '100%'
+                            }}
+                        >
+                            Take Photo
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button
+                            onClick={closeCameraModal}
+                            color='error'
+                            variant='contained'
+                            sx={{
+                                width: '100%'
+                            }}
+                        >
+                            Close Camera
+                        </Button>
+                    </Grid>
+                </Grid>
+            </>}
+
+            {/* <img src={imgSrc} alt='card-scan-result' /> */}
+        </Box >
     )
 }
 

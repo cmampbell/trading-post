@@ -22,7 +22,7 @@ const NavMenu = ({ token, logout, currUser }) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
-                sx={{ color: '#fff' }}
+                sx={{ color: '#000000' }}
                 size="large"
             >
                 <MenuIcon />
