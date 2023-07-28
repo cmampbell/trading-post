@@ -41,9 +41,9 @@ const TradePage = () => {
                 <TradeHelpModal open={showHelp} toggleHelpModal={toggleHelpModal} />
             </Grid>
             <CardListDisplay />
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                 <Button variant="outlined" color="success">Commit Trade</Button>
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }

@@ -34,12 +34,12 @@ const TradeHelpModal = ({ open, toggleHelpModal }) => {
                         <List>
                             <ListItem>
                                 <Typography variant="body1">
-                                    {`1)`} Click a list to make it active
+                                    {`1)`} Click a card list tab make it active
                                 </Typography>
                             </ListItem>
                             <ListItem>
                                 <Typography variant="body1">
-                                    {`2)`} Click the 'Add Card' button to add a card to the active list
+                                    {`2)`} Click the 'Add Card' button to add a card to the list
                                 </Typography>
                             </ListItem>
                             <ListItem>
@@ -49,7 +49,7 @@ const TradeHelpModal = ({ open, toggleHelpModal }) => {
                             </ListItem>
                             <ListItem>
                                 <Typography variant="body1">
-                                    {`4)`} After all cards are added to each list, look at the price and decide whether to commit the trade!
+                                    {`4)`} When both lists are complete, compare the values at the bottom price and decide whether to make the trade!
                                 </Typography>
                             </ListItem>
                         </List>

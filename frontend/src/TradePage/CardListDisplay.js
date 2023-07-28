@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import CardList from './CardList';
 import { Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -75,7 +77,7 @@ export default function CardListDisplay() {
     const [cardLists, setCardLists] = useState({ 0: [], 1: [] })
 
     const addToCardLists = (card, cardData) => {
-        setCardLists((oldCardLists) => ({ ...oldCardLists, [value]: [...oldCardLists[value], {...card, ...cardData}] }))
+        setCardLists((oldCardLists) => ({ ...oldCardLists, [value]: [...oldCardLists[value], { ...card, ...cardData }] }))
     }
 
     const removeFromCardLists = (cardId) => {
@@ -121,12 +123,26 @@ export default function CardListDisplay() {
                     cards={cardLists[1]}
                 />
             </CustomTabPanel>
-            <Typography>
-                Card List One Price: <PriceDisplay cards={cardLists[0]} />
-            </Typography>
-            <Typography>
-                Card List Two Price: <PriceDisplay cards={cardLists[1]} />
-            </Typography>
+            <Grid container>
+                <Grid item xs={6}>
+                    <Stack>
+                        <Typography>
+                            Card List One:
+                            <PriceDisplay cards={cardLists[0]} />
+                            {cardLists[0].length} cards
+                        </Typography>
+                    </Stack>
+                </Grid>
+                <Grid item xs={6}>
+                    <Stack>
+                        <Typography>
+                            Card List Two:
+                        </Typography>
+                        <PriceDisplay cards={cardLists[1]} />
+                        {cardLists[1].length} cards
+                    </Stack>
+                </Grid>
+            </Grid>
         </Container>
     );
 }

@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 *  Returns an MUI Typography element containing the price of the card object,
 *  or the total price of the cards in the array.
 */
-const PriceDisplay = ({ card = null, cards = null, formData = {} }) => {
+const PriceDisplay = ({ card = null, cards = null, formData = {}, sx={} }) => {
 
     const calcCardPrice = (card) => {
         let price;
@@ -31,7 +31,7 @@ const PriceDisplay = ({ card = null, cards = null, formData = {} }) => {
     }
 
     return (
-        <Typography variant='body2'>
+        <Typography variant='body1' sx={sx}>
             {card && `$${calcCardPrice(card)}`}
             {cards && `$${calcTotalPrice(cards)}`}
         </Typography>
