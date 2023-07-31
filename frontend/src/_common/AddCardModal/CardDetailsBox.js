@@ -30,14 +30,15 @@ const CardDetailsBox = ({ printings, addCard, handleClose, fields }) => {
 
     // set borderStyles based on card input
     const borderStyles = card.foil === 'Yes' || card.foil === 'Etched' ? {
-            border: '3px solid transparent',
+            border: '5px solid transparent',
             borderImage: 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
             borderImageSlice: 1,
         }
             : {
-                border: 2,
+                border: 5,
                 borderColor: 'black',
                 width: 'auto',
+                borderRadius: '10px'
             }
 
 
@@ -63,7 +64,6 @@ return (
                 alt={`${card.name} art by ${card.artist}`}
                 style={{ width: 'auto', height: '100%' }}
             />
-
         </Box>
         <Typography variant='subtitle2' sx={{m:1, fontSize: '11px'}}>
             Illustrated by {card.artist}. &#8482; & &copy; Wizards Of The Coast, Inc.

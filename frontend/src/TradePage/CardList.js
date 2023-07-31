@@ -16,7 +16,7 @@ const CardList = ({ cards = [], addToCardLists, removeFromCardLists }) => {
 
     return (
         <>
-        <Button onClick={handleSearchOpen} variant="outlined" sx={{marginTop: '1vh'}} color='secondary'>Add Card</Button>
+        <Button onClick={handleSearchOpen} variant="contained" sx={{marginTop: '1vh'}} color='secondary'>Add Card</Button>
             <Stack spacing={1} sx={{marginTop: '1vh', marginBottom: '3vh'}}>
             
                 {cards.map((card, idx) => <CardItem card={card} key={`${card.id}+${idx}`} deleteCard={removeFromCardLists} />)}

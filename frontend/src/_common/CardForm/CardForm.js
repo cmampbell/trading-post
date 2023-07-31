@@ -30,26 +30,26 @@ import useFields from "./useFields"
 
 const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) => {
     // create INITIAL_STATE from fields prop and card
-    const [cardData, setCardData ] = useState(useFields(fields, card));
+    const [cardData, setCardData] = useState(useFields(fields, card));
 
     // update state based on input changes
     const updateCardData = (name, value) => {
-        setCardData(oldCardData => ({...oldCardData, [name]: value}))
-        if(setCard) setCard(oldCard => ({...oldCard, [name]: value}))
+        setCardData(oldCardData => ({ ...oldCardData, [name]: value }))
+        if (setCard) setCard(oldCard => ({ ...oldCard, [name]: value }))
     }
 
     // add card object to list on click
     const handleClick = () => {
         // this function handles submitting the form
         addCard(card, cardData);
-        if(setCard) setCard(() => ({}));
+        if (setCard) setCard(() => ({}));
         handleClose();
     }
 
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -57,10 +57,20 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
             width: '90%',
             height: 'auto'
         }}>
+            <Box sx={{display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            alignContent: 'flex-start',
+            width: '95%',
+            height: 'auto'}} >
 
-            {fields && fields.length > 0 && fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings}/>)}
-            <PriceDisplay card={card} formData={cardData} />
-            <Button onClick={handleClick}> Add Card! </Button>
+                {fields && fields.length > 0 && fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings} />)}
+                <PriceDisplay card={card} formData={cardData} />
+            </Box>
+
+            <Button variant='contained'  onClick={handleClick} > Add Card! </Button>
         </Box>
     )
 }

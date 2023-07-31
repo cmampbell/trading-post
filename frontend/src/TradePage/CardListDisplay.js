@@ -61,7 +61,7 @@ const StyledTabs = styled((props) => (
     />
 ))({
     '& .Mui-selected': {
-        color: "#AB1A00",
+        color: "#ab1a00",
         fontWeight: 'bold'
       },
     '& .MuiTabs-indicator': {

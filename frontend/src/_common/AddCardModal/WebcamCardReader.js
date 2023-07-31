@@ -145,7 +145,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 }}
             />
             {!isLoading && <>
-                <Grid container spacing={8}>
+                <Grid container spacing={8} sx={{position: 'absolute', bottom: '0%'}}>
                     <Grid item xs={6}>
                         <Button
                             onClick={capture}
