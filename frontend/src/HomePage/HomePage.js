@@ -9,7 +9,8 @@ const HomePage = () => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#edcf9b',
-            height: '100vh'
+            height: '100vh',
+            width: '100vw'
         }}>
             <Typography variant='h1' >Welcome to Trading Post!</Typography>
             <Stack spacing={4} sx={{ m: 5}}>
