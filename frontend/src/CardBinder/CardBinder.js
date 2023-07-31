@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router";
-import { Button, Container } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import AddCardModal from "../_common/AddCardModal/AddCardModal";
 import CollectionCardItem from "./CollectionCardItem";
 
@@ -49,7 +49,7 @@ const CardBinder = ({ binderType, service }) => {
         try {
             const cardToAdd = { cardID: card.id, ...cardData };
             await addCard(currUser.id, cardToAdd);
-            setListCards((oldListCards) => [...oldListCards, {...card, ...cardData}]);
+            setListCards((oldListCards) => [...oldListCards, { ...card, ...cardData }]);
         } catch (err) {
             console.log(err);
         }
@@ -78,11 +78,19 @@ const CardBinder = ({ binderType, service }) => {
 
     return (
         <Container>
-            <h1>{currUser.username}'s {binderType}</h1>
-            {(currUser.id === +userId) && binderType !== "trade" && <Button onClick={handleSearchOpen} variant="outlined">Add card to collection</Button>}
-            {(currUser.id === +userId) && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields}/>}
+            <Typography variant="h2" sx={{m: 1, fontWeight: 'bold'}}>{currUser.username}'s {binderType}</Typography>
+            {(currUser.id === +userId) &&
+                binderType !== "trade" &&
+                <Button
+                    onClick={handleSearchOpen}
+                    variant="contained"
+                    sx={{m: 2}}
+                >Add card to collection
+                </Button>
+            }
+            {(currUser.id === +userId) && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields} />}
             {listCards && listCards.map((card, idx) => {
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(currUser.id === +userId)} pageType={binderType} fields={editFields}/>;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(currUser.id === +userId)} pageType={binderType} fields={editFields} />;
             })}
         </Container>
     )

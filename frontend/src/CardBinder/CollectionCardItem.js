@@ -20,28 +20,40 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
         setEditOpen(!editOpen);
     }
 
+    const borderStyles = card.foil === 'Yes' || card.foil === 'Etched' ? {
+        border: '5px solid transparent',
+        borderImage: 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
+        borderImageSlice: 1,
+    }
+        : {
+            border: 5,
+            borderColor: 'black',
+            width: 'auto',
+            borderRadius: '10px'
+        }
+    
     return (
-        <Accordion TransitionProps={{ unmountOnExit: true }}>
+        <Accordion TransitionProps={{ unmountOnExit: true }} sx={{...borderStyles}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${card.name}-content`}
                 id={`${card.name}-header`}
             >
-                <Grid container spacing={4}>
-                    <Grid item xs={4} sx={{ textAlign: 'left' }}>
+                <Grid container spacing={1}>
+                    <Grid item xs={10} sx={{ textAlign: 'left' }}>
                         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{card.name}</Typography>
                     </Grid>
-                    <Grid item xs={3}>
-                        <Typography variant="body1">Quality: {card.quality}</Typography>
-                    </Grid>
                     <Grid item xs={2}>
+                        <PriceDisplay card={card}/>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="body1">Quality: <br/>{card.quality}</Typography>
+                    </Grid>
+                    <Grid item xs={4}>
                         <Typography variant="body1">For Trade: {card.for_trade ? 'Yes' : 'No'}</Typography>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={2}>
                         <Typography variant="body1">Qty:{card.quantity}</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <PriceDisplay card={card}/>
                     </Grid>
                 </Grid>
             </AccordionSummary>
