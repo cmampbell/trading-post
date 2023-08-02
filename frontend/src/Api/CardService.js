@@ -1,6 +1,6 @@
 import Api from "./Api";
 
-class CardService extends Api {
+class CardService {
 
     static async getCardsByName(name) {
         let res = await Api.request(`cards`, {name})

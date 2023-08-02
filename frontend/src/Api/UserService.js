@@ -1,6 +1,6 @@
 import Api from "./Api";
 
-class User extends Api{
+class User {
 
     static async registerUser(regData){
         let res = await Api.request(`auth/register`, regData, 'post');

@@ -3,7 +3,7 @@ import SetSelectField from "../_common/CardForm/FormInputs/SetSelectField";
 import FoilSelectField from "../_common/CardForm/FormInputs/FoilSelectField";
 import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectField";
 
-class WantList extends Api {
+class WantList  {
 
     static async getUserWantList(userId){
         let res = await Api.request(`want-list/${userId}`);

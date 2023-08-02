@@ -5,7 +5,7 @@ import QualitySelectField from "../_common/CardForm/FormInputs/QualitySelectFiel
 import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectField";
 import ForTradeField from "../_common/CardForm/FormInputs/ForTradeField";
 
-class CardCollection extends Api {
+class CardCollection {
 
     static async getUserCollection(userId){
         let res = await Api.request(`collection/${userId}/`);
@@ -47,6 +47,6 @@ class CardCollection extends Api {
         QuantitySelectField,
         ForTradeField,
     ]
-}
+};
 
 export default CardCollection;
