@@ -28,7 +28,7 @@ import useFields from "./useFields"
 *
 */
 
-const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) => {
+const CardForm = ({ card, setCard, printings, handleClose, fields, addCard, type }) => {
     // create INITIAL_STATE from fields prop and card
     const [cardData, setCardData] = useState(useFields(fields, card));
 
@@ -70,7 +70,7 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard }) =>
                 <PriceDisplay card={card} formData={cardData} />
             </Box>
 
-            <Button variant='contained'  onClick={handleClick} > Add Card! </Button>
+            <Button variant='contained'  onClick={handleClick} > {type} Card! </Button>
         </Box>
     )
 }

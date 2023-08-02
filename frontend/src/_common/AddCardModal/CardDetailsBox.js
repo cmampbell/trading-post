@@ -79,6 +79,7 @@ return (
             handleClose={handleClose}
             fields={fields}
             addCard={addCard}
+            type={'Add'}
         />
     </Box>
 )

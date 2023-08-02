@@ -3,6 +3,7 @@ import { useLoaderData, useOutletContext, useParams } from "react-router";
 import { Button, Container, Typography } from "@mui/material";
 import AddCardModal from "../_common/AddCardModal/AddCardModal";
 import CollectionCardItem from "./CollectionCardItem";
+import PriceDisplay from "../_common/PriceDisplay";
 
 /* 
 *  Returns MUI container component with title, addCard button, and list of cards
@@ -38,6 +39,7 @@ const CardBinder = ({ binderType, service }) => {
 
     const [listCards, setListCards] = useState(cards);
     const [searchOpen, setSearchOpen] = useState(false);
+    const [isOwner, setIsOwner] = useState(currUser.id === +userId);
 
     const { addCard, editCard, removeCard, addFields, editFields } = service;
 
@@ -79,7 +81,10 @@ const CardBinder = ({ binderType, service }) => {
     return (
         <Container>
             <Typography variant="h2" sx={{m: 1, fontWeight: 'bold'}}>{currUser.username}'s {binderType}</Typography>
-            {(currUser.id === +userId) &&
+            {/* cards num needs to be accumulated from card qty */}
+            <Typography variant="subtitle1">Total Cards: {cards.reduce((total, card) => total + card.quantity, 0)}</Typography>
+            <PriceDisplay cards={cards}/>
+            {(isOwner) &&
                 binderType !== "trade" &&
                 <Button
                     onClick={handleSearchOpen}
@@ -88,10 +93,12 @@ const CardBinder = ({ binderType, service }) => {
                 >Add card to collection
                 </Button>
             }
-            {(currUser.id === +userId) && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields} />}
+            {(isOwner) && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields} />}
             {listCards && listCards.map((card, idx) => {
-                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(currUser.id === +userId)} pageType={binderType} fields={editFields} />;
+                return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(isOwner)} pageType={binderType} fields={editFields} />;
             })}
+
+            <Typography variant="subtitle1"> Art and card images &#8482; & &copy; Wizards Of The Coast, Inc.</Typography>
         </Container>
     )
 };

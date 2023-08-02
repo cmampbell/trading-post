@@ -33,7 +33,7 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
         }
     
     return (
-        <Accordion TransitionProps={{ unmountOnExit: true }} sx={{...borderStyles}}>
+        <Accordion TransitionProps={{ unmountOnExit: true }} sx={{...borderStyles, m: 1}}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${card.name}-content`}
@@ -60,7 +60,7 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
             <AccordionDetails sx={{ height: '100%' }}>
                 <Grid container spacing={4}>
                     {/* IMAGE  CONTAINER*/}
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         <img
                             src={card.image_uri}
                             alt={`Full-card ${card.name} ${card.set_name} ${card.collector_number}`}
@@ -68,18 +68,15 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                         />
                     </Grid>
                     {/* CARD INFO CONTAINER */}
-                    <Grid item container xs={8} spacing={2} sx={{ textAlign: "left" }}>
-                        <Grid item xs={8} >
+                    <Grid item container xs={12} md={8} spacing={2} sx={{ textAlign: "left" }}>
+                        <Grid item xs={12} md={6} >
                             <Typography variant="h4">
                                 {card.name}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={8} md={4}>
                             <Typography variant="body1">
                                 Mana cost: {card.mana_cost}
-                            </Typography>
-                            <Typography variant="body1">
-                                Color Identity: {card.color_identity ? card.color_identity : 'colorless'}
                             </Typography>
                         </Grid>
                         <Grid item xs={1}>
@@ -107,18 +104,23 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                                 {card.power}/{card.toughness}
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Typography variant="subtitle1">
-                                {card.set_name} - {card.set_code}
+                        <Grid item xs={12} md={6}>
+                            <Typography variant="body2">
+                                {card.set_name}
                             </Typography>
-                            <Typography>
-                                Collector # {card.collector_number}
+                            <Typography variant="body2">
+                            {card.set_code.toUpperCase()} - # {card.collector_number}
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} md={6}>
+                            <Typography variant="body2">
                             Illustrated by {card.artist}
+                            </Typography>
+                            
                         </Grid>
-                        {editOpen && <CardForm card={card} addCard={editCard} handleClose={()=> setEditOpen(false)} fields={fields}/>}
+                        {editOpen && <Grid item xs={12}sx={{m: 2}}> 
+                            <CardForm card={card} addCard={editCard} handleClose={()=> setEditOpen(false)} fields={fields} type={'Edit'}/>
+                            </Grid>}
                     </Grid>
                 </Grid>
             </AccordionDetails>
