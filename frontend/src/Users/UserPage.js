@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Container } from "@mui/material";
+import { Grid, Typography, Container, Stack, Button, ButtonGroup } from "@mui/material";
 import { useLoaderData, useOutletContext } from "react-router";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const UserPage = () => {
     }
 
     return (
-        <Container>
+        <Container sx={{ m: 2 }}>
             <Grid container spacing={1}>
                 <Grid item xs={4} sx={{ maxWidth: '40vw' }}>
                     <img
@@ -27,27 +27,40 @@ const UserPage = () => {
                         style={{ maxWidth: '100%', borderRadius: '100px' }}
                     />
                 </Grid>
-                <Grid item container xs={8}>
-                    <Grid item xs={6}>
-                        <Typography component="h3">
+                <Grid item container xs={8} sx={{ textAlign: 'left' }} spacing={1}>
+                    <Grid item xs={12} >
+                        <Typography variant="h2" >
                             {username}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography component="p">
+                        <Typography variant='body2'>
                             {formatDate(createdAt)}
                         </Typography>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Typography component="p">
-                            {email}
-                        </Typography>
-                    </Grid>
+                    {currUser.id === id &&
+                        <Grid item xs={6}>
+                            <Typography variant='body1'>
+                                {email}
+                            </Typography>
+                        </Grid>}
                 </Grid>
                 <Grid item xs={12}>
-                    {currUser.id === id && <Link to={`/users/${id}/collection`}>Collection Link</Link>}
-                    <Link to={`/users/${id}/for-trade`}>For Trade Link</Link>
-                    <Link to={`/users/${id}/want-list`}>Want List Link</Link>
+                    <Typography variant="h4" sx={{m: 1}}>
+                        View {username[username.length - 1] === 's' ? `${username}'` : `${username}'s`}
+                    </Typography>
+                    <ButtonGroup size='large' variant='contained' aria-label="contained primary large button group">
+                        {currUser.id === id &&
+                            <Button component={Link} to={`/users/${id}/collection`}>
+                                Collection
+                            </Button>}
+                        <Button component={Link} to={`/users/${id}/for-trade`}>
+                            Cards For Trade
+                        </Button>
+                        <Button component={Link} to={`/users/${id}/want-list`}>
+                            Want List
+                        </Button>
+                    </ButtonGroup>
                 </Grid>
             </Grid>
         </Container>

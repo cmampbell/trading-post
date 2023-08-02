@@ -26,7 +26,6 @@ function App() {
   let location = useLocation();
 
   const setStateAndStorage = (resp) => {
-    console.log(resp);
     setToken(() => resp.token);
     setCurrUser(() => resp.user);
     localStorage.setItem("token", resp.token);
@@ -38,7 +37,7 @@ function App() {
       const resp = await UserService.registerUser(regData);
       console.log(resp)
       setStateAndStorage(resp);
-      navigate('/')
+      navigate(`/users/${resp.user.id}`)
     } catch (err) {
       console.log(err);
       throw err;
@@ -49,7 +48,7 @@ function App() {
     try {
       const resp = await UserService.loginUser(loginData);
       setStateAndStorage(resp);
-      navigate('/');
+      navigate(`/users/${resp.user.id}`);
     } catch (err) {
       throw err;
     }

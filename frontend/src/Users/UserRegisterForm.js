@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Box, Typography, Stack } from '@mui/material'
 import { useOutletContext } from 'react-router';
 
 /* user form needs to take data for:
@@ -27,26 +27,26 @@ const UserRegisterForm = () => {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         let complete = true;
-        for( let key in formData){
-            if(!formData[key]){
-                setErrors((oldErrors)=> ({...oldErrors, [key]: true}));
+        for (let key in formData) {
+            if (!formData[key]) {
+                setErrors((oldErrors) => ({ ...oldErrors, [key]: true }));
                 complete = false;
             }
         }
-        if(complete){
-            try{
+        if (complete) {
+            try {
                 await register(formData);
             } catch (err) {
                 console.log(err)
-                setErrors(()=> [...err])
+                setErrors(() => [...err])
             }
         }
     }
 
     return (
-        <>
-            <h1>User Register Form</h1>
-            <form>
+        <Box sx={{ height: '95vh', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Typography variant='h2'>Register</Typography>
+            <Stack spacing={2} alignItems="center" sx={{ m: 2 }}>
                 <TextField
                     required
                     name='username'
@@ -82,10 +82,10 @@ const UserRegisterForm = () => {
                     onChange={handleChange}
                     error={errors.email}
                 />
-                {errors[0] && errors.map((error)=> <p style={{color: 'red'}} key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</p>)}
-                <Button onClick={handleSubmit}>Register!</Button>
-            </form>
-        </>
+                {errors[0] && errors.map((error) => <p style={{ color: 'red' }} key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</p>)}
+                <Button variant='contained' onClick={handleSubmit}>Register!</Button>
+            </Stack>
+        </Box>
     )
 };
 

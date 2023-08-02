@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useOutletContext, useNavigate } from 'react-router';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Grid, Typography, Stack, Container, Box } from '@mui/material';
 
 const UserLoginForm = () => {
     const INITIAL_STATE = {
@@ -39,10 +39,10 @@ const UserLoginForm = () => {
     }
 
     return (
-        <>
-            <h1>User Register Form</h1>
-            <form>
-            <TextField
+            <Box sx={{height:'95vh', width:'100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <Typography variant='h2'>Login</Typography>
+                <Stack spacing={2} alignItems="center" sx={{m:2}}>
+                <TextField
                     required
                     name='username'
                     value={formData.username}
@@ -66,10 +66,12 @@ const UserLoginForm = () => {
                     onChange={handleChange}
                     error={errors.password}
                 />
-                {errors[0] && errors.map((error) => <p style={{ color: 'red' }} key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</p>)}
-                <Button onClick={handleSubmit}>Log In</Button>
-            </form>
-        </>
+                {errors[0] && 
+                    errors.map((error) => 
+                        <Typography color='error' key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</Typography>)}
+                <Button onClick={handleSubmit} variant='contained'>Log In</Button>
+                </Stack>
+            </Box>
     )
 }
 
