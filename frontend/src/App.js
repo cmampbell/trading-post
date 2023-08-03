@@ -71,7 +71,7 @@ function App() {
     <div className="App">
       <CssBaseline />
       <Grid container>
-        {location.pathname !== '/' && !isMobile &&
+        {location.pathname !== '/' &&
           <NavBar token={token} logout={logout} currUser={currUser} />}
         {location.pathname !== '/' && isMobile &&
           <MobileNav token={token} logout={logout} currUser={currUser} />}
