@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useOutletContext, useNavigate } from 'react-router';
-import { TextField, Button, Grid, Typography, Stack, Container, Box } from '@mui/material';
+import { useOutletContext } from 'react-router';
+import { TextField, Button, Typography, Stack, Box } from '@mui/material';
+import { Link } from "react-router-dom";
 
 const UserLoginForm = () => {
     const INITIAL_STATE = {
@@ -71,6 +72,7 @@ const UserLoginForm = () => {
                         <Typography color='error' key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</Typography>)}
                 <Button onClick={handleSubmit} variant='contained'>Log In</Button>
                 </Stack>
+                <Typography variant="subtitle1">Don't have an account? Register <Link to='/register'>here </Link></Typography>
             </Box>
     )
 }

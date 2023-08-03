@@ -3,8 +3,11 @@ import './App.css';
 import { Outlet, useLoaderData, useNavigate, useLocation } from 'react-router'
 import UserService from './Api/UserService'
 import NavBar from './NavBar/NavBar';
+import MobileNav from './NavBar/MobileNav'
 import CssBaseline from '@mui/material/CssBaseline';
-import { Container, Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 /* Parent component to all routes.
 *
@@ -24,6 +27,8 @@ function App() {
   const [currUser, setCurrUser] = useState(localStorageCurrUser || null);
   const navigate = useNavigate();
   let location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const setStateAndStorage = (resp) => {
     setToken(() => resp.token);
@@ -66,8 +71,11 @@ function App() {
     <div className="App">
       <CssBaseline />
       <Grid container>
-        {location.pathname !== '/' && <NavBar token={token} logout={logout} currUser={currUser} />}
-        <Outlet context={{ register, token, login, currUser }} />
+        {location.pathname !== '/' && !isMobile &&
+          <NavBar token={token} logout={logout} currUser={currUser} />}
+        {location.pathname !== '/' && isMobile &&
+          <MobileNav token={token} logout={logout} currUser={currUser} />}
+        <Outlet context={{ register, token, login, currUser, logout }} />
       </Grid>
     </div>
   );

@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 const UserPage = () => {
     const { username, email, created_at: createdAt, id } = useLoaderData();
-    const { currUser } = useOutletContext();
+    const { currUser, logout } = useOutletContext();
 
     const formatDate = (date) => {
         return date.substring(0, 10)
@@ -20,34 +20,38 @@ const UserPage = () => {
     return (
         <Container sx={{ m: 2 }}>
             <Grid container spacing={1}>
-                <Grid item xs={4} sx={{ maxWidth: '40vw' }}>
+                {/* TODO: Add in profile picture upload and file system image storage */}
+                {/* <Grid item xs={4} sx={{ maxWidth: '40vw' }}>
                     <img
                         src="https://avatars.githubusercontent.com/u/114436937?v=4"
                         alt='User-avatar'
                         style={{ maxWidth: '100%', borderRadius: '100px' }}
                     />
-                </Grid>
-                <Grid item container xs={8} sx={{ textAlign: 'left' }} spacing={1}>
-                    <Grid item xs={12} >
+                </Grid> */}
+                <Grid item container xs={12} sx={{ textAlign: 'left' }} spacing={1}>
+                    <Grid item xs={9} >
                         <Typography variant="h2" >
                             {username}
                         </Typography>
                     </Grid>
-                    {currUser.id === id &&
+                    {currUser.id === id && <>
+                        <Grid item xs={2}>
+                            <Button size='small' variant="contained" onClick={logout}>Logout</Button>
+                        </Grid>
                         <Grid item md={6} xs={12}>
                             <Typography variant='body1'>
                                 {email}
                             </Typography>
-                        </Grid>}
+                        </Grid>
+                    </>}
                     <Grid item md={6} xs={12}>
                         <Typography variant='body2'>
                             Joined: {formatDate(createdAt)}
                         </Typography>
                     </Grid>
-
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="h4" sx={{m: 1}}>
+                    <Typography variant="h4" sx={{ m: 1 }}>
                         View {username[username.length - 1] === 's' ? `${username}'` : `${username}'s`}
                     </Typography>
                     <ButtonGroup size='large' variant='contained' aria-label="contained primary large button group">
