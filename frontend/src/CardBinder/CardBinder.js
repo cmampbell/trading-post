@@ -98,7 +98,7 @@ const CardBinder = ({ binderType, service }) => {
                 return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(isOwner)} pageType={binderType} fields={editFields} />;
             })}
 
-            <Typography variant="subtitle1"> Art and card images &#8482; & &copy; Wizards Of The Coast, Inc.</Typography>
+            <Typography variant="subtitle2"> Art and card images &#8482; & &copy; Wizards Of The Coast, Inc.</Typography>
         </Container>
     )
 };

@@ -33,17 +33,18 @@ const UserPage = () => {
                             {username}
                         </Typography>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Typography variant='body2'>
-                            {formatDate(createdAt)}
-                        </Typography>
-                    </Grid>
                     {currUser.id === id &&
-                        <Grid item xs={6}>
+                        <Grid item md={6} xs={12}>
                             <Typography variant='body1'>
                                 {email}
                             </Typography>
                         </Grid>}
+                    <Grid item md={6} xs={12}>
+                        <Typography variant='body2'>
+                            Joined: {formatDate(createdAt)}
+                        </Typography>
+                    </Grid>
+
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="h4" sx={{m: 1}}>
