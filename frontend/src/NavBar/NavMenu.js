@@ -60,10 +60,13 @@ const NavMenu = ({ token, logout, currUser }) => {
                             </NavLink>
                         </MenuItem>,
                         <MenuItem key='collection' >
-                            <NavLink to={`/users/4/collection`} >Collection</NavLink>
+                            <NavLink to={`/users/${currUser.id}/collection`} >Collection</NavLink>
+                        </MenuItem>,
+                        <MenuItem key='trade list'>
+                            <NavLink to={`/users/${currUser.id}/for-trade`} >Trade List</NavLink>
                         </MenuItem>,
                         <MenuItem key='want list'>
-                            <NavLink to={`/users/4/collection`} >Want List</NavLink>
+                            <NavLink to={`/users/${currUser.id}/want-list`} >Want List</NavLink>
                         </MenuItem>,
                         <MenuItem key='logout' onClick={() => { logout(); handleClose(); }}>
                             <NavLink to="#" >
