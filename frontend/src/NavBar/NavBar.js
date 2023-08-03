@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { IconButton, Menu, MenuItem, Grid, Container, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import Grid from '@mui/material/Grid';
 import theme from '../theme';
 import NavMenu from './NavMenu';
 

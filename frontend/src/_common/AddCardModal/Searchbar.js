@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Autocomplete, Button, Modal, Box, InputAdornment, IconButton, Container, Grid } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Grid  from "@mui/material/Grid";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CardService from "../../Api/CardService"
 import WebcamCardReader from "./WebcamCardReader";

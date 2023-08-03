@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Typography, CardMedia, Grid, Button } from '@mui/material';
+import { Card, Typography, Grid, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import PriceDisplay from '../_common/PriceDisplay';
 
@@ -7,10 +7,7 @@ const CardItem = ({ card, deleteCard }) => {
     const {
         name,
         set_code: setCode,
-        art_uri: artURI,
-        artist,
         collector_number: collectorNumber,
-        quality,
         foil,
         quantity,
         id: cardId

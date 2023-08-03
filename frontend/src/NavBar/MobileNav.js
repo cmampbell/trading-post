@@ -1,12 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Paper from '@mui/material/Paper';
-import ArchiveIcon from '@mui/icons-material/Archive';
 import { NavLink } from "react-router-dom";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import PersonIcon from '@mui/icons-material/Person';
@@ -45,39 +40,3 @@ export default function SimpleBottomNavigation({ token, logout, currUser }) {
         </Paper>
     );
 }
-
-// {!token &&
-// [
-//     <MenuItem onClick={handleClose} key='login'>
-//         <NavLink to="/login" >
-//             Login
-//         </NavLink>
-//     </MenuItem>,
-//     <MenuItem onClick={handleClose} key='register'>
-//         <NavLink to="/register" >
-//             Register
-//         </NavLink>
-//     </MenuItem>
-// ]}
-// {token &&
-// [
-//     <MenuItem onClick={handleClose} key='user'>
-//         <NavLink to={`/users/${currUser.id}`} >
-//             {currUser.username}
-//         </NavLink>
-//     </MenuItem>,
-//     <MenuItem key='collection' >
-//         <NavLink to={`/users/${currUser.id}/collection`} >Collection</NavLink>
-//     </MenuItem>,
-//     <MenuItem key='trade list'>
-//         <NavLink to={`/users/${currUser.id}/for-trade`} >Trade List</NavLink>
-//     </MenuItem>,
-//     <MenuItem key='want list'>
-//         <NavLink to={`/users/${currUser.id}/want-list`} >Want List</NavLink>
-//     </MenuItem>,
-//     <MenuItem key='logout' onClick={() => { logout(); handleClose(); }}>
-//         <NavLink to="#" >
-//             Log Out
-//         </NavLink>
-//     </MenuItem>
-// ]}

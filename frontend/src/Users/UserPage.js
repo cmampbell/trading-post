@@ -1,5 +1,9 @@
 import React from "react";
-import { Grid, Typography, Container, Stack, Button, ButtonGroup } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import { useLoaderData, useOutletContext } from "react-router";
 import { Link } from "react-router-dom";
 

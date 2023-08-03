@@ -2,10 +2,10 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
 import Tesseract from 'tesseract.js';
 import { Image } from 'image-js';
-import { Box, IconButton, Button, Grid } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 /* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
 *  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam

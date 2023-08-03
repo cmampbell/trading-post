@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Button, Typography, IconButton, Box } from "@mui/material"
-import CardList from './CardList'
+import { Grid, Typography, IconButton, Box } from "@mui/material"
 import TradeHelpModal from "./TradeHelpModal";
 import HelpIcon from '@mui/icons-material/Help';
 import CardListDisplay from "./CardListDisplay";
@@ -41,9 +40,6 @@ const TradePage = () => {
                 <TradeHelpModal open={showHelp} toggleHelpModal={toggleHelpModal} />
             </Grid>
             <CardListDisplay />
-            {/* <Grid item xs={12}>
-                <Button variant="outlined" color="success">Commit Trade</Button>
-            </Grid> */}
         </Grid>
     )
 }
