@@ -57,3 +57,5 @@ ALTER TABLE "card_collection" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("i
 ALTER TABLE "card_want_list" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "card_want_list" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id");
+
+CREATE EXTENSION fuzzystrmatch;

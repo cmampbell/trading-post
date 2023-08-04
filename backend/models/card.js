@@ -20,6 +20,8 @@ class Card {
         return cardsRes.rows;
     }
 
+    //SELECT name, LEVENSHTEIN(name, 'ointheDance') from cards ORDER BY LEVENSHTEIN(name, 'ointheDance') ASC LIMIT 5;
+
     /** find card by oracle_id
      *  Returns all cards with matching oracle_id:
      *  [ { card_id, oracle_id, name, image_uris, usd_price, usd_foil_price, usd_etched_price, mana_cost, cmc, type_line,

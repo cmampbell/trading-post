@@ -46,6 +46,30 @@ const findConfidentString = words => {
     }
     console.log(constructor)
     return constructor.join(' ');
+
+    // grab any characters with 98 confidence
+
+
+}
+
+const findConfidentSymbols = symbols => {
+    let foundStart = false;
+    let foundEnd = false;
+
+    const constructor = [];
+
+    for (let i = 0; !foundEnd && i < symbols.length; i++) {
+        let currentSymbol = symbols[i]
+        if (currentSymbol.confidence >= 98) {
+            constructor.push(currentSymbol.text);
+            if (!foundStart) foundStart = true;
+        } else if (foundStart && currentSymbol.confidence < 98) {
+            foundEnd = true;
+        }
+    }
+    console.log(constructor)
+
+    return constructor.join('');
 }
 
 const preProcessImage = async (imageSource) => {
@@ -53,12 +77,13 @@ const preProcessImage = async (imageSource) => {
     const image = await Image.load(imageSource);
 
     // might want to resize to give tesseract more to read
-    const cropped = image.crop({ x: 60, y: 73, width: 598, height: 78 })
-    const resized = cropped.resize({ width: 1196, height: 156 })
-
-    let grey = resized.grey();
+    const cropped = image.crop({ x: 80, y: 73, width: 460, height: 146 });
+    // const resized = cropped.resize({ width: 820, height: 272 });
+    const resized = cropped.resize({ width: 1380, height: 438 });
+    const multiplied = resized.multiply(1);
+    let grey = multiplied.grey();
     let blur = grey.gaussianFilter({ radius: 1 });
-    let mask = blur.mask({ threshold: 0.49 });
+    let mask = blur.mask({ threshold: 0.48 });
 
     // return cropped.toDataURL();
     return mask.toDataURL();
@@ -89,7 +114,8 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
             ).catch(err => {
                 console.error(err);
             }).then(result => {
-                const cardNameGuess = findConfidentString(result.data.words);
+                console.log(result);
+                const cardNameGuess = findConfidentSymbols(result.data.symbols);
                 if (cardNameGuess) setSearchInput(() => cardNameGuess)
                 getCardWithCamera(cardNameGuess)
                 closeCameraModal()
@@ -122,7 +148,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                     zIndex: 2
                 }}>
             </Box>
-            {/* This box shows the area of the card scanned, used for testing */}
+            {/* This box shows the cropped area of the photo, used for testing */}
             <Box sx={{
                             border: 'solid',
                             borderColor: 'red',
