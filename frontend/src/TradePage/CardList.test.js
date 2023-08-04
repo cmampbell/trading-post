@@ -2,10 +2,6 @@ import React from "react";
 import renderWithRouter from "../_common/renderWithRouter"
 import CardList from "./CardList";
 import userEvent from '@testing-library/user-event'
-import SetSelectField from "../_common/CardForm/FormInputs/SetSelectField";
-import FoilSelectField from "../_common/CardForm/FormInputs/FoilSelectField";
-import QualitySelectField from "../_common/CardForm/FormInputs/QualitySelectField";
-import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectField";
 import { act, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 
@@ -44,52 +40,31 @@ const testCards = [
 
 describe('CardList Unit Tests', () => {
     it('should render without crashing', () => {
-        renderWithRouter(<CardList activeList={'left'} makeActive={() => null} side={'left'} />);
-    });
-
-    it('clicking this list will make it active', async () => {
-        let activeList = 'right';
-        const makeActive = () => activeList = 'left';
-        const { queryByText, rerender } = renderWithRouter(<CardList activeList={activeList} makeActive={makeActive} side={'left'} />);
-
-        expect(queryByText('Add Card')).not.toBeInTheDocument();
-
-        await act(async () => {
-            userEvent.click(queryByText('Card List'));
-        })
-
-        expect(activeList).toEqual('left');
-        rerender(<CardList activeList={activeList} makeActive={makeActive} side={'left'} />);
-        expect(queryByText('Add Card')).toBeInTheDocument();
+        renderWithRouter(<CardList />);
     });
 
     it("should render all cards in list", async () => {
-        let activeList = 'right';
-        const makeActive = () => activeList = 'left';
-        const { queryByText } = renderWithRouter(<CardList activeList={activeList} makeActive={makeActive} side={'left'} cards={testCards} />);
+        const { queryByText } = renderWithRouter(<CardList cards={testCards} />);
 
         expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
         expect(queryByText('Momir Vig, Simic Visionary')).toBeInTheDocument();
     })
 
     it("should remove a card in a list", async () => {
-        let activeList = 'right';
-        const makeActive = () => activeList = 'left';
-        const { queryByText, queryAllByRole } = renderWithRouter(<CardList activeList={activeList} makeActive={makeActive} side={'left'} cards={testCards} />);
+        const removeFromCardLists = jest.fn();
+        const { queryByText, queryAllByRole } = renderWithRouter(<CardList cards={testCards} removeFromCardLists={removeFromCardLists}/>);
 
         expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
         expect(queryByText('Momir Vig, Simic Visionary')).toBeInTheDocument();
 
         act(() => {
-            userEvent.click(queryAllByRole('button')[0]);
+            userEvent.click(queryAllByRole('button')[1]);
         })
 
         await waitFor(() => {
-            expect(queryByText('Ulamog, the Infinite Gyre')).not.toBeInTheDocument();
-            expect(queryByText('Momir Vig, Simic Visionary')).toBeInTheDocument();
+            expect(removeFromCardLists).toHaveBeenCalled();
         })
     })
-
 });
 
 // describe("Card List Integration Tests", () => {

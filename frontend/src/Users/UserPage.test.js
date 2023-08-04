@@ -28,7 +28,7 @@ describe("UserPage tests", () => {
         const { queryByText } = renderWithRouter(<UserPage />);
 
         expect(queryByText('test')).toBeInTheDocument();
-        expect(queryByText('2023-07-13')).toBeInTheDocument();
+        expect(queryByText('Joined: 2023-07-13')).toBeInTheDocument();
         expect(queryByText('test@gmail.com')).toBeInTheDocument();
     })
-})
+});

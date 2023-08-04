@@ -11,8 +11,9 @@ describe('TradePage tests', () => {
     it('should have correct elements', () => {
         const { queryAllByText, queryByText } = renderWithRouter(<TradePage />);
 
-        expect(queryByText('Trade Details')).toBeInTheDocument();
-        expect(queryAllByText("Card List").length).toEqual(2);
-        expect(queryByText('Commit Trade')).toBeInTheDocument();
+        expect(queryByText('Trade Page')).toBeInTheDocument();
+        expect(queryByText("Card List One")).toBeInTheDocument();
+        expect(queryByText("Card List Two")).toBeInTheDocument();
+        expect(queryByText('Add Card')).toBeInTheDocument();
     })
 })

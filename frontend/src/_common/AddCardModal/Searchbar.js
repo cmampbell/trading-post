@@ -97,7 +97,6 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                         freeSolo
                         selectOnFocus
                         handleHomeEndKeys
-                        clearOnBlur
                         clearOnEscape
                         autoSelect
                         loading={isLoading}
@@ -109,7 +108,6 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                             label="Card Name"
                         />}
                         sx={{ marginLeft: '5%', width: '90%' }}
-                        filterOptions={(x) => x}
                     />
                 </Grid>
                 <Grid item xs={1}>

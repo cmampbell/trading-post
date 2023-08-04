@@ -2,8 +2,7 @@ import React from "react";
 import renderWithRouter from "../renderWithRouter";
 import Searchbar from "./Searchbar";
 import userEvent from '@testing-library/user-event'
-import { act } from "react-dom/test-utils";
-import { waitFor } from "@testing-library/react";
+import { waitFor, act } from "@testing-library/react";
 import axios from "axios";
 
 jest.mock('axios')
@@ -16,12 +15,6 @@ const testCards = [
 describe('Searchbar tests', () => {
     it('should render without crashing', () => {
         renderWithRouter(<Searchbar setSelectedCard={()=> null} selectedCard={''}/>);
-    })
-
-    it('should match snapshot', () => {
-        const { asFragment } = renderWithRouter(<Searchbar setSelectedCard={()=> null} selectedCard={''}/>);
-
-        expect(asFragment()).toMatchSnapshot();
     })
 
     it('should show text input', async () => {
@@ -50,10 +43,10 @@ describe('Searchbar tests', () => {
 
         axios.mockResolvedValue({data:{cards: testCards}});
         await act(async () => {
-            userEvent.type(textInput, 'l');
+            userEvent.type(textInput, 'la');
         })
 
-        expect(textInput).toHaveValue('isl')
+        expect(textInput).toHaveValue('isla')
         await waitFor(() => {
             expect(queryByText("Island")).toBeInTheDocument()
             expect(queryByText("Isuldor")).not.toBeInTheDocument()

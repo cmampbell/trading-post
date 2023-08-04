@@ -51,14 +51,14 @@ describe('AddCardModal tests', () => {
         const close = () => isOpen = false;
         const { queryByText, queryAllByRole } = render(<AddCardModal open={true} setSearchOpen={close} addCard={() => null} />);
 
-        expect(queryByText('Search By Card Name')).toBeInTheDocument();
+        expect(queryByText('Card Search')).toBeInTheDocument();
 
         act(() => {
             userEvent.click(queryAllByRole('button')[0]);
         })
 
         waitFor(() => {
-            expect(queryByText('Search By Card Name')).not.toBeInTheDocument();
+            expect(queryByText('Card Search')).not.toBeInTheDocument();
         })
     })
 
