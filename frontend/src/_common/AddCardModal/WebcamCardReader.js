@@ -26,6 +26,44 @@ import Typography from '@mui/material/Typography';
 *
 */
 
+const findConfidentString = words => {
+    // loop through words until we find a segment where confidence is above 89
+    // start constructing string with first word where confidence is above 89
+    // stop constructing string when element confidence is below 89
+    let foundStart = false;
+    let foundEnd = false;
+
+    const constructor = [];
+
+    for (let i = 0; !foundEnd && i < words.length; i++) {
+        let currentWord = words[i]
+        if (currentWord.confidence >= 89) {
+            constructor.push(currentWord.text);
+            if (!foundStart) foundStart = true;
+        } else if (foundStart && currentWord.confidence < 89) {
+            foundEnd = true;
+        }
+    }
+    console.log(constructor)
+    return constructor.join(' ');
+}
+
+const preProcessImage = async (imageSource) => {
+
+    const image = await Image.load(imageSource);
+
+    // might want to resize to give tesseract more to read
+    const cropped = image.crop({ x: 60, y: 73, width: 598, height: 78 })
+    const resized = cropped.resize({ width: 1196, height: 156 })
+
+    let grey = resized.grey();
+    let blur = grey.gaussianFilter({ radius: 1 });
+    let mask = blur.mask({ threshold: 0.49 });
+
+    // return cropped.toDataURL();
+    return mask.toDataURL();
+}
+
 const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
@@ -51,47 +89,13 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
             ).catch(err => {
                 console.error(err);
             }).then(result => {
-                let words = result.data.words;
-                console.log(result);
-                // loop through words until we find a segment where confidence is above 90
-                // start constructing string with first word where confidence is above 90
-                // stop constructing string when element confidence is below 90
-
-                let foundStart = false;
-                let foundEnd = false
-                const constructor = []
-                for (let i = 0; !foundEnd && i < words.length; i++) {
-                    let currentWord = words[i]
-                    if (currentWord.confidence >= 89) {
-                        constructor.push(currentWord.text);
-                        if (!foundStart) foundStart = true;
-                    } else if (foundStart && currentWord.confidence < 89) {
-                        foundEnd = true;
-                    }
-                }
-                const cardNameGuess = constructor.join(' ');
+                const cardNameGuess = findConfidentString(result.data.words);
                 if (cardNameGuess) setSearchInput(() => cardNameGuess)
                 getCardWithCamera(cardNameGuess)
                 closeCameraModal()
             })
         }
     }, [imgSrc])
-
-    const preProcessImage = async (imageSource) => {
-
-        const image = await Image.load(imageSource);
-
-        // might want to resize to give tesseract more to read
-        const cropped = image.crop({ x: 60, y: 73, width: 598, height: 78 })
-        const resized = cropped.resize({ width: 1196, height: 156 })
-
-        let grey = resized.grey();
-        let blur = grey.gaussianFilter({ radius: 1 });
-        let mask = blur.mask({ threshold: 0.49 });
-
-        // return cropped.toDataURL();
-        return mask.toDataURL();
-    }
 
     return (
         // the parent box gives the camera it's dimensions
@@ -119,7 +123,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 }}>
             </Box>
             {/* This box shows the area of the card scanned, used for testing */}
-            {/* <Box sx={{
+            <Box sx={{
                             border: 'solid',
                             borderColor: 'red',
                             position: 'absolute',
@@ -128,7 +132,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                             top: '73px',
                             left: '40px',
                             zIndex: 2
-                        }}></Box> */}
+                        }}></Box>
             <Typography
                 variant='h5'
                 style={{ backgroundColor: 'white', textAlign: 'center' }}
@@ -145,7 +149,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 }}
             />
             {!isLoading && <>
-                <Grid container spacing={8} sx={{position: 'absolute', bottom: '0%'}}>
+                <Grid container spacing={8} sx={{ position: 'absolute', bottom: '0%' }}>
                     <Grid item xs={6}>
                         <Button
                             onClick={capture}
@@ -173,7 +177,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 </Grid>
             </>}
 
-            {/* <img src={imgSrc} alt='card-scan-result' /> */}
+            <img src={imgSrc} alt='card-scan-result' />
         </Box >
     )
 }
