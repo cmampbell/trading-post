@@ -1,7 +1,9 @@
 import React from 'react';
 import { Typography, Button, Box, Stack } from '@mui/material';
+import { useOutletContext } from 'react-router';
 
 const HomePage = () => {
+    const { currUser } = useOutletContext();
     return (
         <Box sx={{
             display: 'flex',
@@ -17,12 +19,20 @@ const HomePage = () => {
                 <Button variant='contained' color='secondary' href="/trade">
                     Trade!
                 </Button>
-                <Button variant='contained' color='secondary' href="/register">
-                    Register!
-                </Button>
-                <Button variant='contained' color='secondary' href="/login">
-                    Login!
-                </Button>
+                {!currUser && <>
+                                <Button variant='contained' color='secondary' href="/register">
+                                Register!
+                            </Button>
+                            <Button variant='contained' color='secondary' href="/login">
+                                Login!
+                            </Button>
+                </>}
+                {currUser && <>
+                    <Button variant='contained' color='secondary' href={`users/${currUser.id}`}>
+                                View Profile!
+                            </Button>
+                </>}
+
             </Stack>
         </Box>
     )

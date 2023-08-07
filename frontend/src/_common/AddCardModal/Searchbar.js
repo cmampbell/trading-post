@@ -75,7 +75,8 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
     }
 
     const getCardWithCamera = async (cardNameGuess) => {
-        if (cardNameGuess) setSearchInput(() => cardNameGuess);
+        console.log(cardNameGuess)
+        if (cardNameGuess) setSearchInput(() => cardNameGuess.name);
         try {
             const card = await CardService.getCardsByName(cardNameGuess);
             setSelectedCard(() => ({ name: card[0].name, id: card[0].oracle_id }))

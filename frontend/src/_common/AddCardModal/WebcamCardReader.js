@@ -46,10 +46,6 @@ const findConfidentString = words => {
     }
     console.log(constructor)
     return constructor.join(' ');
-
-    // grab any characters with 98 confidence
-
-
 }
 
 const findConfidentSymbols = symbols => {
@@ -80,7 +76,7 @@ const preProcessImage = async (imageSource) => {
     const cropped = image.crop({ x: 80, y: 73, width: 460, height: 146 });
     // const resized = cropped.resize({ width: 820, height: 272 });
     const resized = cropped.resize({ width: 1380, height: 438 });
-    const multiplied = resized.multiply(1);
+    const multiplied = resized.multiply(1.7);
     let grey = multiplied.grey();
     let blur = grey.gaussianFilter({ radius: 1 });
     let mask = blur.mask({ threshold: 0.48 });
@@ -116,6 +112,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
             }).then(result => {
                 console.log(result);
                 const cardNameGuess = findConfidentSymbols(result.data.symbols);
+                // const cardNameGuess = findConfidentString(result.data.words);
                 if (cardNameGuess) setSearchInput(() => cardNameGuess)
                 getCardWithCamera(cardNameGuess)
                 closeCameraModal()
