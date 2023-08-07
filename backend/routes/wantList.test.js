@@ -89,7 +89,7 @@ describe("POST /want-list/:userId/addCard", function () {
             .post(`/want-list/1/addCard`)
             .send(newCard)
             .set("authorization", `Bearer ${user1Token}`);
-        expect(resp.body).toEqual({ "message": `Succesfully added testCard to user1 want list` });
+        expect(resp.body).toEqual({ "message": `Succesfully added test Card to user1 want list` });
     });
 
     test("unauthorized for other users", async function () {

@@ -32,7 +32,21 @@ describe("findCardsByName", function () {
 
 describe("fuzzyFindCardsByName", function () {
   test("works with typos", async function () {
-    let cards = await Card.fuzzyFindCardsByName('tast Cord');
+    let cards = await Card.fuzzyFindCardsByName('tast Card');
+    expect(cards).toEqual([
+      {
+        name: 'test Card 1',
+        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+      },
+      {
+        oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        name: 'test Card 2'
+      },
+    ]);
+  });
+
+  test("works with partial name", async function () {
+    let cards = await Card.fuzzyFindCardsByName('test');
     expect(cards).toEqual([
       {
         name: 'test Card 1',

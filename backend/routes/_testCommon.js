@@ -19,7 +19,7 @@ async function commonBeforeAll() {
   const testCard = {
     id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    name: 'testCard',
+    name: 'test Card',
     image_uri: 'test_uri',
     usd_price: '1.54',
     usd_foil_price: '3.45',

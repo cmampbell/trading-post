@@ -24,7 +24,21 @@ describe("GET /cards", function () {
             cards:
                 [
                     {
-                        name: 'testCard',
+                        name: 'test Card',
+                        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+                    }
+                ]
+        });
+    });
+
+    test("returns cards with typo in query", async function () {
+        const resp = await request(app).get("/cards?name=tast Card");
+        expect(resp.statusCode).toEqual(200)
+        expect(resp.body).toEqual({
+            cards:
+                [
+                    {
+                        name: 'test Card',
                         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
                     }
                 ]
@@ -42,7 +56,7 @@ describe("GET /cards/:id", function () {
                     {
                         id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
                         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-                        name: 'testCard',
+                        name: 'test Card',
                         image_uri: 'test_uri',
                         usd_price: '1.54',
                         usd_foil_price: '3.45',
