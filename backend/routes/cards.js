@@ -19,12 +19,8 @@ const router = new express.Router();
 router.get("/", async function (req, res, next) {
     try {
         let cards = await Card.findCardsByName(req.query.name);
-        console.log(req.query.name)
-        console.log(cards)
         if (cards.length < 1) {
-          console.log('in fuzzy search')
           cards = await Card.fuzzyFindCardsByName(req.query.name);
-          console.log(cards);
         }
         return res.json({ cards });
     } catch (err) {
