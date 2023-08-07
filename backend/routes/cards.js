@@ -18,7 +18,8 @@ const router = new express.Router();
 
 router.get("/", async function (req, res, next) {
     try {
-        const cards = await Card.findCardsByName(req.query.name)
+        let cards = await Card.findCardsByName(req.query.name);
+        if (cards.length < 1) cards = await Card.fuzzyFindCardsByName(req.query.name);
         return res.json({ cards });
     } catch (err) {
         return next(err);

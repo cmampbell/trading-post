@@ -81,8 +81,6 @@ describe("POST /want-list/:userId/addCard", function () {
         userID: 1,
         cardID: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         foil: "No",
-        forTrade: true,
-        quality: "Near Mint",
         quantity: 1
     }
 
@@ -112,7 +110,7 @@ describe("POST /want-list/:userId/addCard", function () {
     test("not found if cardId not found", async function () {
         const resp = await request(app)
             .post(`/want-list/1/addCard`)
-            .send({ ...newCard, cardID: 'aaaaaa00-9c0b-4ef8-aa1a-6bb9bd380a11' })
+            .send({ ...newCard, cardID: 'a2aaaa00-9c0b-4ef8-aa1a-6bb9bd380a11' })
             .set("authorization", `Bearer ${user1Token}`);
         expect(resp.statusCode).toEqual(404);
     })

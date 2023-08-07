@@ -75,7 +75,7 @@ async function commonBeforeAll() {
   const testCard1 = {
     id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    name: 'testCard1',
+    name: 'test Card 1',
     image_uri: 'test_uri',
     usd_price: '1.54',
     usd_foil_price: '3.45',
@@ -101,7 +101,7 @@ async function commonBeforeAll() {
   const testCard2 = {
     id: '0000579f-7b35-4ed3-b44c-db2a538066fe',
     oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-    name: 'testCard2',
+    name: 'test Card 2',
     image_uri: 'test_uri',
     usd_price: '1.54',
     usd_foil_price: '3.45',

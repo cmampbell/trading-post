@@ -16,15 +16,74 @@ afterAll(commonAfterAll);
 
 describe("findCardsByName", function () {
   test("works", async function () {
-    let cards = await Card.findCardsByName('testCard');
+    let cards = await Card.findCardsByName('test Card');
     expect(cards).toEqual([
       {
-        name: 'testCard1',
+        name: 'test Card 1',
         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
       },
       {
         oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-        name: 'testCard2'
+        name: 'test Card 2'
+      },
+    ]);
+  });
+});
+
+describe("fuzzyFindCardsByName", function () {
+  test("works with typos", async function () {
+    let cards = await Card.fuzzyFindCardsByName('tast Cord');
+    expect(cards).toEqual([
+      {
+        name: 'test Card 1',
+        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+      },
+      {
+        oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        name: 'test Card 2'
+      },
+    ]);
+  });
+  
+  test("works with missing spaces", async function () {
+    let cards = await Card.fuzzyFindCardsByName('testCard');
+    expect(cards).toEqual([
+      {
+        name: 'test Card 1',
+        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+      },
+      {
+        oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        name: 'test Card 2'
+      },
+    ]);
+  });
+
+  test("works for extra letter", async function () {
+    let cards = await Card.fuzzyFindCardsByName('terst Card');
+    expect(cards).toEqual([
+      {
+        name: 'test Card 1',
+        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+      },
+      {
+        oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        name: 'test Card 2'
+      },
+    ]);
+  });
+
+  
+  test("works for missing letter", async function () {
+    let cards = await Card.fuzzyFindCardsByName('ter card');
+    expect(cards).toEqual([
+      {
+        name: 'test Card 1',
+        oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+      },
+      {
+        oracle_id: '1046bc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        name: 'test Card 2'
       },
     ]);
   });
@@ -37,7 +96,7 @@ describe("findCardsById", function () {
       {
         id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-        name: 'testCard1',
+        name: 'test Card 1',
         art_uri: 'test_art_uri',
         image_uri: 'test_uri',
         usd_price: '1.54',

@@ -58,4 +58,5 @@ ALTER TABLE "card_want_list" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id
 
 ALTER TABLE "card_want_list" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id");
 
+CREATE EXTENSION pg_trgm;
 CREATE EXTENSION fuzzystrmatch;

@@ -155,13 +155,11 @@ describe("updateCardInWantList", function () {
 
 describe("removeCardFromWantList", function () {
 
-    const cardToRemove = {
-        userID: 1,
-        cardID: '0000579f-7b35-4ed3-b44c-db2a538066fe',
-    }
+    const userID = 1;
+    const cardID = '0000579f-7b35-4ed3-b44c-db2a538066fe';
 
     test("works", async function () {
-        await WantList.removeCardFromWantList(cardToRemove);
+        await WantList.removeCardFromWantList(userID, cardID);
 
         const collection = await WantList.getWantList(1);
 

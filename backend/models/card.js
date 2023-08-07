@@ -9,7 +9,6 @@ class Card {
     /** find all card names.
      * Returns [ { oracle_id, name }, ...] 
      * */
-
     static async findCardsByName(name) {
         const cardsRes = await db.query(
             `SELECT name, oracle_id 
@@ -20,7 +19,19 @@ class Card {
         return cardsRes.rows;
     }
 
-    //SELECT name, LEVENSHTEIN(name, 'ointheDance') from cards ORDER BY LEVENSHTEIN(name, 'ointheDance') ASC LIMIT 5;
+    /** find all possible matching card names.
+     * queries for all cards similar to 
+     * Returns [ { oracle_id, name }, ...] 
+     * */
+    static async fuzzyFindCardsByName(name) {
+        const cardsRes = await db.query(
+            `SELECT name, oracle_id
+            FROM cards
+            WHERE $1 % ANY(string_to_array(name, ' '))
+            GROUP BY name, oracle_id
+            ORDER BY SIMILARITY(name, $1) DESC, name, oracle_id`, [name]);
+        return cardsRes.rows;
+    }
 
     /** find card by oracle_id
      *  Returns all cards with matching oracle_id:

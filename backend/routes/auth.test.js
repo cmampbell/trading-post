@@ -91,6 +91,12 @@ describe("POST /auth/register", function () {
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       "token": expect.any(String),
+      "user": {
+        "created_at": expect.any(String),
+        "email": "new@email.com",
+        "id": expect.any(Number),
+        "username": "new-user"
+      }
     });
   });
 
