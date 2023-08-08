@@ -1,15 +1,13 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
-import Tesseract, { createWorker } from 'tesseract.js';
 import { Image } from 'image-js';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import readCard from './useTesseract';
+import readCard from './readCard';
 
-/* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
-*  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
+/* We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
 *  We are using image-js for image pre-processing. Docs: https://image-js.github.io/image-js/#image
 *
 *  The user can take a photo of their card by finding it with the camera and clicking the

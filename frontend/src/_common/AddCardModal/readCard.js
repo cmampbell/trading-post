@@ -49,7 +49,7 @@ const parseSymbolResults = symbols => {
     return fullString.join(' ');
 }
 
-const useTesseract = async (image) => {
+const readCard = async (image) => {
     const worker = await createWorker({
         // langPath is for traineddata, could train it on magic font
     })
@@ -63,4 +63,4 @@ const useTesseract = async (image) => {
     return parseSymbolResults(result.data.symbols);
 }
 
-export default useTesseract;
+export default readCard;
