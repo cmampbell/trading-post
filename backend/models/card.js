@@ -30,6 +30,7 @@ class Card {
             WHERE $1 % ANY(string_to_array(name, ' '))
             GROUP BY name, oracle_id
             ORDER BY SIMILARITY(name, $1) DESC, name, oracle_id`, [name]);
+        if(cardsRes.rows.length < 1) throw new NotFoundError();
         return cardsRes.rows;
     }
 

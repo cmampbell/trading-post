@@ -101,6 +101,15 @@ describe("fuzzyFindCardsByName", function () {
       },
     ]);
   });
+
+  test("throws not found if card not found", async function () {
+    try{
+      let cards = await Card.fuzzyFindCardsByName('fake title');
+      fail();
+    } catch(err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
 });
 
 describe("findCardsById", function () {

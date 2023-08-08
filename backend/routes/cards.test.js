@@ -9,17 +9,17 @@ const {
     commonBeforeEach,
     commonAfterEach,
     commonAfterAll,
-  } = require("./_testCommon");
-  
-  beforeAll(commonBeforeAll);
-  beforeEach(commonBeforeEach);
-  afterEach(commonAfterEach);
-  afterAll(commonAfterAll);
+} = require("./_testCommon");
+
+beforeAll(commonBeforeAll);
+beforeEach(commonBeforeEach);
+afterEach(commonAfterEach);
+afterAll(commonAfterAll);
 
 describe("GET /cards", function () {
     test("ok status code", async function () {
         const resp = await request(app).get("/cards?name=test");
-        expect(resp.statusCode).toEqual(200)
+        expect(resp.statusCode).toEqual(200);
         expect(resp.body).toEqual({
             cards:
                 [
@@ -33,7 +33,7 @@ describe("GET /cards", function () {
 
     test("returns cards with typo in query", async function () {
         const resp = await request(app).get("/cards?name=tast Card");
-        expect(resp.statusCode).toEqual(200)
+        expect(resp.statusCode).toEqual(200);
         expect(resp.body).toEqual({
             cards:
                 [
@@ -42,9 +42,16 @@ describe("GET /cards", function () {
                         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
                     }
                 ]
-        });
+        }
+        );
     });
-})
+
+    test("returns 404 if no card found", async function () {
+        const resp = await request(app).get("/cards?name=liverwurst");
+        expect(resp.statusCode).toEqual(404);
+        expect(resp.body).toEqual({ "error": { "message": "Not Found", "status": 404 } });
+    });
+});
 
 describe("GET /cards/:id", function () {
     test("ok status code", async function () {
@@ -77,7 +84,7 @@ describe("GET /cards/:id", function () {
                         full_art: false,
                         textless: false,
                         art_uri: 'test_art_uri',
-                      }
+                    }
                 ]
         });
     });

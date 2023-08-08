@@ -30,8 +30,6 @@ class CardCollection {
 
         cards.owner = userCheck.rows[0].username;
 
-        console.log(cards);
-
         return cards;
     }
 

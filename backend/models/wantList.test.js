@@ -24,13 +24,15 @@ describe("getWantList", function () {
     test("works", async function () {
         const wantList = await WantList.getWantList(1);
 
-        expect(wantList.length).toEqual(1);
+        expect(wantList.rows.length).toEqual(1);
+        expect(wantList.owner).toEqual('user1');
     });
 
     test("returns empty array if user has no cards in wantList", async () => {
         const wantList = await WantList.getWantList(2);
 
-        expect(wantList.length).toEqual(0);
+        expect(wantList.rows.length).toEqual(0);
+        expect(wantList.owner).toEqual('user2');
     })
 
     test("not found if no such user", async function () {
@@ -70,7 +72,16 @@ describe("getCardInWantList", function () {
         } catch (err) {
             expect(err instanceof NotFoundError).toBeTruthy();
         }
-    })
+    });
+
+    test("not found if no such user", async function () {
+        try {
+            await WantList.getCardInWantList(0, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
+            fail();
+        } catch (err) {
+            expect(err instanceof NotFoundError).toBeTruthy();
+        }
+    });
 });
 
 /************************************** addCardToCollection */
@@ -90,7 +101,7 @@ describe("addCardToWantList", function () {
 
         const collection = await WantList.getWantList(1);
 
-        expect(collection.length).toEqual(2);
+        expect(collection.rows.length).toEqual(2);
     });
 
     test("not found if no such user", async function () {
@@ -161,11 +172,11 @@ describe("removeCardFromWantList", function () {
     test("works", async function () {
         await WantList.removeCardFromWantList(userID, cardID);
 
-        const collection = await WantList.getWantList(1);
+        const wantList = await WantList.getWantList(1);
 
-        expect(collection.length).toEqual(1);
+        expect(wantList.rows.length).toEqual(1);
 
-        const card = collection[0]
+        const card = wantList.rows[0]
 
         expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
     });

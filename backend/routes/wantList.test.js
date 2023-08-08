@@ -25,7 +25,7 @@ describe("GET /want-list/:userId", function () {
             .get(`/want-list/2`)
             .set("authorization", `Bearer ${user2Token}`);
         expect(resp.statusCode).toEqual(200);
-        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+        expect(resp.body).toEqual({ "cards": expect.any(Array), "owner": "user2" });
 
         const card = resp.body.cards[0];
 
@@ -48,7 +48,7 @@ describe("GET /want-list/:userId", function () {
             .get(`/want-list/2`)
             .set("authorization", `Bearer ${user1Token}`);
         expect(resp.statusCode).toEqual(200);
-        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+        expect(resp.body).toEqual({ "cards": expect.any(Array), "owner": "user2" });
 
         const card = resp.body.cards[0];
 
@@ -70,8 +70,16 @@ describe("GET /want-list/:userId", function () {
         const resp = await request(app)
             .get(`/want-list/2`);
         expect(resp.statusCode).toEqual(401);
-    })
-})
+    });
+
+    test("404 if user not found", async function () {
+        const resp = await request(app)
+            .get(`/want-list/0`)
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(404);
+        expect(resp.body).toEqual({ "error": { "message": "User id not found", "status": 404 } });
+    });
+});
 
 /************************************** POST /want-list/:userId/addCard */
 

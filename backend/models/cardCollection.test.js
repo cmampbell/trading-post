@@ -24,13 +24,15 @@ describe("getCollection", function () {
   test("works", async function () {
     const collection = await CardCollection.getCollection(1);
 
-    expect(collection.length).toEqual(2);
+    expect(collection.rows.length).toEqual(2);
+    expect(collection.owner).toEqual('user1');
   });
 
   test("returns empty array if user has no cards in collection", async () => {
     const collection = await CardCollection.getCollection(2);
 
-    expect(collection.length).toEqual(0);
+    expect(collection.rows.length).toEqual(0);
+    expect(collection.owner).toEqual('user2');
   })
 
   test("not found if no such user", async function () {
@@ -70,7 +72,16 @@ describe("getCardInCollection", function () {
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
     }
-  })
+  });
+
+  test("not found if user not found", async () => {
+    try {
+      await CardCollection.getCardInCollection(0, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
 });
 
 /**************************************** getCardsForTrade */
@@ -78,9 +89,10 @@ describe("getCardsForTrade", function () {
   test("works", async function () {
     const forTrade = await CardCollection.getCardsForTrade(1)
 
-    expect(forTrade.length).toEqual(1);
+    expect(forTrade.rows.length).toEqual(1);
+    expect(forTrade.owner).toEqual('user1');
 
-    const card = forTrade[0]
+    const card = forTrade.rows[0]
 
     expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
   })
@@ -88,7 +100,8 @@ describe("getCardsForTrade", function () {
   test("returns empty array if user has no cards marked for trade", async () => {
     const collection = await CardCollection.getCardsForTrade(2);
 
-    expect(collection.length).toEqual(0);
+    expect(collection.rows.length).toEqual(0);
+    expect(collection.owner).toEqual('user2');
   })
 
   test("not found if no such user", async function () {
@@ -119,7 +132,7 @@ describe("addCardToCollection", function () {
 
     const collection = await CardCollection.getCollection(1);
 
-    expect(collection.length).toEqual(3);
+    expect(collection.rows.length).toEqual(3);
   });
 
   test("not found if no such user", async function () {
@@ -195,28 +208,10 @@ describe("removeCardFromCollection", function () {
 
     const collection = await CardCollection.getCollection(1);
 
-    expect(collection.length).toEqual(1);
+    expect(collection.rows.length).toEqual(1);
 
-    const card = collection[0]
+    const card = collection.rows[0]
 
     expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
   });
-
-  // test("not found if no such user", async function () {
-  //   try {
-  //     await CardCollection.removeCardFromCollection({...cardToRemove, userID: 3});
-  //     fail();
-  //   } catch (err) {
-  //     expect(err instanceof NotFoundError).toBeTruthy();
-  //   }
-  // });
-
-  // test("not found if no such card", async function () {
-  //   try {
-  //     await CardCollection.removeCardFromCollection({...cardToRemove, cardID: '1111375f-7b35-4ed3-b44c-db2a538066fe'});
-  //     fail();
-  //   } catch (err) {
-  //     expect(err instanceof NotFoundError).toBeTruthy();
-  //   }
-  // });
 });

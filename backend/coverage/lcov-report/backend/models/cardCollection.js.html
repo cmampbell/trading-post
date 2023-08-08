@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96% </span>
+                <span class="strong">98.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>48/50</span>
+                <span class='fraction'>51/52</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">95.45% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/22</span>
+                <span class='fraction'>21/22</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>39/39</span>
+                <span class='fraction'>41/41</span>
             </div>
         
             
@@ -229,7 +229,11 @@
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
-<a name='L167'></a><a href='#L167'>167</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -261,18 +265,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,6 +288,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -291,9 +298,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -415,7 +423,7 @@ class CardCollection {
     **/
 &nbsp;
     static async getCollection(userID) {
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID]);
 &nbsp;
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 &nbsp;
@@ -423,9 +431,11 @@ class CardCollection {
             SELECT * FROM card_collection
             JOIN cards ON card_id = cards.id
             WHERE user_id = $1
-        `, [userID])
+        `, [userID]);
 &nbsp;
-        return cards.rows;
+        cards.owner = userCheck.rows[0].username;
+&nbsp;
+        return cards;
     }
 &nbsp;
     /** get cards in collection marked for trade
@@ -436,7 +446,7 @@ class CardCollection {
     **/
 &nbsp;
     static async getCardsForTrade(userID) {
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID])
 &nbsp;
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 &nbsp;
@@ -446,7 +456,9 @@ class CardCollection {
                 WHERE user_id = $1 AND for_trade=true
             `, [userID])
 &nbsp;
-        return cards.rows;
+        cards.owner = userCheck.rows[0].username;
+&nbsp;
+        return cards;
     }
 &nbsp;
     /** get a specifc card in a users collection
@@ -459,7 +471,7 @@ class CardCollection {
     static async getCardInCollection(userID, cardID) {
         const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID]);
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!userCheck.rows[0]) <span class="cstat-no" title="statement not covered" >throw new NotFoundError(`User id not found`);</span>
+        if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 &nbsp;
         const cardCheck = await db.query(`SELECT id FROM cards WHERE id = $1`, [cardID]);
 &nbsp;
@@ -568,7 +580,7 @@ module.exports = CardCollection;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-07T21:37:17.782Z
+                at 2023-08-08T19:35:32.765Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

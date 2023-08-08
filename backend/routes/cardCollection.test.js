@@ -25,7 +25,7 @@ describe("GET /collection/:userId/forTrade", function () {
             .get(`/collection/1/forTrade`)
             .set("authorization", `Bearer ${user1Token}`);
         expect(resp.statusCode).toEqual(200);
-        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+        expect(resp.body).toEqual({ "cards": expect.any(Array), "owner": "user1" });
 
         const card = resp.body.cards[0];
 
@@ -48,7 +48,7 @@ describe("GET /collection/:userId/forTrade", function () {
             .get(`/collection/1/forTrade`)
             .set("authorization", `Bearer ${user2Token}`);
         expect(resp.statusCode).toEqual(200);
-        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+        expect(resp.body).toEqual({ "cards": expect.any(Array), "owner": "user1" });
 
         const card = resp.body.cards[0];
 
@@ -64,6 +64,14 @@ describe("GET /collection/:userId/forTrade", function () {
         expect(card).toHaveProperty('set_code');
         expect(card).toHaveProperty('collector_number');
         expect(card).toHaveProperty('artist');
+    });
+
+    test("404 if user not found", async function () {
+        const resp = await request(app)
+            .get(`/collection/0/forTrade`)
+            .set("authorization", `Bearer ${user1Token}`);
+        expect(resp.statusCode).toEqual(404);
+        expect(resp.body).toEqual({"error": {"message": 'User id not found', "status": 404}});
     })
 
     test("unauth for anon", async function () {
@@ -79,7 +87,7 @@ describe("GET /collection/:userId", function () {
         const resp = await request(app)
             .get(`/collection/1`)
             .set("authorization", `Bearer ${user1Token}`);
-        expect(resp.body).toEqual({ "cards": expect.any(Array) });
+        expect(resp.body).toEqual({ "cards": expect.any(Array), "owner": "user1" });
 
         const card = resp.body.cards[0];
 
@@ -95,20 +103,20 @@ describe("GET /collection/:userId", function () {
         expect(card).toHaveProperty('set_code');
         expect(card).toHaveProperty('collector_number');
         expect(card).toHaveProperty('artist');
-    })
+    });
 
     test("unauth for other users", async function () {
         const resp = await request(app)
             .get(`/collection/1`)
             .set("authorization", `Bearer ${user2Token}`);
         expect(resp.statusCode).toEqual(401);
-    })
+    });
 
     test("unauth for anon", async function () {
         const resp = await request(app)
             .get(`/collection/1`);
         expect(resp.statusCode).toEqual(401);
-    })
+    });
 })
 
 
