@@ -18,6 +18,7 @@ class CardCollection {
     **/
 
     static async getCollection(userID) {
+        // could return username here
         const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);

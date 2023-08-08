@@ -1,11 +1,12 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from "react-webcam";
-import Tesseract from 'tesseract.js';
+import Tesseract, { createWorker } from 'tesseract.js';
 import { Image } from 'image-js';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import readCard from './useTesseract';
 
 /* We are using tesseract.js for Optical Character Recognition. Docs: https://github.com/naptha/tesseract.js#tesseractjs
 *  We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
@@ -25,48 +26,6 @@ import Typography from '@mui/material/Typography';
 *  back to the searchBar component.
 *
 */
-
-const findConfidentString = words => {
-    // loop through words until we find a segment where confidence is above 89
-    // start constructing string with first word where confidence is above 89
-    // stop constructing string when element confidence is below 89
-    let foundStart = false;
-    let foundEnd = false;
-
-    const constructor = [];
-
-    for (let i = 0; !foundEnd && i < words.length; i++) {
-        let currentWord = words[i]
-        if (currentWord.confidence >= 89) {
-            constructor.push(currentWord.text);
-            if (!foundStart) foundStart = true;
-        } else if (foundStart && currentWord.confidence < 89) {
-            foundEnd = true;
-        }
-    }
-    console.log(constructor)
-    return constructor.join(' ');
-}
-
-const findConfidentSymbols = symbols => {
-    let foundStart = false;
-    let foundEnd = false;
-
-    const constructor = [];
-
-    for (let i = 0; !foundEnd && i < symbols.length; i++) {
-        let currentSymbol = symbols[i]
-        if (currentSymbol.confidence >= 98) {
-            constructor.push(currentSymbol.text);
-            if (!foundStart) foundStart = true;
-        } else if (foundStart && currentSymbol.confidence < 98) {
-            foundEnd = true;
-        }
-    }
-    console.log(constructor)
-
-    return constructor.join('');
-}
 
 const preProcessImage = async (imageSource) => {
 
@@ -99,26 +58,13 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
 
     const capture = useCallback(async () => {
         const photo = webcamRef.current.getScreenshot({ height: 1280, width: 720 });
-        const processedPhoto = await preProcessImage(photo)
-        setImgSrc(processedPhoto);
+        const processedPhoto = await preProcessImage(photo);
+        setImgSrc(()=> processedPhoto);
+        const result = await readCard(processedPhoto);
+        console.log(result);
+        getCardWithCamera(result);
+        closeCameraModal();
     }, [webcamRef, setImgSrc]);
-
-    useEffect(() => {
-        if (imgSrc) {
-            Tesseract.recognize(
-                imgSrc, 'eng'
-            ).catch(err => {
-                console.error(err);
-            }).then(result => {
-                console.log(result);
-                const cardNameGuess = findConfidentSymbols(result.data.symbols);
-                // const cardNameGuess = findConfidentString(result.data.words);
-                if (cardNameGuess) setSearchInput(() => cardNameGuess)
-                getCardWithCamera(cardNameGuess)
-                closeCameraModal()
-            })
-        }
-    }, [imgSrc])
 
     return (
         // the parent box gives the camera it's dimensions
@@ -146,7 +92,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 }}>
             </Box>
             {/* This box shows the cropped area of the photo, used for testing */}
-            <Box sx={{
+            {/* <Box sx={{
                             border: 'solid',
                             borderColor: 'red',
                             position: 'absolute',
@@ -155,7 +101,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                             top: '73px',
                             left: '40px',
                             zIndex: 2
-                        }}></Box>
+                        }}></Box> */}
             <Typography
                 variant='h5'
                 style={{ backgroundColor: 'white', textAlign: 'center' }}
@@ -171,7 +117,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                     width: 1080,
                 }}
             />
-            {!isLoading && <>
+            {!imgSrc && <>
                 <Grid container spacing={8} sx={{ position: 'absolute', bottom: '0%' }}>
                     <Grid item xs={6}>
                         <Button
@@ -200,7 +146,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                 </Grid>
             </>}
 
-            <img src={imgSrc} alt='card-scan-result' />
+            {/* <img src={imgSrc} alt='card-scan-result' /> */}
         </Box >
     )
 }
