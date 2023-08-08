@@ -25,9 +25,9 @@ describe('Searchbar tests', () => {
 
     it('should list returned cards after user types, clear cards after search term is cleared', async () => {
         axios.mockResolvedValue({data:{cards: testCards}});
-        const { queryByText, queryByLabelText } = renderWithRouter(<Searchbar setSelectedCard={()=> null} selectedCard={''}/>);
+        const { queryByText, queryByLabelText, queryAllByRole } = renderWithRouter(<Searchbar setSelectedCard={()=> null} selectedCard={''}/>);
 
-        const textInput = queryByLabelText('Card Name')
+        const textInput = queryByLabelText('Card Name');
         expect(textInput).toBeInTheDocument();
 
         await act(async () => {
@@ -35,47 +35,45 @@ describe('Searchbar tests', () => {
         })
 
         expect(textInput).toHaveValue('is')
-
+        
         await waitFor(() => {
-            expect(queryByText("Island")).toBeInTheDocument()
-            expect(queryByText("Isuldor")).toBeInTheDocument()
+            expect(queryAllByRole('option').length).toEqual(2)
         })
 
-        axios.mockResolvedValue({data:{cards: testCards}});
+        axios.mockResolvedValue({data:{cards: [{ name: 'Island', image_uri: 'test_uri', usd_price: '7.65', id: '1' , setCode: 'IXL'}]}});
         await act(async () => {
             userEvent.type(textInput, 'la');
-        })
+        });
 
         expect(textInput).toHaveValue('isla')
         await waitFor(() => {
-            expect(queryByText("Island")).toBeInTheDocument()
-            expect(queryByText("Isuldor")).not.toBeInTheDocument()
-        })
+            expect(queryAllByRole('option').length).toEqual(1)
+        });
 
         await act(async ()=> {
-            userEvent.clear(textInput)
-        })
+            userEvent.clear(textInput);
+        });
 
         await waitFor(() => {
-            expect(queryByText("Island")).not.toBeInTheDocument()
-        })        
+            expect(queryAllByRole('option').length).toEqual(0);
+        });      
     })
 
     it('should return no cards if no cards found', async () => {
         axios.mockResolvedValue({data:{cards: []}});
         const { queryByText, queryByLabelText } = renderWithRouter(<Searchbar setSelectedCard={()=> null} selectedCard={''}/>);
 
-        const textInput = queryByLabelText('Card Name')
+        const textInput = queryByLabelText('Card Name');
         expect(textInput).toBeInTheDocument();
 
         await act(async () => {
             userEvent.type(textInput, 'not-a-card');
-        })
+        });
 
-        expect(textInput).toHaveValue('not-a-card')
+        expect(textInput).toHaveValue('not-a-card');
 
         await waitFor(() => {
             expect(queryByText("Island")).not.toBeInTheDocument()
-        })
-    })
+        });
+    });
 })

@@ -40,7 +40,6 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
             timerID = setTimeout(async () => {
                 try {
                     const cards = await CardService.getCardsByName(searchInput)
-                    console.log(cards);
                     setCardOptions(() => [...cards])
                     setIsLoading(() => false)
                 } catch (err) {
@@ -109,7 +108,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                             label="Card Name"
                         />}
                         sx={{ marginLeft: '5%', width: '90%' }}
-                        filterOptions={(x) => x}
+                        filterOptions={x => x}
                     />
                 </Grid>
                 <Grid item xs={1}>
@@ -141,7 +140,6 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                         closeCameraModal={closeCameraModal}
                         getCardWithCamera={getCardWithCamera}
                     />
-                    <Button></Button>
                 </Box>
             </Modal>
         </>

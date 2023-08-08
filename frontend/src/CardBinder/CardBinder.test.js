@@ -12,7 +12,7 @@ jest.mock("react-router", () => ({
         return { userId: 1 }
     },
     useLoaderData: function () {
-        return [{
+        return {cards: [{
                 artist: "Aleksi Briclot",
                 card_id: "9464a820-65de-44f2-9895-46a35e8621a0",
                 cmc: 11,
@@ -42,6 +42,8 @@ jest.mock("react-router", () => ({
                 user_id: 4,
                 variation: false,
             }]
+            , owner: 'test'
+        }
     }
 }));
 
@@ -63,7 +65,7 @@ describe('CardBinder component', () => {
             />);
     });
 
-    it('shows relevant links', () => {
+    it('shows relevant info', () => {
         const { queryByText } = renderWithRouter(
             <CardBinder
                 binderType={'collection'}

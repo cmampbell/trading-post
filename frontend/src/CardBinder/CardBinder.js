@@ -25,12 +25,6 @@ import PriceDisplay from "../_common/PriceDisplay";
 *  card item
 * 
 *  To-Do: add flash messages to confirm changes to collection
-* 
-* This should only care about getting cards and displaying them.
-*
-* Props: addCard function to add card to Collection/WantList
-*        editCard function to edit a card in collection/wantList
-         remove card Function to remove a card in collection/wantList
 */
 const CardBinder = ({ binderType, service }) => {
     const { cards, owner } = useLoaderData();

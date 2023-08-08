@@ -1,10 +1,5 @@
 import { createWorker } from 'tesseract.js';
 
-/* We are using tesseract.js for Optical Character Recognition.
-*  Docs: https://github.com/naptha/tesseract.js#tesseractjs
-*/
-
-
 /* parseSymbolResults takes an array of symbol data from Tesseract results
 *  and returns a string based on the words associated with that symbol.
 *  [{word: {text: 'Example'}, confidence: 98}, {word: {text: 'Input'}, confidence: 98},]
@@ -49,6 +44,10 @@ const parseSymbolResults = symbols => {
     return fullString.join(' ');
 }
 
+/* We are using tesseract.js for Optical Character Recognition.
+*  Check docs for explanation of createWorker/worker
+*  Docs: https://github.com/naptha/tesseract.js#tesseractjs
+*/
 const readCard = async (image) => {
     const worker = await createWorker({
         // langPath is for traineddata, could train it on magic font
