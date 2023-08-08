@@ -50,7 +50,7 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                         <Typography variant="body1">Quality: <br/>{card.quality}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="body1">For Trade: {card.for_trade ? 'Yes' : 'No'}</Typography>
+                        <Typography variant="body1">For Trade: {card.for_trade || card.forTrade ? 'Yes' : 'No'}</Typography>
                     </Grid>
                     <Grid item xs={2}>
                         <Typography variant="body1">Qty:{card.quantity}</Typography>

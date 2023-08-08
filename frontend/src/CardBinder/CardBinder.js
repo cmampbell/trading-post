@@ -42,8 +42,6 @@ const CardBinder = ({ binderType, service }) => {
     const [isOwner, setIsOwner] = useState(currUser.id === +userId);
 
     const { addCard, editCard, removeCard, addFields, editFields } = service;
-    console.log(cards);
-    console.log(owner);
 
     const handleSearchOpen = () => {
         setSearchOpen(true);
@@ -62,7 +60,6 @@ const CardBinder = ({ binderType, service }) => {
     const editCardInBinder = async (cardToUpdate, editData) => {
         try {
             const card = await editCard(currUser.id, cardToUpdate.id, editData);
-            console.log(card);
             setListCards((oldListCards) => oldListCards.map(
                 oldCard => oldCard.id === card.card_id
                     ? { ...oldCard, ...card } : oldCard));
@@ -84,8 +81,8 @@ const CardBinder = ({ binderType, service }) => {
         <Container>
             <Typography variant="h2" sx={{ m: 1, fontWeight: 'bold' }}>{owner}'s {binderType}</Typography>
             {/* cards num needs to be accumulated from card qty */}
-            <Typography variant="subtitle1">Total Cards: {cards.reduce((total, card) => total + card.quantity, 0)}</Typography>
-            <PriceDisplay cards={cards} />
+            <Typography variant="subtitle1">Total Cards: {listCards.reduce((total, card) => total + card.quantity, 0)}</Typography>
+            <PriceDisplay cards={listCards} />
             {(isOwner) &&
                 binderType !== "trade" &&
                 <Button
