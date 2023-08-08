@@ -22,7 +22,7 @@ const router = express.Router();
 router.get("/:userId", ensureLoggedIn, async function (req, res, next) {
     try{
       const cards = await WantList.getWantList(req.params.userId);
-      return res.json({cards})
+      return res.json({cards: cards.rows, owner: cards.owner})
     } catch (err) {
       return next(err);
     }

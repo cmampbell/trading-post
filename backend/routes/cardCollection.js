@@ -22,7 +22,7 @@ const router = express.Router();
 router.get("/:userId/forTrade", ensureLoggedIn, async function (req, res, next) {
     try{
       const cards = await CardCollection.getCardsForTrade(req.params.userId);
-      return res.json({cards})
+      return res.json({cards: cards.rows, owner: cards.owner});
     } catch (err) {
       return next(err);
     }
@@ -37,7 +37,7 @@ router.get("/:userId/forTrade", ensureLoggedIn, async function (req, res, next) 
 router.get("/:userId", ensureCorrectUser, async function (req, res, next) {
     try{
       const cards = await CardCollection.getCollection(req.params.userId);
-      return res.json({cards})
+      return res.json({cards: cards.rows, owner: cards.owner})
     } catch (err) {
       return next(err);
     }

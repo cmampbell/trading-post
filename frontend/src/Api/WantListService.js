@@ -7,7 +7,7 @@ class WantList  {
 
     static async getUserWantList(userId){
         let res = await Api.request(`want-list/${userId}`);
-        return res.cards;
+        return res;
     }
 
     static async addCard(userId, card){

@@ -33,7 +33,7 @@ import PriceDisplay from "../_common/PriceDisplay";
          remove card Function to remove a card in collection/wantList
 */
 const CardBinder = ({ binderType, service }) => {
-    const cards = useLoaderData();
+    const { cards, owner } = useLoaderData();
     const { userId } = useParams();
     const { currUser } = useOutletContext();
 
@@ -42,6 +42,8 @@ const CardBinder = ({ binderType, service }) => {
     const [isOwner, setIsOwner] = useState(currUser.id === +userId);
 
     const { addCard, editCard, removeCard, addFields, editFields } = service;
+    console.log(cards);
+    console.log(owner);
 
     const handleSearchOpen = () => {
         setSearchOpen(true);
@@ -80,24 +82,23 @@ const CardBinder = ({ binderType, service }) => {
 
     return (
         <Container>
-            <Typography variant="h2" sx={{m: 1, fontWeight: 'bold'}}>{currUser.username}'s {binderType}</Typography>
+            <Typography variant="h2" sx={{ m: 1, fontWeight: 'bold' }}>{owner}'s {binderType}</Typography>
             {/* cards num needs to be accumulated from card qty */}
             <Typography variant="subtitle1">Total Cards: {cards.reduce((total, card) => total + card.quantity, 0)}</Typography>
-            <PriceDisplay cards={cards}/>
+            <PriceDisplay cards={cards} />
             {(isOwner) &&
                 binderType !== "trade" &&
                 <Button
                     onClick={handleSearchOpen}
                     variant="contained"
-                    sx={{m: 2}}
+                    sx={{ m: 2 }}
                 >Add card to collection
                 </Button>
             }
-            {(isOwner) && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields} />}
+            {isOwner && <AddCardModal open={searchOpen} setSearchOpen={setSearchOpen} addCard={addCardToBinder} fields={addFields} />}
             {listCards && listCards.map((card, idx) => {
                 return <CollectionCardItem card={card} key={`${card.id}+${idx}`} removeCard={removeCardFromBinder} editCard={editCardInBinder} canEdit={(isOwner)} pageType={binderType} fields={editFields} />;
             })}
-
             <Typography variant="subtitle2"> Art and card images &#8482; & &copy; Wizards Of The Coast, Inc.</Typography>
         </Container>
     )

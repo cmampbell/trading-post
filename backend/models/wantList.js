@@ -19,7 +19,7 @@ class WantList {
     **/
 
     static async getWantList(userID) {
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID])
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
@@ -27,9 +27,11 @@ class WantList {
             SELECT * FROM card_want_list
             JOIN cards ON card_id = cards.id
             WHERE user_id = $1
-        `, [userID])
+        `, [userID]);
 
-        return cards.rows;
+        cards.owner = userCheck.rows[0].username;
+
+        return cards;
     }
 
     /** get a specific card in a users want list
@@ -122,7 +124,7 @@ class WantList {
     *
     * Throws NotFoundError is user or card not found in db.
     **/
-    static async removeCardFromWantList(userID, cardID ) {
+    static async removeCardFromWantList(userID, cardID) {
 
         await db.query(
             `DELETE FROM card_want_list

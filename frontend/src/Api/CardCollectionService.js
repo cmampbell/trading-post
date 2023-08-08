@@ -9,12 +9,13 @@ class CardCollection {
 
     static async getUserCollection(userId){
         let res = await Api.request(`collection/${userId}/`);
-        return res.cards;
+        console.log(res);
+        return res;
     }
 
     static async getUserCardsForTrade(userId){
         let res = await Api.request(`collection/${userId}/forTrade`);
-        return res.cards;
+        return res;
     }
 
     static async addCard(userId, card){

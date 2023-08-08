@@ -18,8 +18,7 @@ class CardCollection {
     **/
 
     static async getCollection(userID) {
-        // could return username here
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID]);
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
@@ -27,9 +26,13 @@ class CardCollection {
             SELECT * FROM card_collection
             JOIN cards ON card_id = cards.id
             WHERE user_id = $1
-        `, [userID])
+        `, [userID]);
 
-        return cards.rows;
+        cards.owner = userCheck.rows[0].username;
+
+        console.log(cards);
+
+        return cards;
     }
 
     /** get cards in collection marked for trade
@@ -40,7 +43,7 @@ class CardCollection {
     **/
 
     static async getCardsForTrade(userID) {
-        const userCheck = await db.query(`SELECT id FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID])
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
@@ -50,7 +53,9 @@ class CardCollection {
                 WHERE user_id = $1 AND for_trade=true
             `, [userID])
 
-        return cards.rows;
+        cards.owner = userCheck.rows[0].username;
+
+        return cards;
     }
 
     /** get a specifc card in a users collection
