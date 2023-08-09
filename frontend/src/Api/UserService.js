@@ -4,8 +4,8 @@ class User {
 
     static async registerUser(regData){
         let res = await Api.request(`auth/register`, regData, 'post');
+        console.log(res);
         Api.token = res.token;
-        console.log(res)
         return res;
     }
 

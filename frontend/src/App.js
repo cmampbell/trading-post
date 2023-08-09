@@ -40,11 +40,9 @@ function App() {
   const register = async (regData) => {
     try {
       const resp = await UserService.registerUser(regData);
-      console.log(resp)
       setStateAndStorage(resp);
       navigate(`/users/${resp.user.id}`)
     } catch (err) {
-      console.log(err);
       throw err;
     }
   }

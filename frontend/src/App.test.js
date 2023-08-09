@@ -1,5 +1,6 @@
 import App from './App';
 import renderWithRouter from './_common/renderWithRouter';
+
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useLoaderData: function () {
@@ -7,6 +8,11 @@ jest.mock("react-router", () => ({
   }
 }));
 
-test('renders without crashing', () => {
-  renderWithRouter(<App />);
-});
+describe("App Unit Tests", ()=> {
+  test('renders without crashing', () => {
+    renderWithRouter(<App />);
+  });
+})
+
+
+
