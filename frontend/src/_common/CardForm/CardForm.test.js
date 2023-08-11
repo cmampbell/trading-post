@@ -56,8 +56,6 @@ describe("CardForm Unit Tests", () => {
             queryAllByRole,
             queryByRole,
             queryByDisplayValue,
-            queryAllByLabelText,
-            queryByTestId
         } = renderWithRouter(
             <CardForm
                 card={testCard1}

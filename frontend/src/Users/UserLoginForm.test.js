@@ -53,6 +53,5 @@ describe("UserRegisterForm tests", () => {
             expect(getByLabelText('Username *')).toBeInvalid();
             expect(getByLabelText('Password *')).toBeInvalid();
         })
-
     })
 });

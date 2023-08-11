@@ -29,7 +29,7 @@ const PriceDisplay = ({ card = null, cards = null, formData = {}, sx={} }) => {
         const priceSum = cards.reduce((sum, card) => sum + (+calcCardPrice(card)), 0)
         return priceSum.toFixed(2)
     }
-
+    
     return (
         <Typography variant='body1' sx={sx}>
             {card && `$${calcCardPrice(card)}`}

@@ -30,59 +30,57 @@ const CardDetailsBox = ({ printings, addCard, handleClose, fields }) => {
 
     // set borderStyles based on card input
     const borderStyles = card.foil === 'Yes' || card.foil === 'Etched' ? {
-            border: '5px solid transparent',
-            borderImage: 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            borderImageSlice: 1,
+        border: '5px solid transparent',
+        borderImage: 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
+        borderImageSlice: 1,
+    }
+        : {
+            border: 5,
+            borderColor: 'black',
+            width: 'auto',
+            borderRadius: '10px'
         }
-            : {
-                border: 5,
-                borderColor: 'black',
-                width: 'auto',
-                borderRadius: '10px'
-            }
 
 
-return (
-    <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: '100%',
-        height: '100%',
-        m: 2
-    }}>
-        {/* container for image */}
-        {/* TODO: if card is foil add rainbow border to image */}
+    return (
         <Box sx={{
-            height: '30%',
-            overflow: 'hidden',
-            ...borderStyles
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            width: '100%',
+            height: '100%',
+            m: 2
         }}>
-            <img
-                src={card.art_uri}
-                alt={`${card.name} art by ${card.artist}`}
-                style={{ width: 'auto', height: '100%' }}
+            {/* container for image */}
+            <Box sx={{
+                height: '30%',
+                overflow: 'hidden',
+                ...borderStyles
+            }}>
+                <img
+                    src={card.art_uri}
+                    alt={`${card.name} art by ${card.artist}`}
+                    style={{ width: 'auto', height: '100%' }}
+                />
+            </Box>
+            <Typography variant='subtitle2' sx={{ m: 1, fontSize: '11px' }}>
+                Illustrated by {card.artist}. &#8482; & &copy; Wizards Of The Coast, Inc.
+            </Typography>
+
+            <Typography variant='h6'>{card.name}</Typography>
+            {/* Add context provider here */}
+            <CardForm
+                card={card}
+                setCard={setCard}
+                printings={printings}
+                handleClose={handleClose}
+                fields={fields}
+                addCard={addCard}
+                type={'Add'}
             />
         </Box>
-        <Typography variant='subtitle2' sx={{m:1, fontSize: '11px'}}>
-            Illustrated by {card.artist}. &#8482; & &copy; Wizards Of The Coast, Inc.
-        </Typography>
-
-<Typography variant='h6'>{card.name}</Typography>
-        {/* Add form component here */}
-        {/* Add context provider here */}
-        <CardForm
-            card={card}
-            setCard={setCard}
-            printings={printings}
-            handleClose={handleClose}
-            fields={fields}
-            addCard={addCard}
-            type={'Add'}
-        />
-    </Box>
-)
+    )
 }
 
 export default CardDetailsBox;

@@ -70,7 +70,7 @@ const CardForm = ({ card, setCard, printings, handleClose, fields, addCard, type
                 <PriceDisplay card={card} formData={cardData} />
             </Box>
 
-            <Button variant='contained'  onClick={handleClick} > {type} Card! </Button>
+            <Button variant='contained'  onClick={handleClick} >{type} Card!</Button>
         </Box>
     )
 }

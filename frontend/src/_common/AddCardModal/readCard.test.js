@@ -1,5 +1,4 @@
 import readCard from "./readCard";
-import * as image from './testImage.jpg'
 
 jest.mock("tesseract.js", () => ({
     ...jest.requireActual("tesseract.js"),
@@ -80,7 +79,7 @@ jest.mock("tesseract.js", () => ({
 
 describe("readCard unit tests", () => {
     it("should return a string", async () => {
-        const result = await readCard(image);
+        const result = await readCard('mockImage');
 
         expect(result).toEqual(expect.any(String));
         expect(result).toEqual('Test Card');

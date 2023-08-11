@@ -9,7 +9,6 @@ class CardCollection {
 
     static async getUserCollection(userId){
         let res = await Api.request(`collection/${userId}/`);
-        console.log(res);
         return res;
     }
 
