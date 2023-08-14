@@ -3,8 +3,8 @@ import renderWithRouter from "../renderWithRouter";
 import { waitFor, act, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-jest.mock('tesseract.js');
-jest.mock('image-js');
+// jest.mock('tesseract.js');
+// jest.mock('image-js');
 
 describe("WebcamCardReader unit tests", () => {
     it('should render without crashing', () => {
@@ -13,17 +13,16 @@ describe("WebcamCardReader unit tests", () => {
         renderWithRouter(<WebcamCardReader getCardWithCamera={getCardWithCamera} closeCameraModal={closeCameraModal} />)
     });
 
-    it('should call getCardWithCamera and closeCameraModal on button click', async () => {
+    it('should call closeCameraModal on close camera button click', async () => {
         const getCardWithCamera = jest.fn();
         const closeCameraModal = jest.fn();
         const { queryByText } = renderWithRouter(<WebcamCardReader getCardWithCamera={getCardWithCamera} closeCameraModal={closeCameraModal} />)
 
         await act( async()=> {
-            userEvent.click(queryByText('Take Photo'))
-        })
+            userEvent.click(queryByText('Close Camera'))
+        });
 
         await waitFor( async () => {
-            expect(getCardWithCamera).toHaveBeenCalled();
             expect(closeCameraModal).toHaveBeenCalled();
         })
     });

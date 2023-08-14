@@ -38,7 +38,6 @@ const preProcessImage = async (imageSource) => {
     let blur = grey.gaussianFilter({ radius: 1 });
     let mask = blur.mask({ threshold: 0.48 });
 
-    // return cropped.toDataURL();
     return mask.toDataURL();
 }
 
