@@ -28,7 +28,7 @@ const useFields = (fieldArr, card={}) => {
     if(fieldArr && fieldArr.length > 0){
         return fieldArr.reduce((object, field) => {
             if(fieldDictionary[field.FIELD_NAME]){
-                const {name, value} = fieldDictionary[field.name]
+                const {name, value} = fieldDictionary[field.FIELD_NAME]
                 object[name] = value
             }
             return object;
