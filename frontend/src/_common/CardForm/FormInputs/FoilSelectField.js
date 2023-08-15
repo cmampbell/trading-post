@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, Select, MenuItem, Menu, } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const FoilSelectField = ({ cardData, updateCardData, card }) => {
 
@@ -45,5 +45,7 @@ const FoilSelectField = ({ cardData, updateCardData, card }) => {
         </FormControl>
     )
 }
+
+FoilSelectField.FIELD_NAME = 'FoilSelectField';
 
 export default FoilSelectField;

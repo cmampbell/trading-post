@@ -38,4 +38,6 @@ const SetSelectField = ({ printings, card, setCard, updateCardData }) => {
     )
 }
 
+SetSelectField.FIELD_NAME = 'SetSelectField';
+
 export default SetSelectField;

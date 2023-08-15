@@ -19,4 +19,6 @@ const ForTradeField = ({cardData, updateCardData}) => {
     )
 }
 
+ForTradeField.FIELD_NAME = 'ForTradeField';
+
 export default ForTradeField;

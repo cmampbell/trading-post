@@ -42,4 +42,6 @@ const QuantitySelectField = ({ cardData, updateCardData }) => {
     )
 }
 
+QuantitySelectField.FIELD_NAME = 'QuantitySelectField';
+
 export default QuantitySelectField;

@@ -34,4 +34,6 @@ const QualitySelectField = ({ cardData, updateCardData }) => {
     )
 }
 
+QualitySelectField.FIELD_NAME = 'QualitySelectField';
+
 export default QualitySelectField;
