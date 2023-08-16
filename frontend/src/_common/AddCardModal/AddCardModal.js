@@ -7,45 +7,57 @@ import CardService from '../../Api/CardService';
 
 /* Returns MUI modal component https://mui.com/material-ui/react-modal/
 *
-*  Contains Searchbar component and CardDetailsBox component
+*  Modal contains <Searchbar/> and <CardDetailsBox/>.
 *  
-*  This tracks the selected card returned from Searchbar
+*  State:
+*   cardName - card name selected with Searchbar.
+*   printings - array of selected card printings.
 *
-*  Once the user makes a selection with Searchbar,
-*  this makes a call to API to get all printings of card
+*  Props:
+*    open - boolean, true means modal is open, false means modal is closed.
+            managed by parent component.
+*    setSearchOpen - function to change open prop.
+*    addCard - function used to add card to relevant memory.
+*                State for trade page.
+*                db for <CardBinder/> pages.
+*    fields - form fields, used in <CardForm/>
 *
-*  Once we have the printings, we display the CardDetailsBox using
-*  the card objects returned from the API to autofill the inputs
+*  Once the user selects a card name with Searchbar,
+*  this component calls to API to get all printings of card.
 *
-*  On close, we clear everything from state, allowing the user to
-*  start a new search. Tradeoff is that user will lose all data
-*  if they click out of the modal accidentally
+*  When we have the printings, we pass them into CardDetailsBox,
 *
+*  On close, we clear printings and selected card, allowing 
+*  the user to start a new search. 
+*  
+*  Tradeoff is that if a user accidentally closes modal, they
+*  will lose all data from the search and form.
 */
 
 const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
 
-    const [selectedCard, setSelectedCard] = useState()
-    const [printings, setPrintings] = useState([])
+    const [cardName, setCardName] = useState();
+    const [printings, setPrintings] = useState([]);
 
     useEffect(() => {
-        if (selectedCard && selectedCard.id) {
+        if (cardName && cardName.id) {
             // get matching card printings from database
-            CardService.getCardsByOracleId(selectedCard.id)
+            CardService.getCardsByOracleId(cardName.id)
                 .then((options) => {
                     // set selected options to returned cards
-                    setPrintings(() => [...options])
-                })
-        }
+                    setPrintings(() => [...options]);
+                });
+        };
+        // run on component unmount
         return () => {
-            setSelectedCard('')
-            setPrintings([])
-        }
-    }, [selectedCard])
+            setCardName('');
+            setPrintings([]);
+        };
+    }, [cardName]);
 
     const handleClose = () => {
         setPrintings([]);
-        setSearchOpen(false)
+        setSearchOpen(false);
     }
 
     return (
@@ -75,8 +87,9 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
                             flexDirection: 'row',
                             width: '100%',
                             position: 'relative'
-                        }}>
-                        <Typography variant='h2' sx={{m: 2}}>
+                        }}
+                    >
+                        <Typography variant='h2' sx={{ m: 2 }}>
                             Card Search
                         </Typography>
                         <IconButton
@@ -93,8 +106,8 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
                         </IconButton>
                     </Box>
                     <Searchbar
-                        setSelectedCard={setSelectedCard}
-                        selectedCard={selectedCard}
+                        setCardName={setCardName}
+                        cardName={cardName}
                     />
                     {printings.length > 0
                         && <CardDetailsBox
@@ -102,11 +115,12 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
                             addCard={addCard}
                             handleClose={handleClose}
                             fields={fields}
-                        />}
+                        />
+                    }
                 </Paper>
             </Container>
-        </Modal >
+        </Modal>
     )
-}
+};
 
 export default AddCardModal;

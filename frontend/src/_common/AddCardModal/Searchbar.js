@@ -27,7 +27,7 @@ import WebcamCardReader from "./WebcamCardReader";
 *   or the first returned card from the name like search.
 *
 */
-const Searchbar = ({ setSelectedCard, selectedCard }) => {
+const Searchbar = ({ setCardName, cardName }) => {
     const [searchInput, setSearchInput] = useState('');
     const [cardOptions, setCardOptions] = useState([])
     const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     useEffect(() => {
         let timerID;
-        if (searchInput && !selectedCard) {
+        if (searchInput && !cardName) {
             setIsLoading(true)
             timerID = setTimeout(async () => {
                 try {
@@ -53,7 +53,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
             // Set cards to empty array to clear old results
             setCardOptions(() => [])
         }
-    }, [searchInput, selectedCard])
+    }, [searchInput, cardName])
 
     const handleInputChange = (evt, newValue) => {
         // controlled autocomplete
@@ -62,7 +62,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
 
     const handleValueChange = (evt, newValue) => {
         // value changes when user makes a selection
-        if (newValue) setSelectedCard(() => newValue)
+        if (newValue) setCardName(() => newValue)
     }
 
     const openCameraModal = () => {
@@ -78,7 +78,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
         if (cardNameGuess) setSearchInput(() => cardNameGuess);
         try {
             const card = await CardService.getCardsByName(cardNameGuess);
-            setSelectedCard(() => ({ name: card[0].name, id: card[0].oracle_id }))
+            setCardName(() => ({ name: card[0].name, id: card[0].oracle_id }))
         } catch (err) {
             console.error(err)
         }
@@ -91,7 +91,7 @@ const Searchbar = ({ setSelectedCard, selectedCard }) => {
                     <Autocomplete
                         inputValue={searchInput}
                         onInputChange={handleInputChange}
-                        value={selectedCard}
+                        value={cardName}
                         onChange={handleValueChange}
                         id="searchbar"
                         freeSolo

@@ -39,12 +39,12 @@ const testCards = [
         usd_price: "30",
         foil: "No"
     }
-]
+];
 
 describe('AddCardModal tests', () => {
     it('should render without crashing', () => {
         render(<AddCardModal open={true} onClose={() => false} />);
-    })
+    });
 
     it('should be able to be closed with close button', () => {
         let isOpen = true;
@@ -60,7 +60,7 @@ describe('AddCardModal tests', () => {
         waitFor(() => {
             expect(queryByText('Card Search')).not.toBeInTheDocument();
         })
-    })
+    });
 
     it('should render CardDetailsBox after user selects card from Searchbar', async () => {
         let isOpen = true;
@@ -111,6 +111,5 @@ describe('AddCardModal tests', () => {
         await waitFor(async () => {
             expect(setListCards.mock.calls).toHaveLength(1);
         })
-
-    })
-})
+    });
+});
