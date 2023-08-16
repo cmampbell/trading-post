@@ -1,6 +1,6 @@
 "use strict";
 
-/** Routes for card collections. */
+/** Routes for want lists. */
 
 const jsonschema = require("jsonschema");
 
@@ -8,8 +8,8 @@ const express = require("express");
 const { ensureCorrectUser, ensureLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const WantList = require("../models/wantList")
-const newCardInWantListSchema = require("../schemas/newCardInWantList.json")
-const updateCardInWantListSchema = require("../schemas/updateCardInWantList.json")
+const newCardInWantListSchema = require("../schemas/newCardInWantList.json");
+const updateCardInWantListSchema = require("../schemas/updateCardInWantList.json");
 
 const router = express.Router();
 
@@ -20,14 +20,14 @@ const router = express.Router();
  * Authorization required: none
  **/
 router.get("/:userId", ensureLoggedIn, async function (req, res, next) {
-    try{
-      const cards = await WantList.getWantList(req.params.userId);
-      return res.json({cards: cards.rows, owner: cards.owner})
+    try {
+        const cards = await WantList.getWantList(req.params.userId);
+        return res.json({ cards: cards.rows, owner: cards.owner })
     } catch (err) {
-      return next(err);
+        return next(err);
     }
-  })
-  
+})
+
 /** POST /[userId]/addCard => { message }
  *
  * Returns { string }
@@ -41,10 +41,10 @@ router.post("/:userId/addCard", ensureCorrectUser, async function (req, res, nex
         if (!validator.valid) {
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
-        }
-        
+        };
+
         const message = await WantList.addCardToWantList({ ...req.body, userId: req.params.userId });
-        return res.json({ message })
+        return res.json({ message });
     } catch (err) {
         return next(err);
     }
@@ -62,13 +62,13 @@ router.post("/:userId/addCard", ensureCorrectUser, async function (req, res, nex
 
 router.patch("/:userId/patch/:cardId", ensureCorrectUser, async function (req, res, next) {
     try {
-        const {userId, cardId} = req.params;
-        const validator = jsonschema.validate({...req.body}, updateCardInWantListSchema);
+        const { userId, cardId } = req.params;
+        const validator = jsonschema.validate({ ...req.body }, updateCardInWantListSchema);
 
         if (!validator.valid) {
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
-        }
+        };
 
         const card = await WantList.updateCardInWantList(userId, cardId, req.body);
         return res.json({ card });
@@ -86,7 +86,7 @@ router.patch("/:userId/patch/:cardId", ensureCorrectUser, async function (req, r
 
 router.delete("/:userId/delete/:cardId", ensureCorrectUser, async function (req, res, next) {
     try {
-        const {userId, cardId} = req.params;
+        const { userId, cardId } = req.params;
         const message = await WantList.removeCardFromWantList(userId, cardId);
         return res.json({ message });
     } catch (err) {

@@ -14,7 +14,7 @@ function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
     ? `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/trading-post-test`
     : process.env.DATABASE_URL || `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/trading-post`;
-}
+};
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 13;

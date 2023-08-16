@@ -8,7 +8,6 @@ const express = require("express");
 const { ensureCorrectUser, ensureLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
-const CardCollection = require("../models/cardCollection")
 const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
@@ -36,7 +35,7 @@ router.get("/:userId", ensureLoggedIn, async function (req, res, next) {
  *
  * Returns { username, email, id }
  *
- * Authorization required: admin or same-user-as-:username
+ * Authorization required: same-user
  **/
 
 router.patch("/:userId", ensureCorrectUser, async function (req, res, next) {
@@ -45,8 +44,7 @@ router.patch("/:userId", ensureCorrectUser, async function (req, res, next) {
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
-    }
-
+    };
     const user = await User.update(req.params.userId, req.body);
     return res.json({ user });
   } catch (err) {
@@ -57,7 +55,7 @@ router.patch("/:userId", ensureCorrectUser, async function (req, res, next) {
 
 /** DELETE /[username]  =>  { deleted: username }
  *
- * Authorization required: admin or same-user-as-:username
+ * Authorization required: same-user
  **/
 
 router.delete("/:userId", ensureCorrectUser, async function (req, res, next) {

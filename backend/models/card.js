@@ -3,7 +3,7 @@
 const db = require("../db");
 const { NotFoundError } = require("../expressError");
 
-/** Related functions for companies. */
+/** Related functions for cards. */
 
 class Card {
     /** find all card names.
@@ -20,7 +20,8 @@ class Card {
     }
 
     /** find all possible matching card names.
-     * queries for all cards similar to 
+     * queries for all cards similar to name
+     * uses trigram matching
      * Returns [ { oracle_id, name }, ...] 
      * */
     static async fuzzyFindCardsByName(name) {
@@ -30,7 +31,7 @@ class Card {
             WHERE $1 % ANY(string_to_array(name, ' '))
             GROUP BY name, oracle_id
             ORDER BY SIMILARITY(name, $1) DESC, name, oracle_id`, [name]);
-        if(cardsRes.rows.length < 1) throw new NotFoundError();
+        if (cardsRes.rows.length < 1) throw new NotFoundError();
         return cardsRes.rows;
     }
 
@@ -45,11 +46,11 @@ class Card {
             `SELECT *
             FROM cards
             WHERE oracle_id=$1
-            ORDER BY set_name, collector_number`, [id])
+            ORDER BY set_name, collector_number`, [id]);
 
         if (cardsRes.rows.length < 1) throw new NotFoundError(`No cards with oracle id: ${id}`);
 
-        return cardsRes.rows
+        return cardsRes.rows;
     }
 }
 

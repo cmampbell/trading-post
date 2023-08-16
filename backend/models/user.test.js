@@ -26,7 +26,6 @@ afterAll(commonAfterAll);
 describe("authenticate", function () {
   test("works", async function () {
     const user = await User.authenticate("user1", "password");
-    console.log(user.created_at)
     expect(user).toEqual({
       username: "user1",
       email: "test@gmail.com",
@@ -67,8 +66,7 @@ describe("register", function () {
       ...newUser,
       password: "password",
     });
-    console.log(typeof user.created_at)
-    expect(user).toEqual({id: expect.any(Number), created_at: expect.any(Date), ...newUser});
+    expect(user).toEqual({ id: expect.any(Number), created_at: expect.any(Date), ...newUser });
     const found = await db.query("SELECT * FROM users WHERE username = 'new'");
     expect(found.rows.length).toEqual(1);
     expect(found.rows[0].password.startsWith("$2b$")).toEqual(true);
@@ -172,7 +170,7 @@ describe("remove", function () {
   test("works", async function () {
     await User.remove(1);
     const res = await db.query(
-        "SELECT * FROM users WHERE id=1");
+      "SELECT * FROM users WHERE id=1");
     expect(res.rows.length).toEqual(0);
   });
 

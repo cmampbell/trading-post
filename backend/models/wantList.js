@@ -7,7 +7,9 @@ const {
     BadRequestError,
 } = require("../expressError");
 
-const { sqlForPartialUpdate } = require('../helpers/sql')
+const { sqlForPartialUpdate } = require('../helpers/sql');
+
+/** Related functions for want lists. */
 
 class WantList {
 
@@ -19,7 +21,7 @@ class WantList {
     **/
 
     static async getWantList(userID) {
-        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID]);
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
@@ -53,7 +55,7 @@ class WantList {
         const result = await db.query(`
                             SELECT * from card_want_list
                             JOIN cards ON card_id = cards.id
-                            WHERE user_id=$1 AND card_id=$2`, [userID, cardID])
+                            WHERE user_id=$1 AND card_id=$2`, [userID, cardID]);
 
         if (result.rows.length < 1) throw new NotFoundError(`Card not in want list`);
 
@@ -62,7 +64,7 @@ class WantList {
 
     /** add a card to a users want list
     *
-    * Returns 'Succesfully added card to collection'.
+    * Returns 'Succesfully added card to want list'.
     *
     * Throws NotFoundError is user or card not found in db.
     **/
@@ -87,7 +89,7 @@ class WantList {
     }
 
     /** update the cards in a users want list
-    * data can include { quality }
+    * data can include { quantity, foil }
     *
     * Returns updated cardObject
     *

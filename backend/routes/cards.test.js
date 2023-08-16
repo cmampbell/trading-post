@@ -42,8 +42,7 @@ describe("GET /cards", function () {
                         oracle_id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
                     }
                 ]
-        }
-        );
+        });
     });
 
     test("returns 404 if no card found", async function () {
@@ -56,7 +55,7 @@ describe("GET /cards", function () {
 describe("GET /cards/:id", function () {
     test("ok status code", async function () {
         const resp = await request(app).get("/cards/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11");
-        expect(resp.statusCode).toEqual(200)
+        expect(resp.statusCode).toEqual(200);
         expect(resp.body).toEqual({
             cards:
                 [
@@ -91,6 +90,6 @@ describe("GET /cards/:id", function () {
 
     test("404 if not found", async function () {
         const resp = await request(app).get("/cards/bbbbbbbb-9c0b-4ef8-bb6d-6bb9bd380a11");
-        expect(resp.statusCode).toEqual(404)
+        expect(resp.statusCode).toEqual(404);
     })
 })

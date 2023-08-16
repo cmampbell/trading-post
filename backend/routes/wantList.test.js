@@ -90,7 +90,7 @@ describe("POST /want-list/:userId/addCard", function () {
         cardID: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         foil: "No",
         quantity: 1
-    }
+    };
 
     test("works for same user", async function () {
         const resp = await request(app)
@@ -167,7 +167,7 @@ describe("PATCH /want-list/:userID/patch/:cardID", function () {
     test("unauth for anon", async function () {
         const resp = await request(app)
             .patch(`/want-list/${userID}/patch/${cardID}`)
-            .send(cardUpdateData)
+            .send(cardUpdateData);
         expect(resp.statusCode).toEqual(401);
     });
 
@@ -209,8 +209,8 @@ describe("DELETE /want-list/:userId/delete/:cardId", function () {
             .delete(`/want-list/2/delete/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`)
             .set("authorization", `Bearer ${user2Token}`);
 
-        expect(resp.statusCode).toEqual(200)
-        expect(resp.body.message).toEqual('Succesfully removed card from want list')
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body.message).toEqual('Succesfully removed card from want list');
     })
 
     test("unauthorized for other users", async function () {
@@ -222,7 +222,7 @@ describe("DELETE /want-list/:userId/delete/:cardId", function () {
 
     test("unauthorized for anon", async function () {
         const resp = await request(app)
-            .delete(`/want-list/1/delete/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`)
+            .delete(`/want-list/1/delete/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`);
         expect(resp.statusCode).toEqual(401);
     })
 })

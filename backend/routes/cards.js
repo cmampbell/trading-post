@@ -2,10 +2,7 @@
 
 /** Routes for cards. */
 
-// const jsonschema = require("jsonschema");
 const express = require("express");
-
-const { BadRequestError } = require("../expressError");
 const Card = require("../models/card");
 
 const router = new express.Router();
@@ -13,19 +10,24 @@ const router = new express.Router();
 /** GET /?name='cardNameLike'  =>
  *   { cards: [ { oracle_id, name }, ...] }
  * 
+ *  If findCardsByName doesn't return a match
+ *  we try fuzzyCardSearch. This handles typos
+ *  and names provided from tesseract OCR that
+ *  could be inaccurate by a few characters
+ * 
  *   Authorization required: none
  */
 
 router.get("/", async function (req, res, next) {
-    try {
-        let cards = await Card.findCardsByName(req.query.name);
-        if (cards.length < 1) {
-          cards = await Card.fuzzyFindCardsByName(req.query.name);
-        }
-        return res.json({ cards });
-    } catch (err) {
-        return next(err);
-    }
+  try {
+    let cards = await Card.findCardsByName(req.query.name);
+    if (cards.length < 1) {
+      cards = await Card.fuzzyFindCardsByName(req.query.name);
+    };
+    return res.json({ cards });
+  } catch (err) {
+    return next(err);
+  }
 });
 
 /** GET /[id]  =>  { card }

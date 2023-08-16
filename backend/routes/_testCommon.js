@@ -1,18 +1,17 @@
 "use strict";
 
 const db = require("../db.js");
-const User = require("../models/user.js");
 const { createToken } = require("../helpers/tokens");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
-const CardCollection = require("../models/cardCollection.js")
-const WantList = require("../models/wantList.js")
+const CardCollection = require("../models/cardCollection.js");
+const WantList = require("../models/wantList.js");
 
 async function commonBeforeAll() {
   process.env.NODE_ENV = 'test';
 
-  await db.query("DELETE FROM card_want_list")
-  await db.query("DELETE FROM card_collection")
+  await db.query("DELETE FROM card_want_list");
+  await db.query("DELETE FROM card_collection");
   await db.query("DELETE FROM cards");
   await db.query("DELETE FROM users");
 
@@ -129,20 +128,20 @@ async function commonBeforeAll() {
     cardID: testCard.id,
     quantity: 4,
     foil: "Yes"
-  })
-}
+  });
+};
 
 async function commonBeforeEach() {
   await db.query("BEGIN");
-}
+};
 
 async function commonAfterEach() {
   await db.query("ROLLBACK");
-}
+};
 
 async function commonAfterAll() {
   await db.end();
-}
+};
 
 let user1Token = createToken({ username: "user1", id: 1 });
 let user2Token = createToken({ username: "user2", id: 2 });

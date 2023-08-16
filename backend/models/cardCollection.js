@@ -8,6 +8,8 @@ const {
     BadRequestError,
 } = require("../expressError");
 
+/** Related functions for card collections. */
+
 class CardCollection {
 
     /** get the cards in a users collection
@@ -41,7 +43,7 @@ class CardCollection {
     **/
 
     static async getCardsForTrade(userID) {
-        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID])
+        const userCheck = await db.query(`SELECT id, username FROM users WHERE id = $1`, [userID]);
 
         if (!userCheck.rows[0]) throw new NotFoundError(`User id not found`);
 
@@ -49,7 +51,7 @@ class CardCollection {
                 SELECT * FROM card_collection
                 JOIN cards ON card_id = cards.id
                 WHERE user_id = $1 AND for_trade=true
-            `, [userID])
+            `, [userID]);
 
         cards.owner = userCheck.rows[0].username;
 
@@ -75,7 +77,7 @@ class CardCollection {
         const result = await db.query(`
                             SELECT * from card_collection
                             JOIN cards ON card_id = cards.id
-                            WHERE user_id=$1 AND card_id=$2`, [userID, cardID])
+                            WHERE user_id=$1 AND card_id=$2`, [userID, cardID]);
 
         if (result.rows.length < 1) throw new NotFoundError(`Card not in collection`);
 
@@ -109,7 +111,7 @@ class CardCollection {
     }
 
     /** update the cards in a users collection
-    * data can include { forTrade, quanitity, quality, foil }
+    * data can include { forTrade, quantity, quality, foil }
     *
     * Returns updated cardObject
     *
@@ -135,18 +137,12 @@ class CardCollection {
         const userIDVarIdx = "$" + (values.length + 1);
         const cardIDVarIdx = "$" + (values.length + 2);
 
-        // console.log(setCols)
-        // console.log([...values, userID, cardID])
-
         const querySql = `UPDATE card_collection
                             SET ${setCols} 
                             WHERE user_id = ${userIDVarIdx} AND card_id = ${cardIDVarIdx}
                             RETURNING *`;
 
-        // console.log(querySql);
         const result = await db.query(querySql, [...values, userID, cardID]);
-
-        // console.log(result)
 
         return result.rows[0];
     }

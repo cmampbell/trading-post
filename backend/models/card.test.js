@@ -58,7 +58,7 @@ describe("fuzzyFindCardsByName", function () {
       },
     ]);
   });
-  
+
   test("works with missing spaces", async function () {
     let cards = await Card.fuzzyFindCardsByName('testCard');
     expect(cards).toEqual([
@@ -87,7 +87,7 @@ describe("fuzzyFindCardsByName", function () {
     ]);
   });
 
-  
+
   test("works for missing letter", async function () {
     let cards = await Card.fuzzyFindCardsByName('ter card');
     expect(cards).toEqual([
@@ -103,12 +103,12 @@ describe("fuzzyFindCardsByName", function () {
   });
 
   test("throws not found if card not found", async function () {
-    try{
+    try {
       let cards = await Card.fuzzyFindCardsByName('fake title');
       fail();
-    } catch(err) {
+    } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
-    }
+    };
   });
 });
 
@@ -150,6 +150,6 @@ describe("findCardsById", function () {
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
-    }
-  })
+    };
+  });
 });

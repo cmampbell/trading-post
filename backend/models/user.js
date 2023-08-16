@@ -38,8 +38,8 @@ class User {
       if (isValid === true) {
         delete user.password;
         return user;
-      }
-    }
+      };
+    };
 
     throw new UnauthorizedError("Invalid username/password");
   }
@@ -61,7 +61,7 @@ class User {
 
     if (duplicateCheck.rows[0]) {
       throw new BadRequestError(`Username unavailable: ${username}`);
-    }
+    };
 
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
@@ -77,7 +77,7 @@ class User {
       `INSERT INTO users (username, password, email, created_at)
            VALUES ($1, $2, $3, $4)
            RETURNING username, email, id, created_at`,
-      [username, hashedPassword, email,(year + "-" + month + "-" + date)],
+      [username, hashedPassword, email, (year + "-" + month + "-" + date)],
     );
 
     const user = result.rows[0];
@@ -87,8 +87,7 @@ class User {
 
   /** Given an id, return data about user.
    *
-   * Returns { username, first_name, last_name, is_admin, jobs }
-   *   where jobs is { id, title, company_handle, company_name, state }
+   * Returns { username, email, id, created_at  }
    *
    * Throws NotFoundError if user not found.
    **/
@@ -104,8 +103,6 @@ class User {
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user with id: ${id}`);
-
-    // could get want/trade list here or have it be its own method
 
     return user;
   }
@@ -130,7 +127,7 @@ class User {
   static async update(userId, data) {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
-    }
+    };
 
     const { setCols, values } = sqlForPartialUpdate(data, {});
     const userIdVarIdx = "$" + (values.length + 1);

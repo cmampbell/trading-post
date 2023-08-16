@@ -66,9 +66,9 @@ const addCardToDB = async (cardToAdd) => {
 // before all test suites are run
 async function commonBeforeAll() {
   // clear out cards
-  process.env.NODE_ENV = 'test'
-  await db.query("DELETE FROM card_want_list")
-  await db.query("DELETE FROM card_collection")
+  process.env.NODE_ENV = 'test';
+  await db.query("DELETE FROM card_want_list");
+  await db.query("DELETE FROM card_collection");
   await db.query("DELETE FROM cards");
   await db.query("DELETE FROM users");
 
@@ -124,14 +124,14 @@ async function commonBeforeAll() {
     art_uri: 'test_art_uri'
   };
 
-  await addCardToDB(testCard1)
-  await addCardToDB(testCard2)
+  await addCardToDB(testCard1);
+  await addCardToDB(testCard2);
 
   await db.query(
     `INSERT INTO users (username, password, email, id, created_at)
          VALUES ($1, $2, $3, $4, $5)
          RETURNING username, email, id`,
-    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1, "2023-07-18"], 
+    ["user1", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test@gmail.com", 1, "2023-07-18"],
   );
 
   await db.query(
@@ -156,7 +156,7 @@ async function commonBeforeAll() {
   await db.query(
     `INSERT INTO card_want_list (user_id, card_id, quantity)
           VALUES ($1, $2, $3)`,
-    [1, testCard1.id, 4 ]
+    [1, testCard1.id, 4]
   );
 }
 

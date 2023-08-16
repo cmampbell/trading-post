@@ -6,9 +6,9 @@ const express = require("express");
 const cors = require("cors");
 
 const { NotFoundError } = require("./expressError");
+const { authenticateJWT } = require("./middleware/auth");
 
 const cardsRoutes = require("./routes/cards");
-const { authenticateJWT } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
 const collectionRoutes = require("./routes/cardCollection");
@@ -32,7 +32,7 @@ app.use("/want-list", wantListRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
-    console.log(NotFoundError)
+    console.log(NotFoundError);
     return next(new NotFoundError());
 });
 

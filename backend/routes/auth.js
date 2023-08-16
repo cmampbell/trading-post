@@ -27,7 +27,7 @@ router.post("/login", async function (req, res, next) {
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
-    }
+    };
 
     const { username, password } = req.body;
     const user = await User.authenticate(username, password);
@@ -36,7 +36,7 @@ router.post("/login", async function (req, res, next) {
     return res.json({ token, user });
   } catch (err) {
     return next(err);
-  }
+  };
 });
 
 /** POST /auth/register:   { user } => { token }
@@ -54,14 +54,14 @@ router.post("/register", async function (req, res, next) {
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
-    }
+    };
 
     const newUser = await User.register({ ...req.body });
     const token = createToken(newUser);
     return res.status(201).json({ token, user: newUser });
   } catch (err) {
     return next(err);
-  }
+  };
 });
 
 

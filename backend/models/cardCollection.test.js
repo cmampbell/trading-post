@@ -87,12 +87,12 @@ describe("getCardInCollection", function () {
 /**************************************** getCardsForTrade */
 describe("getCardsForTrade", function () {
   test("works", async function () {
-    const forTrade = await CardCollection.getCardsForTrade(1)
+    const forTrade = await CardCollection.getCardsForTrade(1);
 
     expect(forTrade.rows.length).toEqual(1);
     expect(forTrade.owner).toEqual('user1');
 
-    const card = forTrade.rows[0]
+    const card = forTrade.rows[0];
 
     expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
   })
@@ -137,7 +137,7 @@ describe("addCardToCollection", function () {
 
   test("not found if no such user", async function () {
     try {
-      await CardCollection.addCardToCollection({...newCard, userID: 3});
+      await CardCollection.addCardToCollection({ ...newCard, userID: 3 });
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
@@ -147,45 +147,45 @@ describe("addCardToCollection", function () {
 
 /************************************** updateCardInCollection */
 
-describe("updateCardInCollection", function() {
+describe("updateCardInCollection", function () {
 
-  test("works", async function() {
-    const updatedCard = await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: "Yes", quantity: 4});
+  test("works", async function () {
+    const updatedCard = await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: "Yes", quantity: 4 });
 
     expect(updatedCard.quantity).toEqual(4);
     expect(updatedCard.foil).toEqual("Yes");
   })
 
-  test("BadRequest trying to update cardID", async function(){
-    try{
-      await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', {cardID: 'yu-gi-oh'});
+  test("BadRequest trying to update cardID", async function () {
+    try {
+      await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { cardID: 'yu-gi-oh' });
       fail();
     } catch (err) {
       expect(err instanceof BadRequestError).toBeTruthy();
     }
   })
 
-  test("BadRequest trying to update userID", async function(){
-    try{
-      await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', {userID: 10});
+  test("BadRequest trying to update userID", async function () {
+    try {
+      await CardCollection.updateCardInCollection(1, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { userID: 10 });
       fail();
     } catch (err) {
       expect(err instanceof BadRequestError).toBeTruthy();
     }
   })
 
-  test("not found if user doesn't exist", async function(){
-    try{
-      await CardCollection.updateCardInCollection(10, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: true, quantity: 4});
+  test("not found if user doesn't exist", async function () {
+    try {
+      await CardCollection.updateCardInCollection(10, 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: true, quantity: 4 });
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
     }
   })
 
-  test("not found if card doesn't exist", async function(){
-    try{
-      await CardCollection.updateCardInCollection(10, '0000bc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: true, quantity: 4});
+  test("not found if card doesn't exist", async function () {
+    try {
+      await CardCollection.updateCardInCollection(10, '0000bc99-9c0b-4ef8-bb6d-6bb9bd380a11', { foil: true, quantity: 4 });
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
@@ -210,8 +210,8 @@ describe("removeCardFromCollection", function () {
 
     expect(collection.rows.length).toEqual(1);
 
-    const card = collection.rows[0]
+    const card = collection.rows[0];
 
-    expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
+    expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
   });
 });

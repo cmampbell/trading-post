@@ -18,7 +18,7 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-/************************************** getCardCollection */
+/************************************** getWantList */
 
 describe("getWantList", function () {
     test("works", async function () {
@@ -45,7 +45,7 @@ describe("getWantList", function () {
     });
 });
 
-/************************************** getCardInCollection */
+/************************************** getCardInWantList */
 
 describe("getCardInWantList", function () {
     test("works", async function () {
@@ -84,7 +84,7 @@ describe("getCardInWantList", function () {
     });
 });
 
-/************************************** addCardToCollection */
+/************************************** addCardToWantList */
 
 describe("addCardToWantList", function () {
 
@@ -94,7 +94,7 @@ describe("addCardToWantList", function () {
         forTrade: true,
         quantity: 2,
         foil: "Yes",
-    }
+    };
 
     test("works", async function () {
         await WantList.addCardToWantList(newCard);
@@ -176,8 +176,8 @@ describe("removeCardFromWantList", function () {
 
         expect(wantList.rows.length).toEqual(1);
 
-        const card = wantList.rows[0]
+        const card = wantList.rows[0];
 
-        expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
+        expect(card.id).toEqual('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
     });
 });

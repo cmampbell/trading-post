@@ -1,5 +1,5 @@
 const db = require('./db');
-const fs = require('fs')
+const fs = require('fs');
 
 // This script should only be run once for database setup
 // Function to insert a JSON card into the "cards" table
@@ -70,20 +70,20 @@ async function insertCard(card) {
 }
 
 // TO-DO: Replace with script to pull daily bulk data files
-// And update database with new prices
-
+// And update database with new prices, insert new cards
 // will need to download bulk data from here: https://data.scryfall.io/default-cards/default-cards-20230701090701.json
+
 fs.readFile('./default-cards-20230701090701.json', {}, (error, data) => {
-  const cards = JSON.parse(data)
+  const cards = JSON.parse(data);
   for (let card of cards) {
-    if(card.layout === 'transform'){
+    // TO-DO add in way to handle split cards
+    if (card.layout === 'transform') {
       // if dealing with a dual-faced card, modify current card object to use front card image
-      card.image_uris = {large: card.card_faces[0].image_uris.large}
+      card.image_uris = { large: card.card_faces[0].image_uris.large };
     }
     // exclude digital only cards
     if (card.digital === false) insertCard(card);
   }
-  // db.end()
 });
 
 module.exports = insertCard;

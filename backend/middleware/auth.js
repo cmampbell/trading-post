@@ -53,7 +53,7 @@ function ensureCorrectUser(req, res, next) {
     const user = res.locals.user;
     if (!(user && (user.id == req.params.userId))) {
       throw new UnauthorizedError();
-    }
+    };
     return next();
   } catch (err) {
     return next(err);

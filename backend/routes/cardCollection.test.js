@@ -41,7 +41,7 @@ describe("GET /collection/:userId/forTrade", function () {
         expect(card).toHaveProperty('set_code');
         expect(card).toHaveProperty('collector_number');
         expect(card).toHaveProperty('artist');
-    })
+    });
 
     test("works for other users", async function () {
         const resp = await request(app)
@@ -71,15 +71,15 @@ describe("GET /collection/:userId/forTrade", function () {
             .get(`/collection/0/forTrade`)
             .set("authorization", `Bearer ${user1Token}`);
         expect(resp.statusCode).toEqual(404);
-        expect(resp.body).toEqual({"error": {"message": 'User id not found', "status": 404}});
-    })
+        expect(resp.body).toEqual({ "error": { "message": 'User id not found', "status": 404 } });
+    });
 
     test("unauth for anon", async function () {
         const resp = await request(app)
             .get(`/collection/1/forTrade`);
         expect(resp.statusCode).toEqual(401);
-    })
-})
+    });
+});
 
 /************************************** GET /collection/:userId */
 describe("GET /collection/:userId", function () {
@@ -117,7 +117,7 @@ describe("GET /collection/:userId", function () {
             .get(`/collection/1`);
         expect(resp.statusCode).toEqual(401);
     });
-})
+});
 
 
 /************************************** POST /collection/:userId/addCard */
@@ -131,7 +131,7 @@ describe("POST /collection/:userId/addCard", function () {
         forTrade: true,
         quality: "Near Mint",
         quantity: 1
-    }
+    };
 
     test("works for same user", async function () {
         const resp = await request(app)
@@ -152,7 +152,7 @@ describe("POST /collection/:userId/addCard", function () {
     test("unauth for anon", async function () {
         const resp = await request(app)
             .post(`/collection/1/addCard`)
-            .send(newCard)
+            .send(newCard);
         expect(resp.statusCode).toEqual(401);
     });
 
@@ -162,7 +162,7 @@ describe("POST /collection/:userId/addCard", function () {
             .send({ ...newCard, cardID: 'aaaaaa00-9c0b-4ef8-aa1a-6bb9bd380a11' })
             .set("authorization", `Bearer ${user1Token}`);
         expect(resp.statusCode).toEqual(404);
-    })
+    });
 
     test("bad request if data incomplete", async function () {
         const resp = await request(app)
@@ -170,7 +170,7 @@ describe("POST /collection/:userId/addCard", function () {
             .send({ cardID: 'a6erbc00-9c0b-4ef8-aa1a-6bb9bd380a11', userID: 1, foil: "Yes" })
             .set("authorization", `Bearer ${user1Token}`);
         expect(resp.statusCode).toEqual(400);
-    })
+    });
 });
 
 /************************************** PATCH /collection/:userID/patch/:cardID */
@@ -212,7 +212,7 @@ describe("PATCH /collection/:userID/patch/:cardID", function () {
     test("unauth for anon", async function () {
         const resp = await request(app)
             .patch(`/collection/${userID}/patch/${cardID}`)
-            .send(cardUpdateData)
+            .send(cardUpdateData);
         expect(resp.statusCode).toEqual(401);
     });
 
@@ -256,8 +256,8 @@ describe("DELETE /collection/:userId/delete/:cardId", function () {
             .delete(`/collection/1/delete/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`)
             .set("authorization", `Bearer ${user1Token}`);
 
-        expect(resp.statusCode).toEqual(200)
-        expect(resp.body.message).toEqual('Succesfully removed card from collection')
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body.message).toEqual('Succesfully removed card from collection');
     })
 
     test("unauthorized for other users", async function () {
@@ -269,7 +269,7 @@ describe("DELETE /collection/:userId/delete/:cardId", function () {
 
     test("unauthorized for anon", async function () {
         const resp = await request(app)
-            .delete(`/collection/1/delete/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`)
+            .delete(`/collection/1/delete/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`);
         expect(resp.statusCode).toEqual(401);
     })
 })
