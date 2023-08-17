@@ -1,6 +1,21 @@
 import React from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
+/* Input field meant for use with <CardForm/>
+*
+*  Props:
+*       cardData - piece of State from <CardForm/>, used to control input with state
+*       updateCardData - function to update cardData in state based on user input
+*       card - card user has selected, used here to get foil printings for cards
+*
+*  We check if the card has foil options, and if so, then we check which options
+*  are available for the card, and use those options to create the options for
+*  our select menu. This creates a dynamic form input that updates options as card
+*  printings change.
+*
+*  We set FIELD_NAME property on the function for use with useField.js
+*/
+
 const FoilSelectField = ({ cardData, updateCardData, card }) => {
 
     const handleChange = (evt) => {
@@ -8,7 +23,7 @@ const FoilSelectField = ({ cardData, updateCardData, card }) => {
         updateCardData(name, value);
     }
 
-    const checkFoilOptions = (card) => card.usd_price || card.usd_foil_price || card.usd_etched_price ? true : false
+    const checkFoilOptions = (card) => card.usd_price || card.usd_foil_price || card.usd_etched_price ? true : false;
 
     const getFoilOptions = (card) => {
         const options = [];
@@ -17,7 +32,7 @@ const FoilSelectField = ({ cardData, updateCardData, card }) => {
         if (card.usd_etched_price) options.push('Etched');
 
         return options;
-    }
+    };
 
     return (
         <FormControl
@@ -44,7 +59,7 @@ const FoilSelectField = ({ cardData, updateCardData, card }) => {
             </Select>
         </FormControl>
     )
-}
+};
 
 FoilSelectField.FIELD_NAME = 'FoilSelectField';
 

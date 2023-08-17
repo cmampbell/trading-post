@@ -1,6 +1,25 @@
 import React from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
+/* Input field meant for use with <CardForm/>
+*
+*  Props:
+*       printings - array of card objects, representing every version of searched cardName.
+*                   defaults to first card object in array.
+*       card - currently selected card from printings.
+*       setCard - function used to change card, based on the set that user selects.
+*       updateCardData - function to update cardData in state based on user input. we use it
+                         here to update foil value based on the newly selected cards foil options
+*
+*  We map through printings, creating <MenuItem/> for each card object in the array.
+*
+*  When a user selects an option from this field, we find the card in printings, based on the cards
+*  unique setName and collectorNumber. When we find a match, we setCard to the found card object. We
+*  then update the foilValue in cardData, to dynamically update the form based on the new card.
+*
+*  We set FIELD_NAME property on the function for use with useField.js
+*/
+
 const SetSelectField = ({ printings, card, setCard, updateCardData }) => {
 
     const handleChange = (evt) => {
@@ -8,9 +27,9 @@ const SetSelectField = ({ printings, card, setCard, updateCardData }) => {
         const [setName, collectorNumber] = value.split('-');
         const newCard = printings.find((print) => print.set_name === setName && print.collector_number === collectorNumber);
         setCard(()=> newCard);
-        const foilValue = newCard.usd_price ? 'No' : newCard.usd_foil_price ? 'Yes' : 'Etched'
-        updateCardData('foil', foilValue )
-    }
+        const foilValue = newCard.usd_price ? 'No' : newCard.usd_foil_price ? 'Yes' : 'Etched';
+        updateCardData('foil', foilValue );
+    };
 
     return (
         <FormControl
@@ -35,8 +54,8 @@ const SetSelectField = ({ printings, card, setCard, updateCardData }) => {
                 )}
             </Select>
         </FormControl>
-    )
-}
+    );
+};
 
 SetSelectField.FIELD_NAME = 'SetSelectField';
 

@@ -3,16 +3,28 @@ import { FormControl, TextField, Stack, IconButton } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
+/* Input field meant for use with <CardForm/>
+*
+*  Props:
+*       cardData - piece of State from <CardForm/>, used to control input with state
+*       updateCardData - function to update cardData in state based on user input
+*
+*  readOnly TextField that's value can be changed with + and - buttons.
+*  Value can not be below 1, to prevent a user from trading or owning 0 copies
+*  of a card.
+*
+*  We set FIELD_NAME property on the function for use with useField.js
+*/
+
 const QuantitySelectField = ({ cardData, updateCardData }) => {
 
     const changeQty = (num) => {
         if (cardData.quantity + num < 1) return
         let newQty = cardData.quantity;
-
         newQty += num;
-
         updateCardData('quantity', newQty);
-    }
+    };
+
     return (
         <>
             <FormControl
@@ -39,8 +51,8 @@ const QuantitySelectField = ({ cardData, updateCardData }) => {
                 </IconButton>
             </Stack>
         </>
-    )
-}
+    );
+};
 
 QuantitySelectField.FIELD_NAME = 'QuantitySelectField';
 

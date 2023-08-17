@@ -1,7 +1,7 @@
 import { waitFor, act } from "@testing-library/react";
 import renderWithRouter from "../../renderWithRouter";
 import FoilSelectField from "./FoilSelectField";
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 
 describe("Form Select Field Unit Tests", () => {
     it("should render without crashing", () => {
@@ -11,7 +11,7 @@ describe("Form Select Field Unit Tests", () => {
                 updateCardData={jest.fn()}
                 card={{ usd_foil_price: '$1.00' }}
             />);
-    })
+    });
 
     it("should handle missing data without crashing", async () => {
         renderWithRouter(
@@ -20,10 +20,10 @@ describe("Form Select Field Unit Tests", () => {
                 updateCardData={(name, value) => cardData[name] = value}
                 card={{}}
             />);
-    })
+    });
 
     it("should render all selection options", async () => {
-        const cardData = { foil: 'No' }
+        const cardData = { foil: 'No' };
         const { queryByText, queryAllByText, queryByLabelText } = renderWithRouter(
             <FoilSelectField
                 cardData={cardData}
@@ -32,19 +32,19 @@ describe("Form Select Field Unit Tests", () => {
             />);
 
         act(() => {
-            userEvent.click(queryByLabelText('Foil'))
-        })
+            userEvent.click(queryByLabelText('Foil'));
+        });
 
         await waitFor(() => {
             expect(queryAllByText('No')[0]).toBeInTheDocument();
             expect(queryAllByText('No')[1]).toBeInTheDocument();
             expect(queryByText('Yes')).toBeInTheDocument();
             expect(queryByText('Etched')).toBeInTheDocument();
-        })
-    })
+        });
+    });
 
     it("should only render available selection options", async () => {
-        const cardData = { foil: 'No' }
+        const cardData = { foil: 'No' };
         const { queryByText, queryAllByText, queryByLabelText } = renderWithRouter(
             <FoilSelectField
                 cardData={cardData}
@@ -53,7 +53,7 @@ describe("Form Select Field Unit Tests", () => {
             />);
 
         act(() => {
-            userEvent.click(queryByLabelText('Foil'))
+            userEvent.click(queryByLabelText('Foil'));
         })
 
         await waitFor(() => {
@@ -61,6 +61,6 @@ describe("Form Select Field Unit Tests", () => {
             expect(queryAllByText('No')[1]).toBeInTheDocument();
             expect(queryByText('Yes')).not.toBeInTheDocument();
             expect(queryByText('Etched')).toBeInTheDocument();
-        })
-    })
-})
+        });
+    });
+});
