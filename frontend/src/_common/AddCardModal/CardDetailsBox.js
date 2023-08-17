@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography  from "@mui/material/Typography";
 import CardForm from "../CardForm/CardForm";
 
 /* Returns MUI box component with several input boxes and a button.
@@ -76,7 +77,7 @@ const CardDetailsBox = ({ printings, addCard, handleClose, fields }) => {
             </Typography>
 
             <Typography variant='h6'>{card.name}</Typography>
-            {/* Add context provider here */}
+            {/* TO-DO: Add context provider here */}
             <CardForm
                 card={card}
                 setCard={setCard}

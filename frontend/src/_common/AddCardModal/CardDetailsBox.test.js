@@ -32,15 +32,15 @@ const testCards = [
         usd_price: null,
         quantity: 1
     }
-]
+];
 
 describe('CardDetailsBox Unit Tests', () => {
     it('should render without crashing', () => {
-        renderWithRouter(<CardDetailsBox printings={testCards} fields={[]}/>);
+        renderWithRouter(<CardDetailsBox printings={testCards} fields={[]} />);
     })
 
     it('should render image, card name, card price', async () => {
-        const { queryByText, queryByAltText } = renderWithRouter(<CardDetailsBox printings={testCards} fields={[]}/>);
+        const { queryByText, queryByAltText } = renderWithRouter(<CardDetailsBox printings={testCards} fields={[]} />);
 
         expect(queryByText("Ulamog, the Infinite Gyre")).toBeInTheDocument();
         expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();

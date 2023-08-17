@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -10,79 +9,97 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CardService from "../../Api/CardService"
 import WebcamCardReader from "./WebcamCardReader";
 
-/* Returns MUI autocomplete component https://mui.com/material-ui/react-autocomplete/
+/* MUI autocomplete component https://mui.com/material-ui/react-autocomplete/
+*  Returns <Grid/> containing MUI <Autocomplete /> and <IconButton/> to open camera search modal
 *
-* User begins typing, after half a second after last input change, API call is made
-*   matching card names autofill a dropdown menu, user can pick
-*   selected card state from AddCardModal is set based on user selection
-*       Searchbar cleared
-*       selected card is populated into CardDetailsBox on AddCardModal
+*  Two actions users can take to find cards:
+*        1) Text Search
+*               -  User begins typing card name, 
+*                half a second after last input change, 
+*                API call is made to find card name options
+*               -  Matching card names autofill a dropdown menu, 
+*                  user selects the card name they wanted
+*               -  update cardName from <AddCardModal/> with user selection
+*               -  Searchbar cleared
 *
-* User can also choose to scan card with their camera. The user captures a photo of
-* the card, and the Webcam component calls getCardWithCamera, with the tesseract
-* result of what it thinks the card name is. We then set the selectedCard for the
-* AddCardModal equal to the first entry of the API results.
+*        2) Photo Search
+*               - User can click camera icon to open <WebcamCardReader />
+*               - See <WebcamCardReader /> for explanation
+*               - After WebcamCardReader selects a card, cardName is updated
+*                 in <AddCardModal/>
 *
-*   The first entry will be the correct card if tesseract was able to extract it,
-*   or the first returned card from the name like search.
-*
+*  State: 
+*       searchInput - user input into searchbar, we control it in state
+*       cardOptions - select options returned from API based on the user input
+*                     fed into autocomplete
+*       isLoading - boolean used to indicate if browser is waiting for response
+*                   from API for card options
+*       cameraOpen - boolean used to control camera modal open state
+*                    true means camera modal is open, false means closed
+*       
+*  Props:
+*       setCardName - function to update cardName in AddCardModal
+*       cardName - passed in from <AddCardModal/>, tracks the card selected by the user
+*                   and used to request all printings of the card name from the API
 */
+
 const Searchbar = ({ setCardName, cardName }) => {
     const [searchInput, setSearchInput] = useState('');
-    const [cardOptions, setCardOptions] = useState([])
+    const [cardOptions, setCardOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [cameraOpen, setCameraOpen] = useState(false)
+    const [cameraOpen, setCameraOpen] = useState(false);
 
     useEffect(() => {
         let timerID;
         if (searchInput && !cardName) {
-            setIsLoading(true)
+            setIsLoading(true);
             timerID = setTimeout(async () => {
                 try {
-                    const cards = await CardService.getCardsByName(searchInput)
-                    setCardOptions(() => [...cards])
-                    setIsLoading(() => false)
+                    const cards = await CardService.getCardsByName(searchInput);
+                    setCardOptions(() => [...cards]);
+                    setIsLoading(() => false);
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
                 }
             }, 500);
         }
+        // useEffect cleanup function
         return () => {
             // clear ID if search input changes bc user is typing
-            clearTimeout(timerID)
+            clearTimeout(timerID);
             // Set cards to empty array to clear old results
-            setCardOptions(() => [])
+            setCardOptions(() => []);
         }
-    }, [searchInput, cardName])
+    }, [searchInput, cardName]);
 
     const handleInputChange = (evt, newValue) => {
         // controlled autocomplete
-        setSearchInput(() => newValue)
-    }
+        setSearchInput(() => newValue);
+    };
 
     const handleValueChange = (evt, newValue) => {
         // value changes when user makes a selection
-        if (newValue) setCardName(() => newValue)
-    }
+        if (newValue) setCardName(() => newValue);
+    };
 
     const openCameraModal = () => {
-        setCameraOpen(() => true)
-    }
+        setCameraOpen(() => true);
+    };
 
     const closeCameraModal = () => {
-        setCameraOpen(() => false)
-    }
+        setCameraOpen(() => false);
+    };
 
     const getCardWithCamera = async (cardNameGuess) => {
-        console.log(cardNameGuess)
+        console.log(cardNameGuess);
         if (cardNameGuess) setSearchInput(() => cardNameGuess);
         try {
             const card = await CardService.getCardsByName(cardNameGuess);
-            setCardName(() => ({ name: card[0].name, id: card[0].oracle_id }))
+            setCardName(() => ({ name: card[0].name, id: card[0].oracle_id }));
         } catch (err) {
-            console.error(err)
+            console.error(err);
         }
-    }
+    };
 
     return (
         <>
@@ -143,7 +160,7 @@ const Searchbar = ({ setCardName, cardName }) => {
                 </Box>
             </Modal>
         </>
-    )
-}
+    );
+};
 
 export default Searchbar;

@@ -6,7 +6,7 @@ jest.mock("tesseract.js", () => ({
         loadLanguage: jest.fn(),
         initialize: jest.fn(),
         setParameters: jest.fn(),
-        recognize: async (image) => ({
+        recognize: async () => ({
             data: {
                 symbols: [
                     {

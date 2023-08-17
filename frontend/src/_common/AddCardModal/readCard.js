@@ -2,7 +2,9 @@ import { createWorker } from 'tesseract.js';
 
 /* parseSymbolResults takes an array of symbol data from Tesseract results
 *  and returns a string based on the words associated with that symbol.
-*  [{word: {text: 'Example'}, confidence: 98}, {word: {text: 'Input'}, confidence: 98},]
+*  [{word: {text: 'Example'}, confidence: 98}, 
+*   {word: {text: 'Input'}, confidence: 98},
+*   {word: {text: 'Question'}, confidence: 50},]
 *     ==> 'Example Input 
 */
 const parseSymbolResults = symbols => {
@@ -22,12 +24,12 @@ const parseSymbolResults = symbols => {
     // or when we loop through all symbols
     for (let i = 0; !foundEnd && i < symbols.length; i++) {
         let currentSymbol = symbols[i]
-        // if tesserace is 96% confident in the symbol result
+        // if tesseract is 96% confident in the symbol result
         if (currentSymbol.confidence >= 96) {
             // we check if the set has the word already
             if (!wordSet.has(currentSymbol.word.text.trim())) {
-                // add the word tesseract associates with that symbol to wordSet
-                // trim off any whitespace tesseract may have misread
+                // add the word tesseract linked to current symbol to wordSet
+                // and trim off any whitespace tesseract may have misread
                 wordSet.add(currentSymbol.word.text.trim());
             }
             // set found start
@@ -39,6 +41,7 @@ const parseSymbolResults = symbols => {
 
     const fullString = [];
 
+    // loop through set in insertion order, push found words
     wordSet.forEach((value)=> fullString.push(value));
 
     return fullString.join(' ');
@@ -55,7 +58,8 @@ const readCard = async (image) => {
     await worker.loadLanguage('eng');
     await worker.initialize('eng');
     await worker.setParameters({
-        tessedit_char_whitelist: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 '
+        // Only return the characters in this string, including spaces, hypens, and apostrophes
+        tessedit_char_whitelist: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-' `
     });
     let result = await worker.recognize(image);
     await worker.terminate();

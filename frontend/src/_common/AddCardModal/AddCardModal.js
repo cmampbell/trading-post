@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Container, Paper, IconButton, Box, Typography } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import CloseIcon from '@mui/icons-material/Close';
 import Searchbar from './Searchbar'
 import CardDetailsBox from './CardDetailsBox';
