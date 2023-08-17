@@ -10,55 +10,72 @@ import readCard from './readCard';
 /* We are using react-webcam for webcam access. Docs: https://github.com/mozmorris/react-webcam
 *  We are using image-js for image pre-processing. Docs: https://image-js.github.io/image-js/#image
 *
-*  The user can take a photo of their card by finding it with the camera and clicking the
-*  capture photo button. Once the photo has been saved in state as imgSrc,
-*  our useEffect callback runs.
+*  This component opens if user clicks the camera button in <Searchbar/>.
 *
-*  We use Tesseract.recognize to scan the card for any english words it can find. For now,
-*  we assume that the user has the card facing upright and the title of the card will be the
-*  first thing read, because Tesseract will read left-> right, top -> bottom.
+*  Once <Webcam/> loads, the user can take a photo of a Magic card
+*  by placing the card inside the displayed guide box, and clicking the
+*  capture photo button. This captures a 1280px x 720px using <Webcam/>
+*  
+*  After the photo is captured, we call preProcessImage and pass the photo in
+*  as the only argument. Using image-js Image class, we load a new image from the
+*  photo. We use methods on the new Image class to crop the card image down to the
+*  title area, then resize the cropped image for readability, brighten the image,
+*  grayscale the image, blur to eliminate camera noise, and then normalize the pixels
+*  to white or black based on a brightness threshold. This is all to help with
+*  readability when we use Tesseractjs.
 *
-*  With this assumption we take the resulting array of found words, and find the first word
-*  with a confidence score over 89, and the last word with a confidence score over 89,
-*  and pass the string of results into getCardWithCamera(), which sends the card name guess
-*  back to the searchBar component.
+*  We then call readCard to use Tesseract, which returns a string with the
+*  found card title. We pass that into getCardWithCamera, which is coming from
+*  <Searchbar/> to make a request to the API for card results. Then we close the
+*  <WebcamCardReader/> modal.
 *
+*  State:
+*       imgSrc - where we store the captured photo. useful for testing so we can see
+*                the photo captured or processed.
+*       isLoading - boolean to track if <Webcam/> is loading or not.
+*
+*  Props:
+*       getCardWithCamera - function we call when we have a result from readCard. Pass
+*                           in result from Tesseract up to <Searchbar />
+*       closeCameramodal - function to set <WebcamCardReader/> modal to close
+*
+*  TO-DO: have camera default to correct phone camera on mobile.
 */
 
+// Takes an image, and applies filters to prepare the photo to be read by Tesseractjs
 const preProcessImage = async (imageSource) => {
 
     const image = await Image.load(imageSource);
-
-    // might want to resize to give tesseract more to read
     const cropped = image.crop({ x: 80, y: 73, width: 460, height: 146 });
-    // const resized = cropped.resize({ width: 820, height: 272 });
     const resized = cropped.resize({ width: 1380, height: 438 });
     const multiplied = resized.multiply(1.7);
-    let grey = multiplied.grey();
-    let blur = grey.gaussianFilter({ radius: 1 });
-    let mask = blur.mask({ threshold: 0.48 });
+    const grey = multiplied.grey();
+    const blur = grey.gaussianFilter({ radius: 1 });
+    const mask = blur.mask({ threshold: 0.48 });
 
     return mask.toDataURL();
 }
 
-const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput }) => {
+const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
-    // add peice of state that tracks if webcam is loading or not
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (webcamRef.current) {
             setIsLoading(() => false);
         }
-    }, [webcamRef])
+    }, [webcamRef]);
 
     const capture = useCallback(async () => {
+
         const photo = webcamRef.current.getScreenshot({ height: 1280, width: 720 });
         const processedPhoto = await preProcessImage(photo);
+
         setImgSrc(()=> processedPhoto);
         const result = await readCard(processedPhoto);
         console.log(result);
+
         getCardWithCamera(result);
         closeCameraModal();
     }, [webcamRef, setImgSrc]);
@@ -142,12 +159,10 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal, setSearchInput 
                     </Grid>
                 </Grid>
             </>}
-
+            {/* this <img/> will display imgSrc, used for manual testing */}
             {/* <img src={imgSrc} alt='card-scan-result' /> */}
         </Box >
     )
-}
-
-
+};
 
 export default WebcamCardReader;
