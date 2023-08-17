@@ -45,6 +45,6 @@ class WantList  {
         FoilSelectField,
         QuantitySelectField
     ]
-}
+};
 
 export default WantList;

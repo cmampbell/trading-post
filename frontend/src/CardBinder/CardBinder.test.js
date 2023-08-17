@@ -53,8 +53,7 @@ const serviceMock = {
     removeCard: jest.fn(),
     addFields: [],
     editFields: []
-}
-
+};
 
 describe('CardBinder component', () => {
     it('renders without crashing', () => {
@@ -74,5 +73,5 @@ describe('CardBinder component', () => {
 
         expect(queryByText(`test's collection`)).toBeInTheDocument();
         expect(queryByText('Add card to collection')).toBeInTheDocument();
-    })
-})
+    });
+});

@@ -1,31 +1,49 @@
 import React, { useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router";
-import { Button, Container, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import AddCardModal from "../_common/AddCardModal/AddCardModal";
 import CollectionCardItem from "./CollectionCardItem";
 import PriceDisplay from "../_common/PriceDisplay";
 
 /* 
-*  Returns MUI container component with title, addCard button, and list of cards
+*  Returns MUI container component with title, addCard button, and list of cards.
+*  This component can be used to display any collection of cards, display the total number
+*  and display the total price of all cards in the list.
 *
-*  In the loader function for this component route, we query Api for a users collection,
-*  then set listCards state to the response.
-*  
-*  listCards is where we store the cards that a user has in their collection for the
-*  front-end. This should stay up-to-date with the backend database
+*  useLoaderData is used to get a users collection, for trade list, or want list, before
+*  the component is mounted. We store the result in listCards as state.
 *
-*  searchOpen and handleSearchOpen are used to control whether the AddCardModal is open. The
-*  AddCardModal should be open only if a user is searching for cards to add to the collection.
+*  useParams is used to get userId from url parameter. We use this to check if the current
+*  user is the same user that the binder belongs to, which enables adding, editing, and removing
+*  cards.
 *
-*  addCardToCollection will take a card object, and add the card to the users collection in
-*  the database, and in state on the front end. deleteCard will remove the card from the users
-*  collection in the database, and in state on the front end
-*  
-*  We are currently returning a list of CardItems, which will need to change to a collection
-*  card item
+*  useOutletContext is used to get currUser from <App/> Outlet Context. Used with useParams 
+*  for reason above.
+*
+*  state: 
+*       listCards - array of card objects in a users collection. initially fetched from the
+*                   backend by the API.
+*       searchOpen - boolean used to open and close <AddCardModal/>
+*       isOwner - boolean, mostly for readability, to track whether the current user owns the binder
+*
+*  props:
+*       binderType - string used to track what kind of binder we should render. Options should
+*                    only be 'collection', 'trade', or 'want list'.
+*       service - related to binder type, this is the API service we want to use for the binder.
+*                 These are found in '../Api', and fed into the <CardBinder/> from routes.js. It
+*                 contains the methods to add, update, and remove cards, and an array of fields
+*                 to use in <CardForm/>
+*
+*  Inside addCardToBinder, editCardInBinder, and removeCardFromBinder, we update the data in state,
+*  and on the backend. The backend is our source of truth, but because we get that data from the
+*  routes loader function, we only get data from the backend when the component is first mounted.
+*  Therefore to have dynamic updating on the component, we need to update the data in state as well.
 * 
 *  To-Do: add flash messages to confirm changes to collection
 */
+
 const CardBinder = ({ binderType, service }) => {
     const { cards, owner } = useLoaderData();
     const { userId } = useParams();
@@ -39,7 +57,7 @@ const CardBinder = ({ binderType, service }) => {
 
     const handleSearchOpen = () => {
         setSearchOpen(true);
-    }
+    };
 
     const addCardToBinder = async (card, cardData) => {
         try {
@@ -48,8 +66,8 @@ const CardBinder = ({ binderType, service }) => {
             setListCards((oldListCards) => [...oldListCards, { ...card, ...cardData }]);
         } catch (err) {
             console.log(err);
-        }
-    }
+        };
+    };
 
     const editCardInBinder = async (cardToUpdate, editData) => {
         try {
@@ -58,9 +76,9 @@ const CardBinder = ({ binderType, service }) => {
                 oldCard => oldCard.id === card.card_id
                     ? { ...oldCard, ...card } : oldCard));
         } catch (err) {
-            console.log(err)
-        }
-    }
+            console.log(err);
+        };
+    };
 
     const removeCardFromBinder = async (cardId) => {
         try {
@@ -68,13 +86,12 @@ const CardBinder = ({ binderType, service }) => {
             setListCards((oldListCards) => oldListCards.filter(card => card.id !== cardId));
         } catch (err) {
             console.log(err);
-        }
-    }
+        };
+    };
 
     return (
         <Container>
             <Typography variant="h2" sx={{ m: 1, fontWeight: 'bold' }}>{owner}'s {binderType}</Typography>
-            {/* cards num needs to be accumulated from card qty */}
             <Typography variant="subtitle1">Total Cards: {listCards.reduce((total, card) => total + card.quantity, 0)}</Typography>
             <PriceDisplay cards={listCards} />
             {(isOwner) &&

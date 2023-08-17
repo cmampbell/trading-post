@@ -30,11 +30,10 @@ const testCard = {
     usd_price: "23.26",
     user_id: 4,
     variation: false,
-}
+};
 
 describe("CollectionCardItem", () => {
     it("should render without crashing", () => {
         renderWithRouter(<CollectionCardItem card={testCard} />)
-    })
-})
-
+    });
+});

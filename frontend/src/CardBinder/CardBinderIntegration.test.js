@@ -77,9 +77,7 @@ const testCard2 = {
 
 describe("CardBinder integration tests", () => {
     it("should handle adding cards", async () => {
-        // we need to render binder
-
-        const { queryByRole,
+        const {
             queryAllByRole,
             queryByText,
             queryAllByText,
@@ -111,7 +109,6 @@ describe("CardBinder integration tests", () => {
         // we need to search for a card
         // mock Api.request return value to be a card
         // type card name into searchbar
-
         Api.request.mockResolvedValue({ cards: [testCard] });
         await act(async () => {
             userEvent.type(queryByLabelText('Card Name'), 'Ulamog');
@@ -150,13 +147,11 @@ describe("CardBinder integration tests", () => {
         expect(forTradeInput).not.toBeChecked();
 
         // we need to submit the card form
-
         await act(async () => {
             userEvent.click(queryByText('Add Card!'));
-        })
+        });
 
         // we need to check that the card was added to the binder
-
         await waitFor(async () => {
             expect(Api.request).toHaveBeenCalled();
             expect(queryByText('Total Cards: 2')).toBeInTheDocument();
@@ -164,8 +159,7 @@ describe("CardBinder integration tests", () => {
             expect(queryByText(`$${(+testCard.usd_price) + (+testCard2.usd_price)}`)).toBeInTheDocument();
             expect(queryByText(testCard.name)).toBeInTheDocument();
             expect(queryByText('Quality: Lightly Played')).toBeInTheDocument();
-        })
-
+        });
     });
 
     it("should handle editing cards", async () => {
@@ -187,18 +181,18 @@ describe("CardBinder integration tests", () => {
 
         await act(async () => {
             userEvent.click(queryByText('Tim the Tiny'));
-        })
+        });
 
         await waitFor(async () => {
             expect(queryByText('6/6')).toBeInTheDocument();
-        })
+        });
 
         const editButton = queryAllByRole('button')[2];
 
         // we need to click the edit button
         await act(async () => {
             userEvent.click(editButton);
-        })
+        });
 
 
         // we need to check that the form appeared with proper fields
@@ -206,7 +200,7 @@ describe("CardBinder integration tests", () => {
             expect(queryByLabelText('For Trade')).toBeInTheDocument();
             expect(queryByLabelText('Quantity')).toBeInTheDocument();
             expect(queryByLabelText('Foil')).toBeInTheDocument();
-        })
+        });
 
         const foilDropdown = queryAllByRole('button')[5];
         // we need to change data in the form
@@ -214,28 +208,28 @@ describe("CardBinder integration tests", () => {
         await act(async () => {
             // can't get it to click the foil menu and change it
             userEvent.click(foilDropdown);
-        })
+        });
 
         await waitFor(async () => {
             expect(queryAllByRole('option').length).toEqual(2);
-        })
+        });
 
-        const editData = { quality: 'Lightly Played', foil: 'Yes', quantity: 1, forTrade: false }
+        const editData = { quality: 'Lightly Played', foil: 'Yes', quantity: 1, forTrade: false };
 
         Api.request.mockResolvedValue({ card: { ...testCard2, ...editData } });
         await act(async () => {
             userEvent.click(queryByText('Yes'));
-        })
+        });
 
         await waitFor(async () => {
             expect(queryByText('Yes')).toBeInTheDocument();
-        })
+        });
 
         await act(async () => {
             userEvent.click(queryByText('Edit Card!'));
-        })
+        });
 
-        const editDataFromApiCall = Api.request.mock.calls[0][1]
+        const editDataFromApiCall = Api.request.mock.calls[0][1];
 
         expect(editDataFromApiCall).toEqual(editData);
 
@@ -243,7 +237,7 @@ describe("CardBinder integration tests", () => {
         await waitFor(async () => {
             expect(Api.request).toHaveBeenCalled();
             expect(queryAllByText(`$${testCard2.usd_foil_price}`).length).toEqual(2);
-        })
+        });
     });
 
     it("should handle deleting cards", async () => {
@@ -266,27 +260,23 @@ describe("CardBinder integration tests", () => {
 
         await act(async () => {
             userEvent.click(queryByText('Tim the Tiny'));
-        })
-
+        });
 
         await waitFor(async () => {
             expect(queryByText('6/6')).toBeInTheDocument();
-        })
+        });
 
         // we need to click the delete button
         const deleteButton = queryAllByRole('button')[3];
-
-        Api.request.mockResolvedValue({message: 'Succesfully removed card from collection'})
+        Api.request.mockResolvedValue({message: 'Succesfully removed card from collection'});
         await act(async () => {
             userEvent.click(deleteButton);
-        })
+        });
 
-        
         // we need to check the the card was removed from the binder
         await waitFor(async () => {
             expect(Api.request).toHaveBeenCalled();
             expect(queryByText('Total Cards: 0')).toBeInTheDocument();
-        })
-
+        });
     });
 });
