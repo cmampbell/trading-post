@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
@@ -6,6 +6,10 @@ import { NavLink } from "react-router-dom";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import PersonIcon from '@mui/icons-material/Person';
 import CropPortraitIcon from '@mui/icons-material/CropPortrait';
+
+/* Mobile NavBar component.
+*  Allows user to easily navigate from trade page, user profile, and their collection.
+*/
 
 export default function SimpleBottomNavigation({ token, logout, currUser }) {
     const [value, setValue] = React.useState(0);
@@ -39,4 +43,4 @@ export default function SimpleBottomNavigation({ token, logout, currUser }) {
             </BottomNavigation>
         </Paper>
     );
-}
+};

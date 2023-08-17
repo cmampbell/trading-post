@@ -1,5 +1,8 @@
 import React from 'react';
-import { Typography, Button, Box, Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import { useOutletContext } from 'react-router';
 
 /* Landing page for site. Displays welcome message and buttons to

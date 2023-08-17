@@ -1,7 +1,21 @@
 import React, { useState } from "react";
-import { IconButton, Menu, MenuItem, Grid } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Grid from '@mui/material/Grid';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from "react-router-dom";
+
+/* Button that displays navigation options when clicked.
+*
+*  State:
+*       anchorEl - the element to anchor the dropdown menu to
+*
+*  We use open to track whether the menu is open or closed.
+*
+*  On menu open, a dropdown appears with links used to navigate the site.
+*  The options change depending on if the user is logged in or not.
+*/
 
 const NavMenu = ({ token, logout, currUser }) => {
 

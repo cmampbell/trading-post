@@ -1,7 +1,7 @@
 import NavBar from './NavBar';
 import renderWithRouter from "../_common/renderWithRouter";
 import userEvent from '@testing-library/user-event';
-import { waitFor,  act } from '@testing-library/react';
+import { waitFor, act } from '@testing-library/react';
 
 describe('HomePage component', () => {
     it('renders without crashing', () => {
@@ -11,26 +11,26 @@ describe('HomePage component', () => {
     it('clicking icon shows links', () => {
         const { queryByRole, queryByText } = renderWithRouter(<NavBar />);
 
-        act(()=> {
+        act(() => {
             userEvent.click(queryByRole('button'));
-        })
+        });
 
-        waitFor(()=> {
+        waitFor(() => {
             expect(queryByText('Login')).toBeInTheDocument();
             expect(queryByText('Register')).toBeInTheDocument();
-        })
-    })
+        });
+    });
 
-    it('should display user links if there is a token', ()=> {
-        const { queryByRole, queryByText } = renderWithRouter(<NavBar token={'token'} currUser={{id: '0', username: 'test'}}/>);
+    it('should display user links if there is a token', () => {
+        const { queryByRole, queryByText } = renderWithRouter(<NavBar token={'token'} currUser={{ id: '0', username: 'test' }} />);
 
-        act(()=> {
+        act(() => {
             userEvent.click(queryByRole('button'));
-        })
+        });
 
-        waitFor(()=> {
+        waitFor(() => {
             expect(queryByText('My Account')).toBeInTheDocument();
             expect(queryByText('Log Out')).toBeInTheDocument();
-        })
-    })
-})
+        });
+    });
+});
