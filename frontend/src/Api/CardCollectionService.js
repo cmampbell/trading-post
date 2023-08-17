@@ -5,6 +5,15 @@ import QualitySelectField from "../_common/CardForm/FormInputs/QualitySelectFiel
 import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectField";
 import ForTradeField from "../_common/CardForm/FormInputs/ForTradeField";
 
+/* Class that handles requests to API endpoints related to a users CardCollection.
+*  Can get collection, get cards for trade, add cards to collection, remove cards from
+*  collection, edit cards in a user collection. Also stores form fields necessary for
+*  the listed operations.
+*
+*  Uses Api.request to make the actual request, we define the endpoint url here, and pass
+*  in relevant data.
+*/
+
 class CardCollection {
 
     static async getUserCollection(userId){

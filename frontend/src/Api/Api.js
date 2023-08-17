@@ -1,6 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
 
+// base url for our express API
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+
+// Base API class to handle API requests.
+// stores JWT in token if it exists
+// request() makes our requests to the API
 
 class Api {
 
@@ -25,6 +30,6 @@ class Api {
             throw Array.isArray(message) ? message : [message];
         }
     }
-}
+};
 
 export default Api;
