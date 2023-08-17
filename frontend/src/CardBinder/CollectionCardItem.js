@@ -11,6 +11,26 @@ import ClearIcon from '@mui/icons-material/Clear';
 import PriceDisplay from "../_common/PriceDisplay";
 import CardForm from "../_common/CardForm/CardForm";
 
+/* Renders MUI Accordian component, used to display basic card info at first, and
+*  more detailed card information on expansion.
+*  We use icon buttons to toggle the edit form, and also to remove cards from a collection
+*
+*  State:
+*       editOpen - boolean used to track whether edit form is open or closed.
+*
+*  Props:
+*       card - card object containing all card info
+*       editCard - function used to editCard with the API
+*       canEdit - boolean used to track if the current user should be able to edit the card
+*       fields - array of FormInputs to be passed into <CardForm/>
+*       removeCard - function used to remove card from <CardBinder/> and from the db through
+*                    the API.
+*
+*  We use borderStyles to display visual information relating to a card. Cards with
+*  foil value set to 'Yes' or 'Etched' have a rainbow border, while normal cards have a
+*  black border.
+*/
+
 const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => {
     const [editOpen, setEditOpen] = useState(false);
 
@@ -29,9 +49,9 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
             width: 'auto',
             borderRadius: '10px'
         }
-    
+
     return (
-        <Accordion TransitionProps={{ unmountOnExit: true }} sx={{...borderStyles, m: 1}}>
+        <Accordion TransitionProps={{ unmountOnExit: true }} sx={{ ...borderStyles, m: 1 }}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${card.name}-content`}
@@ -42,10 +62,10 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{card.name}</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        <PriceDisplay card={card}/>
+                        <PriceDisplay card={card} />
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography variant="body1">Quality: <br/>{card.quality}</Typography>
+                        <Typography variant="body1">Quality: <br />{card.quality}</Typography>
                     </Grid>
                     <Grid item xs={4}>
                         <Typography variant="body1">For Trade: {card.for_trade || card.forTrade ? 'Yes' : 'No'}</Typography>
@@ -85,7 +105,7 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                         </Grid>
                         <Grid item xs={1}>
                             {/* BUTTON TO REMOVE CARD */}
-                            {canEdit && <IconButton onClick={()=> removeCard(card.id)}>
+                            {canEdit && <IconButton onClick={() => removeCard(card.id)}>
                                 <ClearIcon />
                             </IconButton>}
                         </Grid>
@@ -107,23 +127,23 @@ const CollectionCardItem = ({ card, editCard, canEdit, fields, removeCard }) => 
                                 {card.set_name}
                             </Typography>
                             <Typography variant="body2">
-                            {card.set_code.toUpperCase()} - # {card.collector_number}
+                                {card.set_code.toUpperCase()} - # {card.collector_number}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Typography variant="body2">
-                            Illustrated by {card.artist}
+                                Illustrated by {card.artist}
                             </Typography>
-                            
+
                         </Grid>
-                        {editOpen && <Grid item xs={12}sx={{m: 2}}> 
-                            <CardForm card={card} addCard={editCard} handleClose={()=> setEditOpen(false)} fields={fields} type={'Edit'}/>
-                            </Grid>}
+                        {editOpen && <Grid item xs={12} sx={{ m: 2 }}>
+                            <CardForm card={card} addCard={editCard} handleClose={() => setEditOpen(false)} fields={fields} type={'Edit'} />
+                        </Grid>}
                     </Grid>
                 </Grid>
             </AccordionDetails>
         </Accordion>
-    )
-}
+    );
+};
 
 export default CollectionCardItem;

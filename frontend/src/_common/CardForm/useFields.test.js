@@ -36,5 +36,5 @@ describe(" Unit Tests for useFields", () => {
         expect(result.foil).toEqual("No");
         expect(result.quantity).toEqual(1);
         expect(result.forTrade).toEqual(false);
-        });
+    });
 });

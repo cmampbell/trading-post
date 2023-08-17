@@ -9,7 +9,7 @@ import Api from "./Api";
 class CardService {
 
     static async getCardsByName(name) {
-        let res = await Api.request(`cards`, {name});
+        let res = await Api.request(`cards`, { name });
         return res.cards;
     }
 

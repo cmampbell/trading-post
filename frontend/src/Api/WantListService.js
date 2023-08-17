@@ -12,25 +12,25 @@ import QuantitySelectField from "../_common/CardForm/FormInputs/QuantitySelectFi
 *  in relevant data.
 */
 
-class WantList  {
+class WantList {
 
-    static async getUserWantList(userId){
+    static async getUserWantList(userId) {
         let res = await Api.request(`want-list/${userId}`);
         return res;
     }
 
-    static async addCard(userId, card){
+    static async addCard(userId, card) {
         card.userID = userId;
         let res = await Api.request(`want-list/${userId}/addCard`, card, "post");
         return res.message;
     }
 
-    static async editCard(userId, cardId, editData){
+    static async editCard(userId, cardId, editData) {
         let res = await Api.request(`want-list/${userId}/patch/${cardId}`, editData, "patch");
         return res.card;
     }
 
-    static async removeCard(userId, cardId){
+    static async removeCard(userId, cardId) {
         let res = await Api.request(`want-list/${userId}/delete/${cardId}`, {}, "delete")
         return res.message;
     }

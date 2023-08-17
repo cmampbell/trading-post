@@ -6,16 +6,16 @@ import { RouterProvider, createMemoryRouter } from "react-router-dom";
 // Used for testing to render components inside a Memory Router, which is necessary for
 // components using react-router hooks.
 
-export default renderWithRouter = (children, routes=[]) => {
+export default renderWithRouter = (children, routes = []) => {
     const options = isValidElement(children)
-            ? { element: children, path: '/'}
-            : children;
+        ? { element: children, path: '/' }
+        : children;
 
-    const router = createMemoryRouter([{...options}, ...routes],
+    const router = createMemoryRouter([{ ...options }, ...routes],
         {
-        initialEntries: [options.path],
-        initialIndex: 1
-    });
+            initialEntries: [options.path],
+            initialIndex: 1
+        });
 
-    return render(<RouterProvider router={router}/>);
+    return render(<RouterProvider router={router} />);
 };

@@ -121,7 +121,7 @@ describe("CardForm Unit Tests", () => {
         });
 
         expect(addCard).toHaveBeenCalled();
-        expect(addCard).toHaveBeenLastCalledWith({...testCard1}, {foil: "Yes", quantity: 2 });
+        expect(addCard).toHaveBeenLastCalledWith({ ...testCard1 }, { foil: "Yes", quantity: 2 });
         expect(handleClose).toHaveBeenCalled();
     });
 });

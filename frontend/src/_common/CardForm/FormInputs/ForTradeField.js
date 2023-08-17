@@ -13,21 +13,21 @@ import Checkbox from "@mui/material/Checkbox";
 *  We set FIELD_NAME property on the function for use with useField.js.
 */
 
-const ForTradeField = ({cardData, updateCardData}) => {
+const ForTradeField = ({ cardData, updateCardData }) => {
 
     const handleCheck = (evt) => {
         updateCardData('forTrade', evt.target.checked);
     };
 
     return (
-            <FormControlLabel
-                labelPlacement="end"
-                value="end"
-                label="For Trade"
-                control={<Checkbox
-                    checked={cardData.forTrade || false}
-                    onChange={handleCheck}
-                    inputProps={{ 'aria-label': 'controlled' }} />} />
+        <FormControlLabel
+            labelPlacement="end"
+            value="end"
+            label="For Trade"
+            control={<Checkbox
+                checked={cardData.forTrade || false}
+                onChange={handleCheck}
+                inputProps={{ 'aria-label': 'controlled' }} />} />
     );
 };
 

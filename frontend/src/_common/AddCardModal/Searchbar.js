@@ -4,7 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Grid  from "@mui/material/Grid";
+import Grid from "@mui/material/Grid";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CardService from "../../Api/CardService"
 import WebcamCardReader from "./WebcamCardReader";
@@ -103,7 +103,7 @@ const Searchbar = ({ setCardName, cardName }) => {
 
     return (
         <>
-            <Grid container sx={{width: '100%'}}>
+            <Grid container sx={{ width: '100%' }}>
                 <Grid item xs={10}>
                     <Autocomplete
                         inputValue={searchInput}
@@ -130,7 +130,7 @@ const Searchbar = ({ setCardName, cardName }) => {
                 </Grid>
                 <Grid item xs={1}>
                     <IconButton onClick={openCameraModal} color="primary" >
-                        <PhotoCameraIcon sx={{ fontSize: '35px' }}/>
+                        <PhotoCameraIcon sx={{ fontSize: '35px' }} />
                     </IconButton>
                 </Grid>
             </Grid>

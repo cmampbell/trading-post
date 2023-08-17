@@ -1,4 +1,4 @@
-import { waitFor, act,} from "@testing-library/react";
+import { waitFor, act, } from "@testing-library/react";
 import renderWithRouter from "../../renderWithRouter";
 import QualitySelectField from "./QualitySelectField";
 import userEvent from '@testing-library/user-event';
@@ -45,7 +45,7 @@ describe("Quality Field Unit Tests", () => {
             userEvent.click(queryByText('Heavily Played'));
         });
 
-        await waitFor(()=> {
+        await waitFor(() => {
             expect(cardData.quality).toEqual('Heavily Played');
         });
     });

@@ -17,36 +17,36 @@ const testCard1 = {
 };
 
 describe("Price Display Unit Tests", () => {
-    it("should render without crashing", ()=> {
+    it("should render without crashing", () => {
         render(<PriceDisplay />);
     });
 
-    it("should display the price of a card from card", ()=> {
-        const {getByText} = render(<PriceDisplay card={testCard1}/>);
+    it("should display the price of a card from card", () => {
+        const { getByText } = render(<PriceDisplay card={testCard1} />);
 
         expect(getByText('$25.48')).toBeInTheDocument();
     });
 
-    it("should display the price of a card from formData", ()=> {
-        const {getByText} = render(<PriceDisplay card={{usd_price: '2.00'}} formData={{ foil: "No"}}/>);
+    it("should display the price of a card from formData", () => {
+        const { getByText } = render(<PriceDisplay card={{ usd_price: '2.00' }} formData={{ foil: "No" }} />);
 
         expect(getByText('$2.00')).toBeInTheDocument();
     });
 
     it("should use quantity if given in formData", () => {
-        const {getByText} = render(<PriceDisplay card={{usd_price: '2.00', quantity: 3}} formData={{ foil: "No"}}/>);
+        const { getByText } = render(<PriceDisplay card={{ usd_price: '2.00', quantity: 3 }} formData={{ foil: "No" }} />);
 
         expect(getByText('$6.00')).toBeInTheDocument();
     });
 
     it("should use quantity if given in card", () => {
-        const {getByText} = render(<PriceDisplay card={{...testCard1, quantity: 3, foil: "Yes"}}/>);
+        const { getByText } = render(<PriceDisplay card={{ ...testCard1, quantity: 3, foil: "Yes" }} />);
 
         expect(getByText('$96.09')).toBeInTheDocument();
     });
 
-    it("should display the total price of a list of cards", ()=> {
-        const {getByText} = render(<PriceDisplay cards={[{usd_price: '2.00', quantity: 3, foil: "No"}, {usd_price: '5.00', quantity: 10, foil: "No"}]}/>);
+    it("should display the total price of a list of cards", () => {
+        const { getByText } = render(<PriceDisplay cards={[{ usd_price: '2.00', quantity: 3, foil: "No" }, { usd_price: '5.00', quantity: 10, foil: "No" }]} />);
 
         expect(getByText('$56.00')).toBeInTheDocument();
     });

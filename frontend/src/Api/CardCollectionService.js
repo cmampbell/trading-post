@@ -16,28 +16,28 @@ import ForTradeField from "../_common/CardForm/FormInputs/ForTradeField";
 
 class CardCollection {
 
-    static async getUserCollection(userId){
+    static async getUserCollection(userId) {
         let res = await Api.request(`collection/${userId}/`);
         return res;
     }
 
-    static async getUserCardsForTrade(userId){
+    static async getUserCardsForTrade(userId) {
         let res = await Api.request(`collection/${userId}/forTrade`);
         return res;
     }
 
-    static async addCard(userId, card){
+    static async addCard(userId, card) {
         card.userID = userId;
         let res = await Api.request(`collection/${userId}/addCard`, card, "post");
         return res.message;
     }
 
-    static async removeCard(userId, cardId){
+    static async removeCard(userId, cardId) {
         let res = await Api.request(`collection/${userId}/delete/${cardId}`, {}, "delete");
         return res.message;
     }
 
-    static async editCard(userId, cardId, editData){
+    static async editCard(userId, cardId, editData) {
         let res = await Api.request(`collection/${userId}/patch/${cardId}`, editData, "patch");
         return res.card;
     }

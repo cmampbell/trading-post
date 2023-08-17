@@ -72,7 +72,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
         const photo = webcamRef.current.getScreenshot({ height: 1280, width: 720 });
         const processedPhoto = await preProcessImage(photo);
 
-        setImgSrc(()=> processedPhoto);
+        setImgSrc(() => processedPhoto);
         const result = await readCard(processedPhoto);
         console.log(result);
 

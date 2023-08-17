@@ -2,7 +2,7 @@ import CardBinder from './CardBinder';
 import renderWithRouter from '../_common/renderWithRouter';
 import Api from '../Api/Api';
 import CardCollection from '../Api/CardCollectionService';
-import { waitFor, act, screen} from "@testing-library/react";
+import { waitFor, act, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 
 jest.mock('../Api/Api');
@@ -268,7 +268,7 @@ describe("CardBinder integration tests", () => {
 
         // we need to click the delete button
         const deleteButton = queryAllByRole('button')[3];
-        Api.request.mockResolvedValue({message: 'Succesfully removed card from collection'});
+        Api.request.mockResolvedValue({ message: 'Succesfully removed card from collection' });
         await act(async () => {
             userEvent.click(deleteButton);
         });

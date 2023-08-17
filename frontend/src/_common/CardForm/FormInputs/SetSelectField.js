@@ -29,9 +29,9 @@ const SetSelectField = ({ printings, card, setCard, updateCardData }) => {
         const { value } = (evt.target);
         const [setName, collectorNumber] = value.split('-');
         const newCard = printings.find((print) => print.set_name === setName && print.collector_number === collectorNumber);
-        setCard(()=> newCard);
+        setCard(() => newCard);
         const foilValue = newCard.usd_price ? 'No' : newCard.usd_foil_price ? 'Yes' : 'Etched';
-        updateCardData('foil', foilValue );
+        updateCardData('foil', foilValue);
     };
 
     return (

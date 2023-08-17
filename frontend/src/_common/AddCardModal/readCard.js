@@ -9,7 +9,7 @@ import { createWorker } from 'tesseract.js';
 */
 const parseSymbolResults = symbols => {
     // If there are no symbols, return message
-    if(symbols.length < 1) return 'Unable to read text from photo';
+    if (symbols.length < 1) return 'Unable to read text from photo';
 
     // wordSet is a container for unique words found in the text,
     // kept in insertion order.
@@ -42,7 +42,7 @@ const parseSymbolResults = symbols => {
     const fullString = [];
 
     // loop through set in insertion order, push found words
-    wordSet.forEach((value)=> fullString.push(value));
+    wordSet.forEach((value) => fullString.push(value));
 
     return fullString.join(' ');
 }

@@ -6,32 +6,32 @@
 *  We sometimes need the card object to populate the form with current saved values.
 */
 
-const useFields = (fieldArr, card={}) => {
+const useFields = (fieldArr, card = {}) => {
 
     const fieldDictionary = {
-        'FoilSelectField' : {
+        'FoilSelectField': {
             name: 'foil',
             value: card.usd_price ? 'No' : card.usd_foil_price ? 'Yes' : 'Etched',
         },
-        'QualitySelectField' : {
+        'QualitySelectField': {
             name: 'quality',
             value: 'Lightly Played',
         },
-        'QuantitySelectField' : {
+        'QuantitySelectField': {
             name: 'quantity',
             value: card.quantity || 1,
         },
-        'ForTradeField' : {
+        'ForTradeField': {
             name: 'forTrade',
             value: card.for_trade || false,
         },
     };
 
 
-    if(fieldArr && fieldArr.length > 0){
+    if (fieldArr && fieldArr.length > 0) {
         return fieldArr.reduce((object, field) => {
-            if(fieldDictionary[field.FIELD_NAME]){
-                const {name, value} = fieldDictionary[field.FIELD_NAME];
+            if (fieldDictionary[field.FIELD_NAME]) {
+                const { name, value } = fieldDictionary[field.FIELD_NAME];
                 object[name] = value;
             }
             return object;

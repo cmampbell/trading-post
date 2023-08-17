@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Typography  from "@mui/material/Typography";
+import Typography from "@mui/material/Typography";
 import CardForm from "../CardForm/CardForm";
 
 /* Returns MUI box component with several input boxes and a button.

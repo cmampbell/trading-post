@@ -1,4 +1,4 @@
-import { waitFor, act,} from "@testing-library/react";
+import { waitFor, act, } from "@testing-library/react";
 import renderWithRouter from "../../renderWithRouter";
 import QuantitySelectField from "./QuantitySelectField";
 import userEvent from '@testing-library/user-event';
@@ -39,7 +39,7 @@ describe("Quantity Field Unit Tests", () => {
         });
 
         act(() => {
-            for(let i = 0; i < 3; i++){
+            for (let i = 0; i < 3; i++) {
                 userEvent.click(decrementButton);
             };
         });
@@ -57,7 +57,7 @@ describe("Quantity Field Unit Tests", () => {
                 updateCardData={(name, value) => cardData[name] = value}
             />);
 
-        const  decrementButton = queryAllByRole('button')[1];
+        const decrementButton = queryAllByRole('button')[1];
 
         act(() => {
             userEvent.click(decrementButton);

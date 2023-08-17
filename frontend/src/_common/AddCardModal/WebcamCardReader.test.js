@@ -1,6 +1,6 @@
 import WebcamCardReader from "./WebcamCardReader";
 import renderWithRouter from "../renderWithRouter";
-import { waitFor, act, screen} from "@testing-library/react";
+import { waitFor, act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 describe("WebcamCardReader unit tests", () => {
@@ -15,11 +15,11 @@ describe("WebcamCardReader unit tests", () => {
         const closeCameraModal = jest.fn();
         const { queryByText } = renderWithRouter(<WebcamCardReader getCardWithCamera={getCardWithCamera} closeCameraModal={closeCameraModal} />);
 
-        await act( async()=> {
+        await act(async () => {
             userEvent.click(queryByText('Close Camera'));
         });
 
-        await waitFor( async () => {
+        await waitFor(async () => {
             expect(closeCameraModal).toHaveBeenCalled();
         });
     });

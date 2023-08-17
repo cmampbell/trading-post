@@ -12,7 +12,8 @@ jest.mock("react-router", () => ({
         return { userId: 1 }
     },
     useLoaderData: function () {
-        return {cards: [{
+        return {
+            cards: [{
                 artist: "Aleksi Briclot",
                 card_id: "9464a820-65de-44f2-9895-46a35e8621a0",
                 cmc: 11,
