@@ -1,7 +1,7 @@
 import useFields from "./useFields";
 import FoilSelectField from "./FormInputs/FoilSelectField";
-import QuantitySelectField from "./FormInputs/QuantitySelectField"
-import ForTradeField from "./FormInputs/ForTradeField"
+import QuantitySelectField from "./FormInputs/QuantitySelectField";
+import ForTradeField from "./FormInputs/ForTradeField";
 import SetSelectField from "./FormInputs/SetSelectField";
 
 const testCard1 = {
@@ -16,12 +16,12 @@ const testCard1 = {
     usd_etched_price: null,
     usd_foil_price: "32.03",
     usd_price: "25.48"
-}
+};
 
 describe(" Unit Tests for useFields", () => {
     it("should return an object", () => {
         expect(useFields([])).toEqual({});
-    })
+    });
 
     it("should return an object with keys based on fields entered", () => {
         const result = useFields([FoilSelectField, QuantitySelectField, ForTradeField, SetSelectField], testCard1);
@@ -36,5 +36,5 @@ describe(" Unit Tests for useFields", () => {
         expect(result.foil).toEqual("No");
         expect(result.quantity).toEqual(1);
         expect(result.forTrade).toEqual(false);
-        })
-})
+        });
+});

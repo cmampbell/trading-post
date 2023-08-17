@@ -1,10 +1,10 @@
-import { waitFor, act, screen, queryByLabelText } from "@testing-library/react";
+import { waitFor, act } from "@testing-library/react";
 import renderWithRouter from "../renderWithRouter";
 import CardForm from "./CardForm";
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 import FoilSelectField from "./FormInputs/FoilSelectField";
 import SetSelectField from "./FormInputs/SetSelectField";
-import QuantitySelectField from "./FormInputs/QuantitySelectField"
+import QuantitySelectField from "./FormInputs/QuantitySelectField";
 
 const testCard1 = {
     art_uri: "https://cards.scryfall.io/art_crop/front/c/b/cbc085e9-bbb2-463a-b35c-bee13008a2c6.jpg?1682718882",
@@ -18,7 +18,7 @@ const testCard1 = {
     usd_etched_price: "60.23",
     usd_foil_price: "32.03",
     usd_price: "25.48"
-}
+};
 
 const testCard2 = {
     set_name: 'Test Card Set 2',
@@ -33,7 +33,7 @@ const testCard2 = {
     set_name: "Ixalan",
     usd_foil_price: "8.03",
     usd_price: "3.48"
-}
+};
 
 describe("CardForm Unit Tests", () => {
     it("should render without crashing", () => {
@@ -46,7 +46,7 @@ describe("CardForm Unit Tests", () => {
                 fields={[]}
                 addCard={jest.fn()}
             />);
-    })
+    });
 
     it("should track input and on submit pass into addCard", async () => {
         const addCard = jest.fn();
@@ -68,7 +68,7 @@ describe("CardForm Unit Tests", () => {
 
         const quantity = queryByRole('textbox');
         const foilInput = queryByDisplayValue("No");
-        const setInput = queryByDisplayValue("Double Masters 2022-337")
+        const setInput = queryByDisplayValue("Double Masters 2022-337");
 
         const [setDropdown,
             foilDropdown,
@@ -83,17 +83,17 @@ describe("CardForm Unit Tests", () => {
 
         act(() => {
             userEvent.click(setDropdown);
-        })
+        });
 
         await waitFor(() => {
             expect(queryAllByRole('option').length).toEqual(2);
-        })
+        });
 
         const ixalan = queryAllByRole('option')[1];
 
         act(() => {
             userEvent.click(ixalan);
-        })
+        });
 
         expect(setCard).toHaveBeenCalled();
 
@@ -101,28 +101,27 @@ describe("CardForm Unit Tests", () => {
             userEvent.click(incrementButton);
 
             userEvent.click(foilDropdown);
-        })
+        });
 
         await waitFor(() => {
             expect(quantity).toHaveValue("2");
             expect(queryAllByRole('option').length).toEqual(3);
-        })
+        });
 
         act(() => {
             userEvent.click(queryAllByRole('option')[1]);
-        })
+        });
 
         await waitFor(() => {
             expect(foilInput).toHaveDisplayValue('Yes');
-        })
+        });
 
         act(() => {
             userEvent.click(addButton);
-        })
+        });
 
         expect(addCard).toHaveBeenCalled();
-        expect(addCard).toHaveBeenLastCalledWith({...testCard1}, {foil: "Yes", quantity: 2 })
+        expect(addCard).toHaveBeenLastCalledWith({...testCard1}, {foil: "Yes", quantity: 2 });
         expect(handleClose).toHaveBeenCalled();
-
-    })
-})
+    });
+});
