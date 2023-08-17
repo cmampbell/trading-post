@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { Grid, Typography, IconButton, Box } from "@mui/material"
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
 import TradeHelpModal from "./TradeHelpModal";
 import HelpIcon from '@mui/icons-material/Help';
 import CardListDisplay from "./CardListDisplay";
 
-/* Parent component for trading functionality. 
-* 
-* Only the active list is able to add cards. Users can
-* change which list is active with a click.
+/* Parent component for trade page. 
+*  Renders page title, <TradeHelpModal/>, and <CardListDisplay/>.
 *
-* Lists are labeled left and right.
+*  State:
+*       - showHelp - boolean used to track <TradeHelpModal/> open status
 */
 const TradePage = () => {
     const [showHelp, setShowHelp] = useState(false);
 
     const toggleHelpModal = () => {
         setShowHelp((oldShowHelp) => !oldShowHelp);
-    }
-    
+    };
+
     return (
         <Grid container spacing={2} sx={{ position: 'relative' }}>
             <Grid item xs={12}>
@@ -41,7 +43,7 @@ const TradePage = () => {
             </Grid>
             <CardListDisplay />
         </Grid>
-    )
-}
+    );
+};
 
 export default TradePage;

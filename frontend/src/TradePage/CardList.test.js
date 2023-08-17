@@ -1,11 +1,11 @@
 import React from "react";
-import renderWithRouter from "../_common/renderWithRouter"
+import renderWithRouter from "../_common/renderWithRouter";
 import CardList from "./CardList";
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 import { act, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 
-jest.mock('axios')
+jest.mock('axios');
 
 const testCards = [
     {
@@ -48,23 +48,23 @@ describe('CardList Unit Tests', () => {
 
         expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
         expect(queryByText('Momir Vig, Simic Visionary')).toBeInTheDocument();
-    })
+    });
 
     it("should remove a card in a list", async () => {
         const removeFromCardLists = jest.fn();
-        const { queryByText, queryAllByRole } = renderWithRouter(<CardList cards={testCards} removeFromCardLists={removeFromCardLists}/>);
+        const { queryByText, queryAllByRole } = renderWithRouter(<CardList cards={testCards} removeFromCardLists={removeFromCardLists} />);
 
         expect(queryByText('Ulamog, the Infinite Gyre')).toBeInTheDocument();
         expect(queryByText('Momir Vig, Simic Visionary')).toBeInTheDocument();
 
         act(() => {
             userEvent.click(queryAllByRole('button')[1]);
-        })
+        });
 
         await waitFor(() => {
             expect(removeFromCardLists).toHaveBeenCalled();
-        })
-    })
+        });
+    });
 });
 
 // describe("Card List Integration Tests", () => {

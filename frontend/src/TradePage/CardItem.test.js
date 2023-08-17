@@ -1,9 +1,6 @@
 import React from "react";
-import renderWithRouter from "../_common/renderWithRouter"
+import renderWithRouter from "../_common/renderWithRouter";
 import Card from "./CardItem";
-import userEvent from '@testing-library/user-event'
-import { act } from "react-dom/test-utils";
-import { waitFor, screen } from "@testing-library/react";
 
 const testCard = {
     art_uri: "https://cards.scryfall.io/art_crop/front/c/b/cbc085e9-bbb2-463a-b35c-bee13008a2c6.jpg?1682718882",
@@ -22,5 +19,5 @@ const testCard = {
 describe('Card tests', () => {
     it('should render without crashing', () => {
         renderWithRouter(<Card card={testCard}/>);
-    })
-})
+    });
+});

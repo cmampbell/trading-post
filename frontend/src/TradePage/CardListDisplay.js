@@ -6,7 +6,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import CardList from './CardList';
-import { Container, Typography } from '@mui/material';
+import Container from '@mui/material';
+import Typography from '@mui/material';
 import { styled } from '@mui/material/styles';
 import PriceDisplay from '../_common/PriceDisplay';
 
@@ -17,8 +18,8 @@ import PriceDisplay from '../_common/PriceDisplay';
 *  State: value - the index prop of the current tab that is open
 *
 *         cardLists - an object containing keys of tab indexes, with values
-*                     of card arrays. We track the state of each list here.
-*
+*                     of card arrays. This is used to store the card objects
+*                     for each list.
 */
 
 function CustomTabPanel(props) {
@@ -63,7 +64,7 @@ const StyledTabs = styled((props) => (
     '& .Mui-selected': {
         color: "#ab1a00",
         fontWeight: 'bold'
-      },
+    },
     '& .MuiTabs-indicator': {
         display: 'flex',
         justifyContent: 'center',
@@ -103,7 +104,7 @@ export default function CardListDisplay() {
                 <Tab
                     label="Card List One"
                     {...a11yProps(0)}
-                    sx={{ 
+                    sx={{
                         borderTop: 2,
                         borderRight: 2,
                         borderLeft: 2,
@@ -159,4 +160,4 @@ export default function CardListDisplay() {
             </Grid>
         </Container>
     );
-}
+};

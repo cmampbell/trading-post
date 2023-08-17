@@ -1,7 +1,17 @@
 import React from 'react';
-import { Card, Typography, Grid, Button } from '@mui/material';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import PriceDisplay from '../_common/PriceDisplay';
+
+/* Component used to display card info on the trade page.
+*
+*  Props:
+*       card - the card to display
+*       deleteCard - function to remove the card from trade page state
+*/
 
 const CardItem = ({ card, deleteCard }) => {
     const {
@@ -39,12 +49,12 @@ const CardItem = ({ card, deleteCard }) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={1}>
-                    <Button onClick={deleteSelf} className={name} color='error' sx={{top: '-13%'}} >
+                    <Button onClick={deleteSelf} className={name} color='error' sx={{ top: '-13%' }} >
                         <CloseIcon />
                     </Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Typography variant='body2' sx={{ textAlign: 'left', paddingLeft: '3vw'}}>
+                    <Typography variant='body2' sx={{ textAlign: 'left', paddingLeft: '3vw' }}>
                         {setCode.toUpperCase()} - #{collectorNumber}
                     </Typography>
                 </Grid>
@@ -52,7 +62,7 @@ const CardItem = ({ card, deleteCard }) => {
 
                 </Grid>
                 <Grid item xs={4}>
-                    <PriceDisplay card={card} sx={{ textAlign: 'left', paddingLeft:'4.5vw' }}/>
+                    <PriceDisplay card={card} sx={{ textAlign: 'left', paddingLeft: '4.5vw' }} />
                 </Grid>
             </Grid>
         </Card >
