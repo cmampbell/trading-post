@@ -14,15 +14,15 @@ const testCard1 = {
     usd_foil_price: "32.03",
     usd_price: "25.48",
     foil: 'No'
-}
+};
 
 describe("Price Display Unit Tests", () => {
     it("should render without crashing", ()=> {
-        render(<PriceDisplay />)
-    })
+        render(<PriceDisplay />);
+    });
 
     it("should display the price of a card from card", ()=> {
-        const {getByText} = render(<PriceDisplay card={testCard1}/>)
+        const {getByText} = render(<PriceDisplay card={testCard1}/>);
 
         expect(getByText('$25.48')).toBeInTheDocument();
     });
@@ -37,17 +37,17 @@ describe("Price Display Unit Tests", () => {
         const {getByText} = render(<PriceDisplay card={{usd_price: '2.00', quantity: 3}} formData={{ foil: "No"}}/>);
 
         expect(getByText('$6.00')).toBeInTheDocument();
-    })
+    });
 
     it("should use quantity if given in card", () => {
         const {getByText} = render(<PriceDisplay card={{...testCard1, quantity: 3, foil: "Yes"}}/>);
 
         expect(getByText('$96.09')).toBeInTheDocument();
-    })
+    });
 
     it("should display the total price of a list of cards", ()=> {
         const {getByText} = render(<PriceDisplay cards={[{usd_price: '2.00', quantity: 3, foil: "No"}, {usd_price: '5.00', quantity: 10, foil: "No"}]}/>);
 
         expect(getByText('$56.00')).toBeInTheDocument();
     });
-})
+});

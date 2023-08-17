@@ -1,5 +1,6 @@
 import React from "react";
-import { FormControlLabel, Checkbox } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 /* Input field meant for use with <CardForm/>
 *

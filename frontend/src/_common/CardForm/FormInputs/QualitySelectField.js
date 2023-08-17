@@ -1,5 +1,8 @@
 import React from "react";
-import { FormControl, InputLabel, Select, MenuItem, } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 /* Input field meant for use with <CardForm/>
 *

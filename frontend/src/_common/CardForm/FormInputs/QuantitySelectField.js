@@ -1,5 +1,8 @@
 import React from "react";
-import { FormControl, TextField, Stack, IconButton } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
