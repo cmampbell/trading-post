@@ -7,10 +7,13 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { useLoaderData, useOutletContext } from "react-router";
 import { Link } from "react-router-dom";
 
-/* This page should display a users profile.
-*  We get the user from the loader function on the route,
-* and populate the page with that data. 
+/* This page displays info related to a users profile.
+*  We get the user data from the loader function on the route,
+*  and populate the page with that data. 
 * 
+*  We use currUser to check if the logged in user matches the profile,
+*  and render appropriate buttons and info.
+*  logout is a function used to handle logout, coming from <App/>.
 */
 
 const UserPage = () => {
@@ -73,7 +76,7 @@ const UserPage = () => {
                 </Grid>
             </Grid>
         </Container>
-    )
-}
+    );
+};
 
 export default UserPage;
