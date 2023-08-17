@@ -14,7 +14,7 @@ jest.mock('./Api/Api');
 describe("App Integration Tests", () => {
     it("should handle user registration", async () => {
 
-        const { queryByText, queryByLabelText} = renderWithRouter({
+        const { queryByText, queryByLabelText } = renderWithRouter({
             element: <App />,
             path: '/',
             children:
@@ -22,7 +22,7 @@ describe("App Integration Tests", () => {
                     {
                         path: '/',
                         element: <UserRegisterForm />
-                    }, 
+                    },
                     {
                         path: '/users/:userId',
                         element: <UserPage />,
@@ -48,17 +48,17 @@ describe("App Integration Tests", () => {
             expect(queryByLabelText('Username *')).toBeInTheDocument();
             expect(queryByLabelText('Password *')).toBeInTheDocument();
             expect(queryByLabelText('Email *')).toBeInTheDocument();
-        })
+        });
 
         const date = new Date();
-        Api.request.mockResolvedValue({ token: 'testToken', user: { username: 'test', email: 'email@test.com', id: 1, created_at: date.toString() } })
+        Api.request.mockResolvedValue({ token: 'testToken', user: { username: 'test', email: 'email@test.com', id: 1, created_at: date.toString() } });
 
         await act(async () => {
             userEvent.type(queryByLabelText('Username *'), 'test');
             userEvent.type(queryByLabelText('Password *'), 'password');
             userEvent.type(queryByLabelText('Email *'), 'email@test.com');
             userEvent.click(queryByText('Register!'));
-        })
+        });
 
         await waitFor(async () => {
             expect(queryByText('test')).toBeInTheDocument();
@@ -68,9 +68,9 @@ describe("App Integration Tests", () => {
             expect(queryByText(`Collection`)).toBeInTheDocument();
             expect(queryByText(`Cards For Trade`)).toBeInTheDocument();
             expect(queryByText(`Want List`)).toBeInTheDocument();
-        })
+        });
 
-        expect(JSON.parse(localStorage.getItem('currUser'))).toEqual({ username: 'test', email: 'email@test.com', id: 1, created_at: expect.any(String)});
+        expect(JSON.parse(localStorage.getItem('currUser'))).toEqual({ username: 'test', email: 'email@test.com', id: 1, created_at: expect.any(String) });
     });
 
     it("should handle user login and logout", async () => {
@@ -83,7 +83,7 @@ describe("App Integration Tests", () => {
                     {
                         path: '/',
                         element: <UserLoginForm />
-                    }, 
+                    },
                     {
                         path: '/users/:userId',
                         element: <UserPage />,
@@ -101,8 +101,7 @@ describe("App Integration Tests", () => {
 
                 return [localStorageToken, localStorageCurrUser];
             },
-        }
-        );
+        });
 
         await waitFor(async () => {
             expect(queryByText('Login')).toBeInTheDocument();
@@ -111,13 +110,13 @@ describe("App Integration Tests", () => {
         });
 
         const date = new Date();
-        Api.request.mockResolvedValue({ token: 'testToken', user: { username: 'test', email: 'email@test.com', id: 1, created_at: date.toString() } })
+        Api.request.mockResolvedValue({ token: 'testToken', user: { username: 'test', email: 'email@test.com', id: 1, created_at: date.toString() } });
 
         await act(async () => {
             userEvent.type(queryByLabelText('Username *'), 'test');
             userEvent.type(queryByLabelText('Password *'), 'password');
             userEvent.click(queryByText('Log In'));
-        })
+        });
 
         await waitFor(async () => {
             expect(queryByText('test')).toBeInTheDocument();
@@ -127,14 +126,14 @@ describe("App Integration Tests", () => {
             expect(queryByText(`Collection`)).toBeInTheDocument();
             expect(queryByText(`Cards For Trade`)).toBeInTheDocument();
             expect(queryByText(`Want List`)).toBeInTheDocument();
-        })
+        });
 
-        expect(JSON.parse(localStorage.getItem('currUser'))).toEqual({ username: 'test', email: 'email@test.com', id: 1, created_at: expect.any(String)});
+        expect(JSON.parse(localStorage.getItem('currUser'))).toEqual({ username: 'test', email: 'email@test.com', id: 1, created_at: expect.any(String) });
 
-        await act(async() => {
+        await act(async () => {
             userEvent.click(queryByText('Logout'));
-        })
+        });
 
         expect(JSON.parse(localStorage.getItem('currUser'))).toBe(null);
     });
-})
+});

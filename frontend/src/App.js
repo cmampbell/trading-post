@@ -18,13 +18,24 @@ import { useTheme } from '@mui/material/styles';
 *  If there is no token or currUser object in localStorage, we set state to null
 *
 *  We pass down register, login, currUser, token as Outlet Context, allowing
-*  child components to access this data with the useOutletContext() hook. 
+*  child components to access this data with the useOutletContext() hook.
+*  These functions make requests to the API and also update the info in state.
 *
+*  <App/> checks the resolution of the screen and sets isMobile accordingly,
+*  using Material UI hook useMediaQuery.
+*
+*  State:
+*   token - stores the JWT of the user
+*   curruser - stores data about the current user. Includes username, id, and created_at date.
 */
+
 function App() {
+
   const [localStorageToken, localStorageCurrUser] = useLoaderData();
+
   const [token, setToken] = useState(localStorageToken || null);
   const [currUser, setCurrUser] = useState(localStorageCurrUser || null);
+
   const navigate = useNavigate();
   let location = useLocation();
   const theme = useTheme();
@@ -35,17 +46,17 @@ function App() {
     setCurrUser(() => resp.user);
     localStorage.setItem("token", resp.token);
     localStorage.setItem("currUser", JSON.stringify(resp.user));
-  }
+  };
 
   const register = async (regData) => {
     try {
       const resp = await UserService.registerUser(regData);
       setStateAndStorage(resp);
-      navigate(`/users/${resp.user.id}`)
+      navigate(`/users/${resp.user.id}`);
     } catch (err) {
       throw err;
-    }
-  }
+    };
+  };
 
   const login = async (loginData) => {
     try {
@@ -54,16 +65,16 @@ function App() {
       navigate(`/users/${resp.user.id}`);
     } catch (err) {
       throw err;
-    }
-  }
+    };
+  };
 
   const logout = () => {
     setToken(() => null);
     setCurrUser(() => null);
-    localStorage.removeItem("token")
-    localStorage.removeItem("currUser")
+    localStorage.removeItem("token");
+    localStorage.removeItem("currUser");
     navigate('/');
-  }
+  };
 
   return (
     <div className="App">
@@ -77,6 +88,6 @@ function App() {
       </Grid>
     </div>
   );
-}
+};
 
 export default App;
