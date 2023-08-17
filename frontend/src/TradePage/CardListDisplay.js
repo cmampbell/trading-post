@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import CardList from './CardList';
-import Container from '@mui/material';
-import Typography from '@mui/material';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import PriceDisplay from '../_common/PriceDisplay';
 
