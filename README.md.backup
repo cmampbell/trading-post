@@ -76,3 +76,29 @@ Backend: [Node.js][node] and [Expressjs][express] are used to run the server. We
 [node]: https://nodejs.org/en
 [express]: https://expressjs.com/
 [nodepg]: https://node-postgres.com/
+
+## To-Dos
+
+This site was a Capstone project for the Springboard Software Engineering Track. I have uploaded this code as a requirement to finish the course, but I plan to continue working on the site. That said, these are the things I wish to complete:
+
+
+#### Automatically update card data
+Write a script to download bulk data file from Scryfall API, read the file, and update the card prices for cards in the database, and add any new cards to the database.
+
+#### Fix Mobile Bugs
+This was meant to be a mobile-optimized website. Upon deployment I found issues with the mobile version.
+
+#### Implement email verification
+Have users verify their email address by sending an automated email when they sign up.
+
+#### Implement better form validation
+Find a library for form validation and include it for the 
+
+#### Implement Recommended Trades
+Compare users for trade collection and other users want list, along with allowing users to enter their zip code information, create a feature that recommends trades to users. Users can connect through the site, message, and arrange a meet up to trade their cards.
+
+#### Increase Accesibility
+This site should be accessible to everyone.
+
+#### Implement Computer Vision Card Recognition
+Taking a photo of one card at a time is faster than the current trade process, but with Machine Learning it's possible to take a photo of ever card in the pile and recognize each of them. This is going to require a lot of research on my part, but I do have some leads on how to achieve this.
