@@ -12,7 +12,7 @@ describe("App Unit Tests", () => {
   test('renders without crashing', () => {
     renderWithRouter(<App />);
   });
-})
+});
 
 
 
