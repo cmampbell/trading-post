@@ -135,7 +135,7 @@ describe("CardBinder integration tests", () => {
             expect(queryByLabelText('Quantity')).toBeInTheDocument();
             expect(queryByLabelText('For Trade')).toBeInTheDocument();
             expect(queryByText(`$${testCard.usd_price}`)).toBeInTheDocument();
-            expect(queryByText('Add Card!')).toBeInTheDocument();
+            expect(queryByText('Add Card')).toBeInTheDocument();
         });
 
         const foilInput = queryByDisplayValue('No');
@@ -148,7 +148,7 @@ describe("CardBinder integration tests", () => {
 
         // we need to submit the card form
         await act(async () => {
-            userEvent.click(queryByText('Add Card!'));
+            userEvent.click(queryByText('Add Card'));
         });
 
         // we need to check that the card was added to the binder
@@ -226,7 +226,7 @@ describe("CardBinder integration tests", () => {
         });
 
         await act(async () => {
-            userEvent.click(queryByText('Edit Card!'));
+            userEvent.click(queryByText('Edit Card'));
         });
 
         const editDataFromApiCall = Api.request.mock.calls[0][1];

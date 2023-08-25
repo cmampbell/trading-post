@@ -101,11 +101,11 @@ describe('AddCardModal tests', () => {
         await waitFor(async () => {
             expect(queryByAltText(`${testCards[0].name} art by ${testCards[0].artist}`)).toBeInTheDocument();
             expect(queryByText(`$${testCards[0].usd_price}`)).toBeInTheDocument();
-            expect(queryByText('Add Card!')).toBeInTheDocument();
+            expect(queryByText('Add Card')).toBeInTheDocument();
         })
 
         await act(async () => {
-            userEvent.click(queryByText('Add Card!'));
+            userEvent.click(queryByText('Add Card'));
         })
 
         await waitFor(async () => {

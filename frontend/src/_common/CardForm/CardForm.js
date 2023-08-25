@@ -69,7 +69,7 @@ const CardForm = ({ card, printings, setCard, addCard, handleClose, fields, type
                 {fields && fields.length > 0 && fields.map((Field, idx) => <Field key={idx} cardData={cardData} updateCardData={updateCardData} card={card} setCard={setCard} printings={printings} />)}
                 <PriceDisplay card={card} formData={cardData} />
             </Box>
-            <Button variant='contained' onClick={handleClick} >{type} Card!</Button>
+            <Button variant='contained' onClick={handleClick} >{type} Card</Button>
         </Box>
     );
 };

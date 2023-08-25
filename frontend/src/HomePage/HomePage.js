@@ -25,19 +25,19 @@ const HomePage = () => {
             <Typography variant='h1' >Welcome to Trading Post!</Typography>
             <Stack spacing={4} sx={{ m: 5 }}>
                 <Button variant='contained' color='secondary' href="/trade">
-                    Trade!
+                    Trade
                 </Button>
                 {!currUser && <>
                     <Button variant='contained' color='secondary' href="/register">
-                        Register!
+                        Register
                     </Button>
                     <Button variant='contained' color='secondary' href="/login">
-                        Login!
+                        Login
                     </Button>
                 </>}
                 {currUser && <>
                     <Button variant='contained' color='secondary' href={`users/${currUser.id}`}>
-                        View Profile!
+                        View Profile
                     </Button>
                 </>}
 

@@ -125,7 +125,7 @@ const Searchbar = ({ setCardName, cardName }) => {
                             label="Card Name"
                         />}
                         sx={{ marginLeft: '5%', width: '90%' }}
-                        filterOptions={x => x}
+                        filterOptions={(x) => x}
                     />
                 </Grid>
                 <Grid item xs={1}>

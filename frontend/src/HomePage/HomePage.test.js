@@ -17,8 +17,8 @@ describe('HomePage component', () => {
         const { queryByText } = renderWithRouter(<HomePage />);
 
 
-        expect(queryByText('Trade!')).toBeInTheDocument();
-        expect(queryByText('Login!')).toBeInTheDocument();
-        expect(queryByText('Register!')).toBeInTheDocument();
+        expect(queryByText('Trade')).toBeInTheDocument();
+        expect(queryByText('Login')).toBeInTheDocument();
+        expect(queryByText('Register')).toBeInTheDocument();
     });
 })
