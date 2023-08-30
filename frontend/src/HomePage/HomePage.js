@@ -22,7 +22,7 @@ const HomePage = () => {
             height: '100vh',
             width: '100vw'
         }}>
-            <Typography variant='h1' >Welcome to Trading Post!</Typography>
+            <Typography variant='h1' >Welcome to Trading Post</Typography>
             <Stack spacing={4} sx={{ m: 5 }}>
                 <Button variant='contained' color='secondary' href="/trade">
                     Trade
