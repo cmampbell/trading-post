@@ -84,7 +84,7 @@ function App() {
           <NavBar token={token} logout={logout} currUser={currUser} />}
         {location.pathname !== '/' && isMobile &&
           <MobileNav token={token} logout={logout} currUser={currUser} />}
-        <Outlet context={{ register, token, login, currUser, logout }} />
+        <Outlet context={{ register, token, login, currUser, logout, isMobile }} />
       </Grid>
     </div>
   );

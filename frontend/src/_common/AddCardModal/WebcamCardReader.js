@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { useOutletContext } from 'react-router';
 import Webcam from "react-webcam";
 import { Image } from 'image-js';
 import Box from '@mui/material/Box';
@@ -60,6 +61,14 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { isMobile } = useOutletContext();
+
+    const videoConstraints = {
+        height: 1920,
+        width: 1080,
+    };
+
+    isMobile ? videoConstraints.facingMode = { exact: "environment" } : videoConstraints.facingMode = 'user';
 
     useEffect(() => {
         if (webcamRef.current) {
@@ -126,10 +135,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat='image/png'
-                videoConstraints={{
-                    height: 1920,
-                    width: 1080,
-                }}
+                videoConstraints={videoConstraints}
             />
             {!imgSrc && <>
                 <Grid container spacing={8} sx={{ position: 'absolute', bottom: '0%' }}>
