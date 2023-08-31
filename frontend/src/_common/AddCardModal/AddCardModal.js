@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useOutletContext } from 'react-router';
 import Modal from "@mui/material/Modal";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from '@mui/material/DialogContent';
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
@@ -43,6 +46,7 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
 
     const [cardName, setCardName] = useState();
     const [printings, setPrintings] = useState([]);
+    const { isMobile } = useOutletContext();
 
     useEffect(() => {
         if (cardName && cardName.id) {
@@ -66,65 +70,58 @@ const AddCardModal = ({ open, addCard, setSearchOpen, fields }) => {
     }
 
     return (
-        <Modal
+        <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
+            fullWidth={true}
+            maxWidth={'md'}
+            fullScreen={isMobile}
         >
-            <Container maxWidth="md">
-                <Paper elevation={8}
+            <DialogContent
+                sx={{
+                    height: '80vh',
+                }}
+            >
+                <Box
                     sx={{
                         display: 'flex',
-                        justifyContent: 'flex-start',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        marginTop: '6vh',
-                        height: '88vh',
-                        position: 'relative',
-                        width: '100%'
+                        justifyContent: 'center',
+                        flexDirection: 'row',
+                        position: 'relative'
                     }}
                 >
-                    <Box
+                    <Typography variant='h2' sx={{ m: 2 }}>
+                        Card Search
+                    </Typography>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={handleClose}
+                        color='error'
                         sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            width: '100%',
-                            position: 'relative'
+                            position: 'absolute',
+                            top: '25%',
+                            right: '3.5%'
                         }}
                     >
-                        <Typography variant='h2' sx={{ m: 2 }}>
-                            Card Search
-                        </Typography>
-                        <IconButton
-                            aria-label="delete"
-                            onClick={handleClose}
-                            color='error'
-                            sx={{
-                                position: 'absolute',
-                                top: '25%',
-                                right: '3.5%'
-                            }}
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                    </Box>
-                    <Searchbar
-                        setCardName={setCardName}
-                        cardName={cardName}
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+                <Searchbar
+                    setCardName={setCardName}
+                    cardName={cardName}
+                />
+                {printings.length > 0
+                    && <CardDetailsBox
+                        printings={printings}
+                        addCard={addCard}
+                        handleClose={handleClose}
+                        fields={fields}
                     />
-                    {printings.length > 0
-                        && <CardDetailsBox
-                            printings={printings}
-                            addCard={addCard}
-                            handleClose={handleClose}
-                            fields={fields}
-                        />
-                    }
-                </Paper>
-            </Container>
-        </Modal>
+                }
+            </DialogContent>
+        </Dialog>
     )
 };
 

@@ -2,6 +2,12 @@ import React from "react";
 import renderWithRouter from "../_common/renderWithRouter"
 import TradePage from "./TradePage";
 
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useOutletContext: function () {
+      return true
+    }
+  }));
 
 describe('TradePage tests', () => {
     it('should render without crashing', () => {

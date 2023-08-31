@@ -3,6 +3,13 @@ import renderWithRouter from "../renderWithRouter";
 import { waitFor, act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useOutletContext: function () {
+      return true
+    }
+  }));
+
 describe("WebcamCardReader unit tests", () => {
     it('should render without crashing', () => {
         const getCardWithCamera = jest.fn();

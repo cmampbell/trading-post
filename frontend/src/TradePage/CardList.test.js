@@ -6,6 +6,12 @@ import { act, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 
 jest.mock('axios');
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useOutletContext: function () {
+      return true
+    }
+  }));
 
 const testCards = [
     {

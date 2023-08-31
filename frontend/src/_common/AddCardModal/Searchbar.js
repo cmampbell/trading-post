@@ -103,7 +103,7 @@ const Searchbar = ({ setCardName, cardName }) => {
 
     return (
         <>
-            <Grid container sx={{ width: '100%' }}>
+            <Grid container spacing={2} >
                 <Grid item xs={10}>
                     <Autocomplete
                         inputValue={searchInput}
@@ -124,11 +124,10 @@ const Searchbar = ({ setCardName, cardName }) => {
                             {...params}
                             label="Card Name"
                         />}
-                        sx={{ marginLeft: '5%', width: '90%' }}
                         filterOptions={(x) => x}
                     />
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={2} sx={{textAlign: 'center'}}>
                     <IconButton onClick={openCameraModal} color="primary" >
                         <PhotoCameraIcon sx={{ fontSize: '35px' }} />
                     </IconButton>
@@ -150,7 +149,6 @@ const Searchbar = ({ setCardName, cardName }) => {
                         marginTop: '8vh',
                         height: '85vh',
                         position: 'relative'
-
                     }}>
                     <WebcamCardReader
                         setSearchInput={setSearchInput}

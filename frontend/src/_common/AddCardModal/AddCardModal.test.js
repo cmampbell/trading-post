@@ -9,6 +9,12 @@ import { waitFor, render } from "@testing-library/react";
 
 // mock axios for useEffect API call
 jest.mock('axios');
+jest.mock("react-router", () => ({
+    ...jest.requireActual("react-router"),
+    useOutletContext: function () {
+      return true
+    }
+  }));
 
 const testCards = [
     {
