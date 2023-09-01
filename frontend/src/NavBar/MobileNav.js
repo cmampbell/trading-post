@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import PersonIcon from '@mui/icons-material/Person';
 import CropPortraitIcon from '@mui/icons-material/CropPortrait';
@@ -12,7 +12,15 @@ import CropPortraitIcon from '@mui/icons-material/CropPortrait';
 */
 
 export default function SimpleBottomNavigation({ token, logout, currUser }) {
-    const [value, setValue] = React.useState(0);
+    const path = useLocation();
+    const paths = [
+        currUser ? `/users/${currUser.id}` : '/login',
+        '/trade',
+        currUser ? `/users/${currUser.id}/collection` : '/login'
+    ];
+
+    const activeLink = paths.indexOf(path.pathname);
+    const [value, setValue] = useState(activeLink);
 
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 5 }} elevation={3}>
