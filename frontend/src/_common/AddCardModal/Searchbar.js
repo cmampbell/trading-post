@@ -133,7 +133,6 @@ const Searchbar = ({ setCardName, cardName }) => {
                     </IconButton>
                 </Grid>
             </Grid>
-
             <Modal
                 open={cameraOpen}
                 onClose={closeCameraModal}
@@ -147,7 +146,7 @@ const Searchbar = ({ setCardName, cardName }) => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         marginTop: '8vh',
-                        height: '85vh',
+                        height: '80%',
                         position: 'relative'
                     }}>
                     <WebcamCardReader

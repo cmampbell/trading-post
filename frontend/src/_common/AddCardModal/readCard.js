@@ -36,12 +36,12 @@ const parseSymbolResults = symbols => {
 
     for (let i = 0; !foundEnd && i < symbols.length; i++) {
         let currentSymbol = symbols[i]
-        if (currentSymbol.confidence >= 96) {
+        if (currentSymbol.confidence >= 98) {
             if (!wordSet.has(currentSymbol.word.text.trim())) {
                 wordSet.add(currentSymbol.word.text.trim());
             }
             if (!foundStart) foundStart = true;
-        } else if (foundStart && currentSymbol.confidence < 96) {
+        } else if (foundStart && currentSymbol.confidence < 98) {
             foundEnd = true;
         }
     }
@@ -65,7 +65,7 @@ const readCard = async (image) => {
     await worker.initialize('eng');
     await worker.setParameters({
         // Only return the characters in this string, including spaces, hypens, and apostrophes
-        tessedit_char_whitelist: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-' `
+        tessedit_char_whitelist: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 `
     });
     let result = await worker.recognize(image);
     await worker.terminate();

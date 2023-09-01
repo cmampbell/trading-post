@@ -39,8 +39,6 @@ import readCard from './readCard';
 *       getCardWithCamera - function we call when we have a result from readCard. Pass
 *                           in result from Tesseract up to <Searchbar />
 *       closeCameramodal - function to set <WebcamCardReader/> modal to close
-*
-*  TO-DO: have camera default to correct phone camera on mobile.
 */
 
 // Takes an image, and applies filters to prepare the photo to be read by Tesseractjs
@@ -49,10 +47,9 @@ const preProcessImage = async (imageSource) => {
     const image = await Image.load(imageSource);
     const cropped = image.crop({ x: 80, y: 73, width: 460, height: 146 });
     const resized = cropped.resize({ width: 1380, height: 438 });
-    const multiplied = resized.multiply(1.7);
-    const grey = multiplied.grey();
+    const grey = resized.grey();
     const blur = grey.gaussianFilter({ radius: 1 });
-    const mask = blur.mask({ threshold: 0.48 });
+    const mask = blur.mask({ threshold: 0.51 });
 
     return mask.toDataURL();
 }
@@ -63,12 +60,19 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
     const [isLoading, setIsLoading] = useState(true);
     const { isMobile } = useOutletContext();
 
-    const videoConstraints = {
+    // this is a temporary fix for a bug in react-webcam
+    // on mobile, height and width are flipped.
+    // issue is detailed here:
+    // https://github.com/mozmorris/react-webcam/issues/299
+    const videoConstraints = isMobile ? {
+        height: 1080,
+        width: 1920,
+        facingMode: { exact: "environment" },
+    } : {
         height: 1920,
         width: 1080,
+        facingMode: 'user',
     };
-
-    isMobile ? videoConstraints.facingMode = { exact: "environment" } : videoConstraints.facingMode = 'user';
 
     useEffect(() => {
         if (webcamRef.current) {
@@ -138,7 +142,19 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
                 videoConstraints={videoConstraints}
             />
             {!imgSrc && <>
-                <Grid container spacing={8} sx={{ position: 'absolute', bottom: '0%' }}>
+                <Grid container spacing={8} sx={{ position: 'absolute', bottom: '10%' }}>
+                <Grid item xs={6}>
+                        <Button
+                            onClick={closeCameraModal}
+                            color='error'
+                            variant='contained'
+                            sx={{
+                                width: '100%'
+                            }}
+                        >
+                            Close Camera
+                        </Button>
+                    </Grid>
                     <Grid item xs={6}>
                         <Button
                             onClick={capture}
@@ -151,18 +167,7 @@ const WebcamCardReader = ({ getCardWithCamera, closeCameraModal }) => {
                             Take Photo
                         </Button>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                            onClick={closeCameraModal}
-                            color='error'
-                            variant='contained'
-                            sx={{
-                                width: '100%'
-                            }}
-                        >
-                            Close Camera
-                        </Button>
-                    </Grid>
+
                 </Grid>
             </>}
             {/* this <img/> will display imgSrc, used for manual testing */}
