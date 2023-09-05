@@ -52,6 +52,7 @@ const UserLoginForm = () => {
             try {
                 await login(formData);
             } catch (err) {
+                console.log(err)
                 setErrors(() => [...err]);
             };
         };
@@ -85,7 +86,7 @@ const UserLoginForm = () => {
                     onChange={handleChange}
                     error={errors.password}
                 />
-                {errors[0] &&
+                {errors instanceof Array &&
                     errors.map((error) =>
                         <Typography color='error' key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</Typography>)}
                 <Button onClick={handleSubmit} variant='contained'>Log In</Button>

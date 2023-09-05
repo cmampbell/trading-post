@@ -96,7 +96,7 @@ const UserRegisterForm = () => {
                     onChange={handleChange}
                     error={errors.email}
                 />
-                {errors[0] && errors.map((error) => <p style={{ color: 'red' }} key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</p>)}
+                {errors instanceof Array && errors.map((error) => <Typography variant='subtitle2' color='error' key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</Typography>)}
                 <Button variant='contained' onClick={handleSubmit}>Register!</Button>
             </Stack>
         </Box>
