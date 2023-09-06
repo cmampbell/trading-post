@@ -88,7 +88,7 @@ const UserLoginForm = () => {
                 />
                 {errors instanceof Array &&
                     errors.map((error) =>
-                        <Typography color='error' key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</Typography>)}
+                        <Typography variant='subtitle2' color='error' key={`${error}-error`}>{error.charAt(0).toUpperCase() + error.slice(1)}</Typography>)}
                 <Button onClick={handleSubmit} variant='contained'>Log In</Button>
             </Stack>
             <Typography variant="subtitle1">Don't have an account? Register <Link to='/register'>here </Link></Typography>
