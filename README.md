@@ -85,9 +85,6 @@ This site was a Capstone project for the Springboard Software Engineering Track.
 #### Automatically update card data
 Write a script to download bulk data file from Scryfall API, read the file, and update the card prices for cards in the database, and add any new cards to the database.
 
-#### Fix Mobile Bugs
-This was meant to be a mobile-optimized website. Upon deployment I found issues with the mobile version.
-
 #### Implement email verification
 Have users verify their email address by sending an automated email when they sign up.
 

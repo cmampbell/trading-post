@@ -92,12 +92,12 @@ This was meant to be a mobile-optimized website. Upon deployment I found issues 
 Have users verify their email address by sending an automated email when they sign up.
 
 #### Implement better form validation
-Find a library for form validation and include it for the 
+Find a front-end library for form validation and include it for the login and register forms. Currently this is happening on the back-end.
 
 #### Implement Recommended Trades
 Compare users for trade collection and other users want list, along with allowing users to enter their zip code information, create a feature that recommends trades to users. Users can connect through the site, message, and arrange a meet up to trade their cards.
 
-#### Increase Accesibility
+#### Increase Accessibility
 This site should be accessible to everyone.
 
 #### Implement Computer Vision Card Recognition
