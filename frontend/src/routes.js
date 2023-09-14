@@ -10,6 +10,7 @@ import Api from './Api/Api';
 import CardCollection from "./Api/CardCollectionService";
 import User from "./Api/UserService";
 import WantList from "./Api/WantListService";
+import ErrorBoundary from "./ErrorBoundary";
 
 const routes = [
     {
@@ -24,6 +25,7 @@ const routes = [
             return [localStorageToken, localStorageCurrUser];
         },
         path: '/',
+        errorElement: <ErrorBoundary/>,
         children: [
             {
                 path: '/',
