@@ -10,7 +10,7 @@ import Api from './Api/Api';
 import CardCollection from "./Api/CardCollectionService";
 import User from "./Api/UserService";
 import WantList from "./Api/WantListService";
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 const routes = [
     {
