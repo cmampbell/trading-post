@@ -25,7 +25,6 @@ const routes = [
             return [localStorageToken, localStorageCurrUser];
         },
         path: '/',
-        errorElement: <ErrorBoundary/>,
         children: [
             {
                 path: '/',
@@ -35,21 +34,22 @@ const routes = [
                 path: '/trade',
                 element: <TradePage />,
             },
-            {
-                // this is for manual camera testing purposes
-                path: '/camera',
-                element: <WebcamCardReader
-                    getCardWithCamera={(name) => console.log(name)}
-                    closeCameraModal={() => null}
-                    setSearchInput={(() => null)}
-                />
-            },
+            // {
+            //     // this is for manual camera testing purposes
+            //     path: '/camera',
+            //     element: <WebcamCardReader
+            //         getCardWithCamera={(name) => console.log(name)}
+            //         closeCameraModal={() => null}
+            //         setSearchInput={(() => null)}
+            //     />
+            // },
             {
                 path: '/users/:userId',
                 element: <UserPage />,
                 loader: ({ params }) => {
                     return User.getUser(params.userId)
-                }
+                },
+                errorElement: <ErrorBoundary/>,
             },
             {
                 path: '/users/:userId/collection',
@@ -59,7 +59,8 @@ const routes = [
                                     />,
                 loader: ({ params }) => {
                     return CardCollection.getUserCollection(params.userId);
-                }
+                },
+                errorElement: <ErrorBoundary/>,
             },
             {
                 // For trade might not need the props
@@ -70,7 +71,8 @@ const routes = [
                 />,
                 loader: ({ params }) => {
                     return CardCollection.getUserCardsForTrade(params.userId);
-                }
+                },
+                errorElement: <ErrorBoundary/>,
             },
             {
                 path: '/users/:userId/want-list',
@@ -80,7 +82,8 @@ const routes = [
                 />,
                 loader: ({ params }) => {
                     return WantList.getUserWantList(params.userId);
-                }
+                },
+                errorElement: <ErrorBoundary/>,
             },
             {
                 path: '/register',

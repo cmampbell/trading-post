@@ -10,10 +10,10 @@ const ErrorBoundary = () => {
 
     return (
         <Container maxWidth="sm">
-            <Typography variant="body1">Uh oh. We've encountered an issue.</Typography>
             {error[0] === 'Unauthorized' && <UnauthorizedError />}
-            <Button href="/">Home</Button>
-            <Button href="/trade">Trade</Button>
+            {/* Not sure if I like the home and trade buttons here */}
+            {/* <Button href="/">Home</Button>
+            <Button href="/trade">Trade</Button> */}
         </Container>
     )
 }
