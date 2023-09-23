@@ -6,7 +6,7 @@ import { useParams, useOutletContext } from "react-router";
 
 const UnauthorizedError = () => {
     const {currUser} = useOutletContext();
-    const {id} = useParams();
+    const {userId} = useParams();
 
     return (
         <Container>
@@ -18,12 +18,12 @@ const UnauthorizedError = () => {
             <Button href="/register">Register</Button>
             </>
             }
-            {currUser && currUser.id !== id && <>
+            {currUser && currUser.id !== userId && <>
                 <Typography variant="body1">
                 Sorry, you only have access to your own collection. However, you can view this users For Trade and Want List with the buttons below.
             </Typography>
-            <Button href={`/users/${id}/want-list`}>Want List</Button>
-            <Button href={`/users/${id}/for-trade`}>For Trade</Button>
+            <Button href={`/users/${userId}/want-list`}>Want List</Button>
+            <Button href={`/users/${userId}/for-trade`}>For Trade</Button>
             </>}
         </Container>
     );

@@ -11,6 +11,7 @@ import CardCollection from "./Api/CardCollectionService";
 import User from "./Api/UserService";
 import WantList from "./Api/WantListService";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import PageNotFoundError from "./ErrorBoundary/NotFoundError";
 
 const routes = [
     {
@@ -93,6 +94,10 @@ const routes = [
                 path: '/login',
                 element: <UserLoginForm />
             },
+            {
+                path: '/*',
+                element: <PageNotFoundError/>,
+            }
         ]
     }
 ];
