@@ -1,7 +1,10 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useRouteError } from "react-router";
+
+/* Not Found page.
+*  Renders when the user tries to navigate to a route that doesn't exist.
+*/
 
 const PageNotFoundError = () => {
 
@@ -15,4 +18,4 @@ const PageNotFoundError = () => {
     );
 };
 
-export default PageNotFoundError
+export default PageNotFoundError;

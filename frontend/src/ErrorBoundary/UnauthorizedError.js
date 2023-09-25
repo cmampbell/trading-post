@@ -4,6 +4,13 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { useParams, useOutletContext } from "react-router";
 
+/* Unauthorized error page for user routes.
+*  This renders when the user tries to navigate to a user's collection, or there
+*  is no logged in user.
+*  Users are allowed to see other users for-trade lists and want-lists but not
+*  the other users whole collection. Non-users are not allowed to see any user info
+*/
+
 const UnauthorizedError = () => {
     const {currUser} = useOutletContext();
     const {userId} = useParams();
@@ -29,4 +36,4 @@ const UnauthorizedError = () => {
     );
 };
 
-export default UnauthorizedError
+export default UnauthorizedError;
