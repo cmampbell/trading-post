@@ -18,7 +18,7 @@ const HomePage = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#edcf9b',
+            background: 'linear-gradient(#edcf9b,#deb05c)',
             height: '100vh',
             width: '100vw'
         }}>
