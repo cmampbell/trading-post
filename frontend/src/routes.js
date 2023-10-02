@@ -11,7 +11,7 @@ import CardCollection from "./Api/CardCollectionService";
 import User from "./Api/UserService";
 import WantList from "./Api/WantListService";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
-import PageNotFoundError from "./ErrorBoundary/NotFoundError";
+import PageNotFoundError from "./ErrorBoundary/PageNotFoundError";
 
 const routes = [
     {
