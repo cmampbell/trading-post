@@ -50,13 +50,33 @@ CREATE TABLE "card_want_list" (
   "foil" TEXT
 );
 
-ALTER TABLE "card_collection" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
+CREATE TABLE "trade_history" (
+  "id" SERIAL PRIMARY KEY,
+  "user1" INTEGER,
+  "user2" INTEGER,
+  "date_of_trade" DATE
+);
 
+CREATE TABLE "card_trade" (
+  "id" SERIAL PRIMARY KEY,
+  "trade_id",
+  "card_id",
+  "traded_price" TEXT,
+  "original_owner" INTEGER,
+)
+
+ALTER TABLE "card_collection" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 ALTER TABLE "card_collection" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id");
 
 ALTER TABLE "card_want_list" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
-
 ALTER TABLE "card_want_list" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id");
+
+ALTER TABLE "trade_history" ADD FOREIGN KEY ("user1") REFERENCES "users" ("id") ON DELETE CASCADE;
+ALTER TABLE "trade_history" ADD FOREIGN KEY ("user2") REFERENCES "users" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "card_trade" ADD FOREIGN KEY ("trade_id") REFERENCES "trade_history" ("id") ON DELETE CASCADE;
+ALTER TABLE "card_trade" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id") ON DELETE CASCADE;
+ALTER TABLE "card_trade" ADD FOREIGN KEY ("original_owner") REFERENCES "users" ("id") ON DELETE CASCADE;
 
 CREATE EXTENSION pg_trgm;
 CREATE EXTENSION fuzzystrmatch;
