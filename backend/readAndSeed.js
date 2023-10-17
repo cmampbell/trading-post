@@ -73,13 +73,20 @@ async function insertCard(card) {
 // And update database with new prices, insert new cards
 // will need to download bulk data from here: https://data.scryfall.io/default-cards/default-cards-20230701090701.json
 
-fs.readFile('./default-cards-20230701090701.json', {}, (error, data) => {
+fs.readFile('./default-cards-20231017090458.json', {}, (error, data) => {
   const cards = JSON.parse(data);
   for (let card of cards) {
     // TO-DO add in way to handle split cards
-    if (card.layout === 'transform') {
+    if (card.layout === 'transform' || card.layout === 'modal_dfc') {
       // if dealing with a dual-faced card, modify current card object to use front card image
-      card.image_uris = { large: card.card_faces[0].image_uris.large };
+      //TO-DO: Have mana cost, oracle text, image_uri include both sides of cards, not just the front
+      card.image_uris = {
+        large: card.card_faces[0].image_uris.large,
+        art_crop: card.card_faces[0].image_uris.art_crop
+      };
+      card.oracle_text = card.card_faces[0].oracle_text;
+      card.mana_cost = card.card_faces[0].mana_cost;
+      card.oracle_text = card.card_faces[0].oracle_text;
     }
     // exclude digital only cards
     if (card.digital === false) insertCard(card);
