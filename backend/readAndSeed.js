@@ -87,6 +87,10 @@ fs.readFile('./default-cards-20231017090458.json', {}, (error, data) => {
       card.oracle_text = card.card_faces[0].oracle_text;
       card.mana_cost = card.card_faces[0].mana_cost;
       card.oracle_text = card.card_faces[0].oracle_text;
+    } else if (card.layout === 'flip') {
+      card.oracle_text = card.card_faces[0].oracle_text;
+      card.mana_cost = card.card_faces[0].mana_cost;
+      card.oracle_text = card.card_faces[0].oracle_text;
     }
     // exclude digital only cards
     if (card.digital === false) insertCard(card);

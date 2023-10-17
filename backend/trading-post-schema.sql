@@ -59,11 +59,11 @@ CREATE TABLE "trade_history" (
 
 CREATE TABLE "card_trade" (
   "id" SERIAL PRIMARY KEY,
-  "trade_id",
-  "card_id",
+  "trade_id" INTEGER,
+  "card_id" uuid,
   "traded_price" TEXT,
-  "original_owner" INTEGER,
-)
+  "original_owner" INTEGER
+);
 
 ALTER TABLE "card_collection" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 ALTER TABLE "card_collection" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id");
