@@ -4,7 +4,7 @@ const {
     NotFoundError, BadRequestError,
 } = require("../expressError");
 
-const Trade = require("./cardCollection.js");
+const Trade = require("./trade.js");
 
 const {
     commonBeforeAll,
@@ -24,15 +24,19 @@ describe("getUserTrades", function () {
     test("works", async function () {
         const tradeList = await Trade.getUserTrades(1);
 
-        expect(tradeList.rows.length).toEqual(2);
-        expect(tradeList.rows[0].user1).toEqual('user1');
-        expect(tradeList.rows[0].user2).toEqual('user2');
+        expect(tradeList.length).toEqual(1);
+        expect(tradeList[0].user1).toEqual(1);
+        expect(tradeList[0].user2).toEqual(2);
+
+        expect(tradeList[0].cards.length).toEqual(2);
+        expect(tradeList[0].cards[0].original_owner).toEqual(1);
+        expect(tradeList[0].cards[1].original_owner).toEqual(2);
     });
 
     test("returns empty array if user has made no trades ", async () => {
         const tradeList = await Trade.getUserTrades(3);
 
-        expect(tradeList.rows.length).toEqual(0);
+        expect(tradeList.length).toEqual(0);
     })
 
     test("not found if no such user", async function () {

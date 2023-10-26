@@ -71,6 +71,7 @@ async function commonBeforeAll() {
   await db.query("DELETE FROM card_collection");
   await db.query("DELETE FROM cards");
   await db.query("DELETE FROM users");
+  await db.query("DELETE FROM trade_history");
 
   const testCard1 = {
     id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
@@ -142,6 +143,13 @@ async function commonBeforeAll() {
   );
 
   await db.query(
+    `INSERT INTO users (username, password, email, id, created_at)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING username, email, id`,
+    ["user3", await bcrypt.hash("password", BCRYPT_WORK_FACTOR), "test2@gmail.com", 3, "2023-10-26"],
+  );
+
+  await db.query(
     `INSERT INTO card_collection (user_id, card_id, for_trade, quantity, quality, foil)
       VALUES ($1, $2, $3, $4, $5, $6)`,
     [1, testCard1.id, true, 2, "Lightly Played", "No"]
@@ -158,6 +166,24 @@ async function commonBeforeAll() {
           VALUES ($1, $2, $3)`,
     [1, testCard1.id, 4]
   );
+
+  await db.query(
+    `INSERT INTO trade_history (id, user1, user2, date_of_trade)
+    VALUES ($1, $2, $3, $4)`,
+    [1, 1, 2, "2023-10-26"]
+  )
+
+  await db.query(
+    `INSERT INTO card_trade (trade_id, card_id, traded_price, original_owner)
+    VALUES ($1, $2, $3, $4)`,
+    [1, testCard1.id, testCard1.usd_price, 2]
+  )
+
+  await db.query(
+    `INSERT INTO card_trade (trade_id, card_id, traded_price, original_owner)
+    VALUES ($1, $2, $3, $4)`,
+    [1, testCard2.id, testCard2.usd_price, 1]
+  )
 }
 
 async function commonBeforeEach() {
