@@ -17,12 +17,18 @@ class Trade {
         if (!userCheck.rows[0]) throw new NotFoundError(`No trades found for user id: ${id}`);
 
         // need to search for trades involving users id
+        // trade response should include groupings of cards
+        // grouped by each owner.
         const tradeRes = await db.query(
             `SELECT * FROM trade_history as th
                  JOIN card_trade ON trade_id = th.id
                  WHERE user1 = $1 OR user2 = $1`,
             [id],
         );
+        // for each trade id, we want to return
+        // two groups of cards and which user they originally belonged to
+
+        
 
         console.log(tradeRes.rows);
         return tradeRes.rows;
