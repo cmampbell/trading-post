@@ -24,13 +24,26 @@ describe("getUserTrades", function () {
     test("works", async function () {
         const tradeList = await Trade.getUserTrades(1);
 
-        expect(tradeList.length).toEqual(1);
-        expect(tradeList[0].user1).toEqual(1);
-        expect(tradeList[0].user2).toEqual(2);
+        expect(tradeList.length).toEqual(1); 
 
-        expect(tradeList[0].cards.length).toEqual(2);
-        expect(tradeList[0].cards[0].original_owner).toEqual(1);
-        expect(tradeList[0].cards[1].original_owner).toEqual(2);
+        const trade1 = tradeList[0]
+        expect(trade1.original_owners_and_cards).toEqual(expect.any(Object));
+
+        expect(trade1.original_owners_and_cards).toHaveProperty('1');
+        
+        const user1TradedAway = trade1.original_owners_and_cards['1'];
+
+        expect(user1TradedAway).toEqual(expect.any(Array));
+        expect(user1TradedAway[0]).toHaveProperty('card_id');
+        console.log(user1TradedAway);
+
+        // expect(tradeList[0].cards.length).toEqual(2);
+        // expect(tradeList[0].cards[0].original_owner).toEqual(1);
+        // expect(tradeList[0].cards[1].original_owner).toEqual(2);
+
+        // You need to return an array of trade objects for the specified user.
+        // Each trade object should include the Trade date, the users involved
+        // Each user should include an array of card objects, that includes the cards that user traded away
     });
 
     test("returns empty array if user has made no trades ", async () => {
