@@ -1,7 +1,7 @@
 "use strict";
 
 /** Express app for trading-post. */
-
+console.log("Starting Server")
 const express = require("express");
 const cors = require("cors");
 
